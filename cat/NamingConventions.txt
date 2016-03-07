@@ -1,0 +1,21 @@
+If you define something category-like, invent a prefix.
+
+E.g. for the category of prosets, we use the prefix p.
+
+Then prosets are denoted pA, where A would be a good name for a type.
+Proset maps are denoted pf, where f would be a good name for a function.
+The type of prosetmaps is denoted _p\to_
+Composition of prosetmaps is denoted p\circ
+The identity prosetmap is denoted p-id
+The initial/final prosets are denoted p\bot and p\top with maps p\botelim and p\topintro
+
+As often as possible, give elements of records unique names and open them publicly. You can add prefix: to make the name unique. For example, the objects of a proset would be called p:Obj.
+
+As a rule, the prefix gets separated from the rest of the name with a dash, if and only if it would be adjacent to a lower case letter that is part of a meaningful word or abbreviation.
+
+The equality law for morphisms is called pmap-ext or nt-ext. Never include the application of funext or even funexti in the proof.
+
+In some cases, a special prefix can be used for functions. For example m\circ instead of obj\circ, or nt\circ instead of ftr\circ.
+
+TO BE RENAMED
+cConst should be cconst
