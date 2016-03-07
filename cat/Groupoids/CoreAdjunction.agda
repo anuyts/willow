@@ -5,7 +5,6 @@ module aken.cat.Groupoids.CoreAdjunction where
 
 open import aken.cat.Groupoids.CoreFunctor public
 
-
 private
   coreAdjunction:fwd : ∀{ℓo ℓh} → c.Hom (cExp (cOp (cGrpd ℓo ℓh) c× cCat ℓo ℓh) (cSet _))
     (cHom (cCat ℓo ℓh) c∘ cmap× (c-op cforgetGrpd) (c-id (cCat ℓo ℓh)))
