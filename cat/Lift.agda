@@ -1,6 +1,6 @@
-module aken.cat.Lift where
+module willow.cat.Lift where
 
-open import aken.cat.Category
+open import willow.cat.Category
 
 cLift : ∀{α β γ δ} → Cat α β → Cat (α ⊔ γ) (β ⊔ δ)
 cLift {α}{β}{γ}{δ} c = record

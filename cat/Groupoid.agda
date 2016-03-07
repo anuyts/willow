@@ -1,8 +1,8 @@
-module aken.cat.Groupoid where
+module willow.cat.Groupoid where
 
-open import aken.cat.Isomorphism public
-open import aken.cat.Locpath public
-open import aken.cat.Opposite public
+open import willow.cat.Isomorphism public
+open import willow.cat.Locpath public
+open import willow.cat.Opposite public
 
 IsGrpd : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → Set (ℓh ⊔ ℓo)
 IsGrpd c = {x y : c.Obj c} → (φ : c.Hom c x y) → IsIso c φ

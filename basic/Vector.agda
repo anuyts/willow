@@ -1,7 +1,7 @@
-module aken.basic.Vector where
+module willow.basic.Vector where
 
-open import aken.basic.Naturals
-open import aken.basic.Fin
+open import willow.basic.Naturals
+open import willow.basic.Fin
 
 data Vector {ξ} (X : Set ξ) : (n : Nat) -> Set ξ where
   v[] : Vector X 0

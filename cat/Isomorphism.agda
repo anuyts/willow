@@ -1,7 +1,7 @@
-module aken.cat.Isomorphism where
+module willow.cat.Isomorphism where
 
-open import aken.cat.Category public
-open import aken.basic.Basic public
+open import willow.cat.Category public
+open import willow.basic.Basic public
 
 record Iso {α β} (c : Cat α β) (x y : c.Obj c) : Set β where
   no-eta-equality

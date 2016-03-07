@@ -1,9 +1,9 @@
-module aken.cat.HomFunctor where
+module willow.cat.HomFunctor where
 
-open import aken.cat.Category public
-open import aken.cat.Product public
-open import aken.cat.Opposite public
-open import aken.cat.Sets public
+open import willow.cat.Category public
+open import willow.cat.Product public
+open import willow.cat.Opposite public
+open import willow.cat.Sets public
 
 cHom : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → ((cOp c c× c) ++> cSet ℓh)
 cHom {ℓo}{ℓh} c = record

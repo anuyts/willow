@@ -1,8 +1,8 @@
-module aken.basic.Fin where
+module willow.basic.Fin where
 
-open import aken.basic.Naturals public
-open import aken.basic.Truth public
-open import aken.basic.Coproduct public
+open import willow.basic.Naturals public
+open import willow.basic.Truth public
+open import willow.basic.Coproduct public
 
 data Fin : (n : Nat) -> Set where
   fzero : {n : Nat} -> Fin (suc n)

@@ -1,7 +1,7 @@
-module aken.basic.Sum where
+module willow.basic.Sum where
 
-open import aken.basic.Levels
-open import aken.basic.Identity
+open import willow.basic.Levels
+open import willow.basic.Identity
 
 --\sum
 record ∑ {α β} (A : Set α) (B : A -> Set β) : Set (α ⊔ β) where

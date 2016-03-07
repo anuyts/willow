@@ -1,7 +1,7 @@
-module aken.cat.Top where
+module willow.cat.Top where
 
---open import aken.cat.Monoidal public
-open import aken.cat.Category public
+--open import willow.cat.Monoidal public
+open import willow.cat.Category public
 
 c⊤ : Cat lzero lzero
 c⊤ = record

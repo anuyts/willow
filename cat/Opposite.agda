@@ -1,6 +1,6 @@
-module aken.cat.Opposite where
+module willow.cat.Opposite where
 
-open import aken.cat.Category
+open import willow.cat.Category
 
 cOp : ∀{ℓo ℓh} → Cat ℓo ℓh → Cat ℓo ℓh
 cOp c = record

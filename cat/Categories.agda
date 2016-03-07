@@ -1,10 +1,10 @@
-module aken.cat.Categories where
+module willow.cat.Categories where
 
-open import aken.cat.Category public
---open import aken.cat.Monoidal public
-open import aken.cat.Top public
-open import aken.cat.Lift public
-open import aken.cat.Product public
+open import willow.cat.Category public
+--open import willow.cat.Monoidal public
+open import willow.cat.Top public
+open import willow.cat.Lift public
+open import willow.cat.Product public
 
 cCat : (α β : Level) → Cat (lsuc (α ⊔ β)) (α ⊔ β)
 cCat α β = record

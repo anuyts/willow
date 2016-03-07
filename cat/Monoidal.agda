@@ -1,9 +1,9 @@
-module aken.cat.Monoidal where
+module willow.cat.Monoidal where
 
-open import aken.cat.Category public
-open import aken.cat.Product public
-open import aken.cat.Isomorphism public
-open import aken.basic.Basic public
+open import willow.cat.Category public
+open import willow.cat.Product public
+open import willow.cat.Isomorphism public
+open import willow.basic.Basic public
 
 record MCatOps {α β} (c : Cat α β) : Set (α ⊔ β) where
   no-eta-equality

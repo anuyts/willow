@@ -1,8 +1,8 @@
-module aken.cat.Locpath.Fuse where
+module willow.cat.Locpath.Fuse where
 
-open import aken.cat.Locpath public
-open import aken.cat.RawZigzag.Fuse public
-open import aken.cat.Groupoid public
+open import willow.cat.Locpath public
+open import willow.cat.RawZigzag.Fuse public
+open import willow.cat.Groupoid public
 
 fuseEqLocpath : ∀{ℓo ℓh} → (g : Groupoid ℓo ℓh) → {x y : g.Obj g}
   → (rza rzb : RawZigzag (g.cat g) x y) → (p : EqLocpath (g.cat g) rza rzb) → (fuseRawZigzag g rza == fuseRawZigzag g rzb)

@@ -1,6 +1,6 @@
-module aken.cat.Locpath where
+module willow.cat.Locpath where
 
-open import aken.cat.RawZigzag public
+open import willow.cat.RawZigzag public
 
 
 ----defining locpaths-----------------------------

@@ -1,9 +1,9 @@
 
 --{-# OPTIONS --no-positivity-check #-}
 
-module aken.cat.Groupoids.CoreAdjunction where
+module willow.cat.Groupoids.CoreAdjunction where
 
-open import aken.cat.Groupoids.CoreFunctor public
+open import willow.cat.Groupoids.CoreFunctor public
 
 private
   coreAdjunction:fwd : ∀{ℓo ℓh} → c.Hom (cExp (cOp (cGrpd ℓo ℓh) c× cCat ℓo ℓh) (cSet _))

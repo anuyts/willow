@@ -1,8 +1,8 @@
-module aken.cat.Groupoids.LocalizationFunctor where
+module willow.cat.Groupoids.LocalizationFunctor where
 
-open import aken.cat.Groupoids public
-open import aken.cat.Adjunction public
-open import aken.cat.Locpath.Fuse public
+open import willow.cat.Groupoids public
+open import willow.cat.Adjunction public
+open import willow.cat.Locpath.Fuse public
 
 cloc : {ℓo ℓh : Level} → cCat ℓo ℓh ++> cGrpd ℓo (ℓo ⊔ ℓh)
 cloc = record

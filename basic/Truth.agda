@@ -1,6 +1,6 @@
-module aken.basic.Truth where
+module willow.basic.Truth where
 
-open import aken.basic.Levels
+open import willow.basic.Levels
 
 ------------------------------
 

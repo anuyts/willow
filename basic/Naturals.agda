@@ -1,6 +1,6 @@
-module aken.basic.Naturals where
+module willow.basic.Naturals where
 
-open import aken.basic.Levels
+open import willow.basic.Levels
 
 data Nat : Set lzero where
   zero : Nat

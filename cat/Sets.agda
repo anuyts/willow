@@ -1,8 +1,8 @@
-module aken.cat.Sets where
+module willow.cat.Sets where
 
-open import aken.cat.Category public
-open import aken.cat.Product public
---open import aken.cat.Monoidal public
+open import willow.cat.Category public
+open import willow.cat.Product public
+--open import willow.cat.Monoidal public
 
 cSet : (α : Level) → Cat (lsuc α) α
 cSet α = record
