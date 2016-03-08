@@ -1,0 +1,1143 @@
+Checking willow.cat.Groupoids.CoreAdjunction (/media/Common HD/PhD/git/willow/cat/Groupoids/CoreAdjunction.agda).
+        Skipping willow.basic.Levels (/media/Common HD/PhD/git/willow/basic/Levels.agdai).
+       Skipping willow.basic.Identity (/media/Common HD/PhD/git/willow/basic/Identity.agdai).
+      Skipping willow.basic.Sum (/media/Common HD/PhD/git/willow/basic/Sum.agdai).
+      Skipping willow.basic.Coproduct (/media/Common HD/PhD/git/willow/basic/Coproduct.agdai).
+     Skipping willow.basic.Function (/media/Common HD/PhD/git/willow/basic/Function.agdai).
+        Skipping willow.basic.List (/media/Common HD/PhD/git/willow/basic/List.agdai).
+         Skipping willow.basic.Naturals (/media/Common HD/PhD/git/willow/basic/Naturals.agdai).
+         Skipping willow.basic.Truth (/media/Common HD/PhD/git/willow/basic/Truth.agdai).
+        Skipping willow.basic.Fin (/media/Common HD/PhD/git/willow/basic/Fin.agdai).
+        Skipping willow.basic.Booleans (/media/Common HD/PhD/git/willow/basic/Booleans.agdai).
+        Skipping willow.basic.Vector (/media/Common HD/PhD/git/willow/basic/Vector.agdai).
+       Skipping willow.basic.Basic (/media/Common HD/PhD/git/willow/basic/Basic.agdai).
+      Skipping willow.basic.Propositional (/media/Common HD/PhD/git/willow/basic/Propositional.agdai).
+     Skipping willow.basic.UIP (/media/Common HD/PhD/git/willow/basic/UIP.agdai).
+    Skipping willow.cat.Category (/media/Common HD/PhD/git/willow/cat/Category.agdai).
+   Skipping willow.cat.Isomorphism (/media/Common HD/PhD/git/willow/cat/Isomorphism.agdai).
+    Skipping willow.cat.Product (/media/Common HD/PhD/git/willow/cat/Product.agdai).
+   Skipping willow.cat.Sets (/media/Common HD/PhD/git/willow/cat/Sets.agdai).
+    Skipping willow.cat.Opposite (/media/Common HD/PhD/git/willow/cat/Opposite.agdai).
+   Skipping willow.cat.HomFunctor (/media/Common HD/PhD/git/willow/cat/HomFunctor.agdai).
+  Skipping willow.cat.Adjunction (/media/Common HD/PhD/git/willow/cat/Adjunction.agdai).
+     Skipping willow.cat.RawZigzag (/media/Common HD/PhD/git/willow/cat/RawZigzag.agdai).
+    Skipping willow.cat.Locpath (/media/Common HD/PhD/git/willow/cat/Locpath.agdai).
+   Skipping willow.cat.Groupoid (/media/Common HD/PhD/git/willow/cat/Groupoid.agdai).
+    Skipping willow.cat.Lift (/media/Common HD/PhD/git/willow/cat/Lift.agdai).
+    Skipping willow.cat.Top (/media/Common HD/PhD/git/willow/cat/Top.agdai).
+   Skipping willow.cat.Categories (/media/Common HD/PhD/git/willow/cat/Categories.agdai).
+  Skipping willow.cat.Groupoids (/media/Common HD/PhD/git/willow/cat/Groupoids.agdai).
+ Skipping willow.cat.Groupoids.CoreFunctor (/media/Common HD/PhD/git/willow/cat/Groupoids/CoreFunctor.agdai).
+positivity of [coreAdjunction]
+computeOccurrences coreAdjunction ConcreteDef ConcreteMode
+computing occurrences in  .<unnamedclause> x x₁
+                            = ≅.mk≅
+                              (nt.mk-nt
+                               (λ gL,cR cf →
+                                  f.mk-f (_++>_.obj cf)
+                                  (λ {.x} {.y} φ → mapIso cf (g.asIso (prl gL,cR) φ))
+                                  (λ x → ≅ext (_++>_.hom-id cf x))
+                                  (λ {.x} {.y} {.z} ψ φ → ≅ext (_++>_.hom-m∘ cf ψ φ)))
+                               (λ {.x} {.y} cg,ch →
+                                  funext (λ cf → functorext (pair-ext refl hole))))
+                              (nt.mk-nt
+                               (λ gL,cR cf →
+                                  f.mk-f (_++>_.obj cf) (λ {.x} {.y} φ → Iso.fwd (_++>_.hom cf φ))
+                                  (λ x → map= (λ r → Iso.fwd r) (_++>_.hom-id cf x))
+                                  (λ {.x} {.y} {.z} ψ φ →
+                                     map= (λ r → Iso.fwd r) (_++>_.hom-m∘ cf ψ φ)))
+                               (λ {.x} {.y} → hole))
+                              (nt-ext
+                               (funext
+                                (λ gL,cR →
+                                   funext
+                                   (λ cf →
+                                      functorext
+                                      (pair-ext refl
+                                       ((Candid-hom (Groupoid.cat (prl gL,cR)) (prr gL,cR)
+                                         (_++>_.obj cf)
+                                         $
+                                         _++>_.hom
+                                         (_nt→_.obj
+                                          (cExp (cOp (cGrpd x x₁) c× cCat x x₁) (cSet (x ⊔ x₁)) $
+                                           nt.mk-nt
+                                           (λ gL,cR₁ cf₁ →
+                                              f.mk-f (_++>_.obj cf₁)
+                                              (λ {.x} {.y} φ → Iso.fwd (_++>_.hom cf₁ φ))
+                                              (λ x → map= (λ r → Iso.fwd r) (_++>_.hom-id cf₁ x))
+                                              (λ {.x} {.y} {.z} ψ φ →
+                                                 map= (λ r → Iso.fwd r) (_++>_.hom-m∘ cf₁ ψ φ)))
+                                           (λ {.x} {.y} → hole)
+                                           m∘
+                                           nt.mk-nt
+                                           (λ gL,cR₁ cf₁ →
+                                              f.mk-f (_++>_.obj cf₁)
+                                              (λ {.x} {.y} φ → mapIso cf₁ (g.asIso (prl gL,cR₁) φ))
+                                              (λ x → ≅ext (_++>_.hom-id cf₁ x))
+                                              (λ {.x} {.y} {.z} ψ φ → ≅ext (_++>_.hom-m∘ cf₁ ψ φ)))
+                                           (λ {.x} {.y} cg,ch →
+                                              funext (λ cf₁ → functorext (pair-ext refl hole))))
+                                          gL,cR cf)
+                                         ==
+                                         _++>_.hom
+                                         (_nt→_.obj
+                                          (cExp (cOp (cGrpd x x₁) c× cCat x x₁) (cSet (x ⊔ x₁)) $
+                                           nt.mk-nt
+                                           (λ gL,cR₁ cf₁ →
+                                              f.mk-f (_++>_.obj cf₁)
+                                              (λ {.x} {.y} φ → Iso.fwd (_++>_.hom cf₁ φ))
+                                              (λ x → map= (λ r → Iso.fwd r) (_++>_.hom-id cf₁ x))
+                                              (λ {.x} {.y} {.z} ψ φ →
+                                                 map= (λ r → Iso.fwd r) (_++>_.hom-m∘ cf₁ ψ φ)))
+                                           (λ {.x} {.y} → hole)
+                                           m∘
+                                           nt.mk-nt
+                                           (λ gL,cR₁ cf₁ →
+                                              f.mk-f (_++>_.obj cf₁)
+                                              (λ {.x} {.y} φ → mapIso cf₁ (g.asIso (prl gL,cR₁) φ))
+                                              (λ x → ≅ext (_++>_.hom-id cf₁ x))
+                                              (λ {.x} {.y} {.z} ψ φ → ≅ext (_++>_.hom-m∘ cf₁ ψ φ)))
+                                           (λ {.x} {.y} cg,ch →
+                                              funext (λ cf₁ → functorext (pair-ext refl hole))))
+                                          gL,cR cf))
+                                        ∋ funexti (λ x → funexti (λ y → funext (λ φ → refl)))))))))
+                              (nt-ext
+                               (funext
+                                (λ gL,cR →
+                                   funext
+                                   (λ cf →
+                                      functorext
+                                      (pair-ext refl
+                                       (funexti
+                                        (λ x →
+                                           funexti
+                                           (λ y →
+                                              funext
+                                              (λ φ →
+                                                 ≅ext
+                                                 ((Cat.Hom (prr gL,cR)
+                                                   (_++>_.obj
+                                                    (_nt→_.obj
+                                                     (cExp (cOp (cGrpd x x₁) c× cCat x x₁)
+                                                      (cSet (x ⊔ x₁))
+                                                      $
+                                                      nt.mk-nt
+                                                      (λ gL,cR₁ cf₁ →
+                                                         f.mk-f (_++>_.obj cf₁)
+                                                         (λ {.x} {.y} φ₁ →
+                                                            mapIso cf₁ (g.asIso (prl gL,cR₁) φ₁))
+                                                         (λ x₁ → ≅ext (_++>_.hom-id cf₁ x₁))
+                                                         (λ {.x} {.y} {.z} ψ φ₁ →
+                                                            ≅ext (_++>_.hom-m∘ cf₁ ψ φ₁)))
+                                                      (λ {.x} {.y} cg,ch →
+                                                         funext
+                                                         (λ cf₁ → functorext (pair-ext refl hole)))
+                                                      m∘
+                                                      nt.mk-nt
+                                                      (λ gL,cR₁ cf₁ →
+                                                         f.mk-f (_++>_.obj cf₁)
+                                                         (λ {.x} {.y} φ₁ →
+                                                            Iso.fwd (_++>_.hom cf₁ φ₁))
+                                                         (λ x₁ →
+                                                            map= (λ r → Iso.fwd r)
+                                                            (_++>_.hom-id cf₁ x₁))
+                                                         (λ {.x} {.y} {.z} ψ φ₁ →
+                                                            map= (λ r → Iso.fwd r)
+                                                            (_++>_.hom-m∘ cf₁ ψ φ₁)))
+                                                      (λ {.x} {.y} → hole))
+                                                     gL,cR cf)
+                                                    x)
+                                                   (_++>_.obj
+                                                    (_nt→_.obj
+                                                     (cExp (cOp (cGrpd x x₁) c× cCat x x₁)
+                                                      (cSet (x ⊔ x₁))
+                                                      $
+                                                      nt.mk-nt
+                                                      (λ gL,cR₁ cf₁ →
+                                                         f.mk-f (_++>_.obj cf₁)
+                                                         (λ {.x} {.y} φ₁ →
+                                                            mapIso cf₁ (g.asIso (prl gL,cR₁) φ₁))
+                                                         (λ x₁ → ≅ext (_++>_.hom-id cf₁ x₁))
+                                                         (λ {.x} {.y} {.z} ψ φ₁ →
+                                                            ≅ext (_++>_.hom-m∘ cf₁ ψ φ₁)))
+                                                      (λ {.x} {.y} cg,ch →
+                                                         funext
+                                                         (λ cf₁ → functorext (pair-ext refl hole)))
+                                                      m∘
+                                                      nt.mk-nt
+                                                      (λ gL,cR₁ cf₁ →
+                                                         f.mk-f (_++>_.obj cf₁)
+                                                         (λ {.x} {.y} φ₁ →
+                                                            Iso.fwd (_++>_.hom cf₁ φ₁))
+                                                         (λ x₁ →
+                                                            map= (λ r → Iso.fwd r)
+                                                            (_++>_.hom-id cf₁ x₁))
+                                                         (λ {.x} {.y} {.z} ψ φ₁ →
+                                                            map= (λ r → Iso.fwd r)
+                                                            (_++>_.hom-m∘ cf₁ ψ φ₁)))
+                                                      (λ {.x} {.y} → hole))
+                                                     gL,cR cf)
+                                                    y)
+                                                   $
+                                                   Iso.fwd
+                                                   ((tra
+                                                     Candid-hom
+                                                     (Groupoid.cat
+                                                      (prl
+                                                       (_++>_.obj
+                                                        (cmap× (c-id (cOp (cGrpd x x₁))) ccore)
+                                                        gL,cR)))
+                                                     (Groupoid.cat
+                                                      (prr
+                                                       (_++>_.obj
+                                                        (cmap× (c-id (cOp (cGrpd x x₁))) ccore)
+                                                        gL,cR)))
+                                                     / refl of
+                                                     _++>_.hom
+                                                     (_nt→_.obj
+                                                      (cExp (cOp (cGrpd x x₁) c× cCat x x₁)
+                                                       (cSet (x ⊔ x₁))
+                                                       $
+                                                       nt.mk-nt
+                                                       (λ gL,cR₁ cf₁ →
+                                                          f.mk-f (_++>_.obj cf₁)
+                                                          (λ {.x} {.y} φ₁ →
+                                                             mapIso cf₁ (g.asIso (prl gL,cR₁) φ₁))
+                                                          (λ x₁ → ≅ext (_++>_.hom-id cf₁ x₁))
+                                                          (λ {.x} {.y} {.z} ψ φ₁ →
+                                                             ≅ext (_++>_.hom-m∘ cf₁ ψ φ₁)))
+                                                       (λ {.x} {.y} cg,ch →
+                                                          funext
+                                                          (λ cf₁ → functorext (pair-ext refl hole)))
+                                                       m∘
+                                                       nt.mk-nt
+                                                       (λ gL,cR₁ cf₁ →
+                                                          f.mk-f (_++>_.obj cf₁)
+                                                          (λ {.x} {.y} φ₁ →
+                                                             Iso.fwd (_++>_.hom cf₁ φ₁))
+                                                          (λ x₁ →
+                                                             map= (λ r → Iso.fwd r)
+                                                             (_++>_.hom-id cf₁ x₁))
+                                                          (λ {.x} {.y} {.z} ψ φ₁ →
+                                                             map= (λ r → Iso.fwd r)
+                                                             (_++>_.hom-m∘ cf₁ ψ φ₁)))
+                                                       (λ {.x} {.y} → hole))
+                                                      gL,cR cf))
+                                                    φ)
+                                                   ==
+                                                   Iso.fwd
+                                                   ((tra
+                                                     Candid-hom
+                                                     (Groupoid.cat
+                                                      (prl
+                                                       (_++>_.obj
+                                                        (cmap× (c-id (cOp (cGrpd x x₁))) ccore)
+                                                        gL,cR)))
+                                                     (Groupoid.cat
+                                                      (prr
+                                                       (_++>_.obj
+                                                        (cmap× (c-id (cOp (cGrpd x x₁))) ccore)
+                                                        gL,cR)))
+                                                     / refl of
+                                                     _++>_.hom
+                                                     (_nt→_.obj
+                                                      (cExp (cOp (cGrpd x x₁) c× cCat x x₁)
+                                                       (cSet (x ⊔ x₁))
+                                                       $
+                                                       nt.mk-nt
+                                                       (λ gL,cR₁ cf₁ →
+                                                          f.mk-f (_++>_.obj cf₁)
+                                                          (λ {.x} {.y} φ₁ →
+                                                             mapIso cf₁ (g.asIso (prl gL,cR₁) φ₁))
+                                                          (λ x₁ → ≅ext (_++>_.hom-id cf₁ x₁))
+                                                          (λ {.x} {.y} {.z} ψ φ₁ →
+                                                             ≅ext (_++>_.hom-m∘ cf₁ ψ φ₁)))
+                                                       (λ {.x} {.y} cg,ch →
+                                                          funext
+                                                          (λ cf₁ → functorext (pair-ext refl hole)))
+                                                       m∘
+                                                       nt.mk-nt
+                                                       (λ gL,cR₁ cf₁ →
+                                                          f.mk-f (_++>_.obj cf₁)
+                                                          (λ {.x} {.y} φ₁ →
+                                                             Iso.fwd (_++>_.hom cf₁ φ₁))
+                                                          (λ x₁ →
+                                                             map= (λ r → Iso.fwd r)
+                                                             (_++>_.hom-id cf₁ x₁))
+                                                          (λ {.x} {.y} {.z} ψ φ₁ →
+                                                             map= (λ r → Iso.fwd r)
+                                                             (_++>_.hom-m∘ cf₁ ψ φ₁)))
+                                                       (λ {.x} {.y} → hole))
+                                                      gL,cR cf))
+                                                    φ))
+                                                  ∋ refl))))))))))
+constructed graph
+Positivity graph: N=51 E=50
+positivity graph for coreAdjunction
+  cSet
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 8 Here)))))))))))))))))))))
+  cOp
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 10 (DefArg willow.cat.Product.cmap× 12
+                          (DefArg willow.cat.Category.c-id 2 Here)))))))))))))))))))))))
+  _$_==_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 (DefArg
+                          willow.cat.Category.functorext 8 (DefArg willow.basic.Sum.pair-ext
+                          9 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1
+                          Here))))))))))))))))))))
+  Cat
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 2 (DefArg willow.basic.Sum.∑ 3
+                          Here))))
+  cGrpd
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 10 (DefArg willow.cat.Product.cmap× 12
+                          (DefArg willow.cat.Category.c-id 2 (DefArg willow.cat.Opposite.cOp
+                          2 Here))))))))))))))))))))))))
+  cCat
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 6 (DefArg willow.cat.Product._c×_ 5
+                          Here))))))))))))))))))))))
+  lsuc
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          0 (DefArg willow.cat.Category.cExp 0 (DefArg Agda.Primitive._⊔_ 1
+                          Here))))))))))))))))))
+  hole
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 Here))))))))))))))))
+  ccore
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 10 (DefArg willow.cat.Product.cmap× 13
+                          Here))))))))))))))))))))))
+  cHom
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 9 Here)))))))))))))))))))))
+  ∑ -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 2 Here)))
+  Iso
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 3 Here)))))))))
+  _⊔_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 9 (DefArg willow.cat.HomFunctor.cHom 1
+                          Here))))))))))))))))))))))
+  _c×_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 7 Here)))))))))))))))))))))
+  _==_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1
+                          Here)))))))))))))))))
+  _∋_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 Here))))))))))
+  prl
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          (DefArg willow.basic.Function.map= 5 (DefArg
+                          willow.cat.Category._++>_.hom 3 (DefArg willow.cat.Category._$_m∘_
+                          0 (DefArg willow.cat.Groupoid.Groupoid.cat 0
+                          Here)))))))))))))))))))))))
+  prr
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 (DefArg
+                          willow.cat.Category.functorext 8 (DefArg willow.basic.Sum.pair-ext
+                          9 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._$_==_ 3 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.cat.Isomorphism.≅ext 6 (DefArg
+                          willow.cat.Category._$_m∘_ 5 (DefArg willow.cat.Isomorphism.mapIso
+                          5 Here))))))))))))))))))))))))))
+  Iso.fwd
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          (DefArg willow.basic.Function.map= 4 Here))))))))))))))))))))
+  Groupoid
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 2 (DefArg willow.basic.Sum.∑ 2
+                          Here))))
+  funext
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 Here))))))))))))))))
+  Groupoid.cat
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          (DefArg willow.basic.Function.map= 5 (DefArg
+                          willow.cat.Category._++>_.hom 3 (DefArg willow.cat.Category._$_m∘_
+                          0 Here))))))))))))))))))))))
+  cforgetGrpd
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 3
+                          (DefArg willow.cat.Category._++>_.obj 0 (DefArg
+                          willow.cat.Category._c∘_ 10 (DefArg willow.cat.Product.cmap× 12
+                          (DefArg willow.cat.Opposite.c-op 0 Here)))))))))))))))))))))))
+  c-op
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 3
+                          (DefArg willow.cat.Category._++>_.obj 0 (DefArg
+                          willow.cat.Category._c∘_ 10 (DefArg willow.cat.Product.cmap× 12
+                          Here))))))))))))))))))))))
+  Cat.Obj
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 2 Here))))))))
+  Cat.Hom
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 1 Here))))))))))))))))))
+  Cat.id
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          (DefArg willow.basic.Function.map= 5 (DefArg
+                          willow.cat.Category._++>_.hom 3 Here)))))))))))))))))))))
+  tra_/_of_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 (DefArg
+                          willow.cat.Category.functorext 8 (DefArg willow.basic.Sum.pair-ext
+                          9 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._$_==_ 2 Here)))))))))))))))))))))
+  pair-ext
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 (DefArg
+                          willow.cat.Category.functorext 8 Here))))))))))))))))))
+  funexti
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          Here)))))))
+  g.asIso
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 (DefArg
+                          willow.cat.Category.functorext 8 (DefArg willow.basic.Sum.pair-ext
+                          9 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._$_==_ 3 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.cat.Isomorphism.≅ext 6 (DefArg
+                          willow.cat.Category._$_m∘_ 5 (DefArg willow.cat.Isomorphism.mapIso
+                          9 Here))))))))))))))))))))))))))
+  ≅ext
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 (DefArg
+                          willow.cat.Category.functorext 8 (DefArg willow.basic.Sum.pair-ext
+                          9 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._$_==_ 3 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg willow.cat.Category._$_m∘_
+                          4 Here)))))))))))))))))))))))
+  _$_m∘_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          (DefArg willow.basic.Function.map= 5 (DefArg
+                          willow.cat.Category._++>_.hom 3 Here)))))))))))))))))))))
+  Candid-hom
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 (DefArg
+                          willow.cat.Category.functorext 8 (DefArg willow.basic.Sum.pair-ext
+                          9 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._$_==_ 1 Here)))))))))))))))))))))
+  cmap×
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 10 Here)))))))))))))))))))))
+  mapIso
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 (DefArg
+                          willow.cat.Category.functorext 8 (DefArg willow.basic.Sum.pair-ext
+                          9 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._$_==_ 3 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.cat.Isomorphism.≅ext 6 (DefArg
+                          willow.cat.Category._$_m∘_ 5 Here)))))))))))))))))))))))))
+  map=
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          Here)))))))))))))))))))
+  _++>_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 3 Here)))))))))))))))))
+  _++>_.obj
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          (DefArg willow.basic.Function.map= 5 (DefArg
+                          willow.cat.Category._++>_.hom 3 (DefArg willow.cat.Category._$_m∘_
+                          0 (DefArg willow.cat.Groupoid.Groupoid.cat 0 (DefArg
+                          willow.basic.Sum.∑.prl 0 Here))))))))))))))))))))))))
+  _++>_.hom
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          Here)))))))))))))))))))
+  _++>_.hom-id
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          (DefArg willow.basic.Function.map= 7 Here))))))))))))))))))))
+  _++>_.hom-m∘
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 4
+                          (DefArg willow.basic.Function.map= 7 Here))))))))))))))))))))
+  _c∘_
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 Here))))))))))))))))))))
+  c-id
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 10 (DefArg willow.cat.Product.cmap× 12
+                          Here))))))))))))))))))))))
+  functorext
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          4 (DefArg willow.basic.Function.funext 6 Here)))))))))))))))))
+  _nt→_.obj
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 Here))))))))))))))
+  nt-ext
+    -[++]-> coreAdjunction InDefOf
+                           willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                           Here)
+  cExp
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          0 Here))))))))))))))))
+  coreAdjunction.0
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 10 (DefArg willow.cat.Product.cmap× 13
+                          (DefArg willow.cat.Groupoids.CoreFunctor.ccore 0
+                          Here)))))))))))))))))))))))
+  coreAdjunction.1
+    -[*]-> coreAdjunction InDefOf
+                          willow.cat.Groupoids.CoreAdjunction.coreAdjunction (InClause 0
+                          (DefArg willow.cat.Category.nt-ext 10 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.basic.Function.funext
+                          6 (DefArg willow.cat.Category.functorext 8 (DefArg
+                          willow.basic.Sum.pair-ext 9 (DefArg willow.basic.Function.funexti 6
+                          (DefArg willow.basic.Function.funexti 6 (DefArg
+                          willow.basic.Function.funext 6 (DefArg willow.cat.Isomorphism.≅ext
+                          7 (DefArg willow.basic.Basic._∋_ 2 (DefArg
+                          willow.cat.Isomorphism.Iso.fwd 0 (DefArg
+                          willow.basic.Identity.tra_/_of_ 7 (DefArg
+                          willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._nt→_.obj 0 (DefArg willow.cat.Category._$_m∘_
+                          5 (DefArg willow.cat.Groupoids.CoreAdjunction.hole 1 (DefArg
+                          willow.basic.Identity._==_ 3 (DefArg willow.cat.Category._$_m∘_ 5
+                          (DefArg willow.cat.Category._++>_.hom 0 (DefArg
+                          willow.cat.Category._c∘_ 10 (DefArg willow.cat.Product.cmap× 13
+                          (DefArg willow.cat.Groupoids.CoreFunctor.ccore 1
+                          Here)))))))))))))))))))))))
+Positivity graph (completed): E=50
+transitive closure of positivity graph for [coreAdjunction]
+  cSet -[*]-> coreAdjunction
+  cOp -[*]-> coreAdjunction
+  _$_==_ -[*]-> coreAdjunction
+  Cat -[*]-> coreAdjunction
+  cGrpd -[*]-> coreAdjunction
+  cCat -[*]-> coreAdjunction
+  lsuc -[*]-> coreAdjunction
+  hole -[*]-> coreAdjunction
+  ccore -[*]-> coreAdjunction
+  cHom -[*]-> coreAdjunction
+  ∑ -[*]-> coreAdjunction
+  Iso -[*]-> coreAdjunction
+  _⊔_ -[*]-> coreAdjunction
+  _c×_ -[*]-> coreAdjunction
+  _==_ -[*]-> coreAdjunction
+  _∋_ -[*]-> coreAdjunction
+  prl -[*]-> coreAdjunction
+  prr -[*]-> coreAdjunction
+  Iso.fwd -[*]-> coreAdjunction
+  Groupoid -[*]-> coreAdjunction
+  funext -[*]-> coreAdjunction
+  Groupoid.cat -[*]-> coreAdjunction
+  cforgetGrpd -[*]-> coreAdjunction
+  c-op -[*]-> coreAdjunction
+  Cat.Obj -[*]-> coreAdjunction
+  Cat.Hom -[*]-> coreAdjunction
+  Cat.id -[*]-> coreAdjunction
+  tra_/_of_ -[*]-> coreAdjunction
+  pair-ext -[*]-> coreAdjunction
+  funexti -[*]-> coreAdjunction
+  g.asIso -[*]-> coreAdjunction
+  ≅ext -[*]-> coreAdjunction
+  _$_m∘_ -[*]-> coreAdjunction
+  Candid-hom -[*]-> coreAdjunction
+  cmap× -[*]-> coreAdjunction
+  mapIso -[*]-> coreAdjunction
+  map= -[*]-> coreAdjunction
+  _++>_ -[*]-> coreAdjunction
+  _++>_.obj -[*]-> coreAdjunction
+  _++>_.hom -[*]-> coreAdjunction
+  _++>_.hom-id -[*]-> coreAdjunction
+  _++>_.hom-m∘ -[*]-> coreAdjunction
+  _c∘_ -[*]-> coreAdjunction
+  c-id -[*]-> coreAdjunction
+  functorext -[*]-> coreAdjunction
+  _nt→_.obj -[*]-> coreAdjunction
+  nt-ext -[++]-> coreAdjunction
+  cExp -[*]-> coreAdjunction
+  coreAdjunction.0 -[*]-> coreAdjunction
+  coreAdjunction.1 -[*]-> coreAdjunction
+checking args of coreAdjunction
+args of coreAdjunction = [Mixed, Mixed]
+set args
+51 trivial sccs 0 non-trivial sccs with lengths []
+  sccs = [[willow.cat.Groupoids.CoreAdjunction.coreAdjunction],[willow.cat.Product._c×_],[willow.basic.Identity._==_],[willow.basic.Basic._∋_],[willow.basic.Sum.∑.prl],[willow.basic.Sum.∑.prr],[willow.cat.Isomorphism.Iso.fwd],[willow.cat.Groupoid.Groupoid],[willow.basic.Function.funext],[willow.cat.Groupoid.Groupoid.cat],[willow.cat.Groupoids.cforgetGrpd],[willow.cat.Opposite.c-op],[willow.cat.Category.Cat.Obj],[willow.cat.Category.Cat.Hom],[willow.cat.Category.Cat.id],[willow.basic.Identity.tra_/_of_],[willow.basic.Sum.pair-ext],[willow.basic.Function.funexti],[willow.cat.Groupoid.g.asIso],[willow.cat.Isomorphism.≅ext],[willow.cat.Category._$_m∘_],[willow.cat.Category.Candid-hom],[willow.cat.Product.cmap×],[willow.cat.Isomorphism.mapIso],[willow.basic.Function.map=],[willow.cat.Category._++>_],[willow.cat.Category._++>_.obj],[willow.cat.Category._++>_.hom],[willow.cat.Category._++>_.hom-id],[willow.cat.Category._++>_.hom-m∘],[willow.cat.Category._c∘_],[willow.cat.Category.c-id],[willow.cat.Category.functorext],[willow.cat.Category._nt→_.obj],[willow.cat.Category.nt-ext],[willow.cat.Category.cExp],[willow.cat.Groupoids.CoreAdjunction.coreAdjunction.0],[willow.cat.Groupoids.CoreAdjunction.coreAdjunction.1],[Agda.Primitive._⊔_],[willow.cat.Isomorphism.Iso],[willow.basic.Sum.∑],[willow.cat.HomFunctor.cHom],[willow.cat.Groupoids.CoreFunctor.ccore],[willow.cat.Groupoids.CoreAdjunction.hole],[Agda.Primitive.lsuc],[willow.cat.Categories.cCat],[willow.cat.Groupoids.cGrpd],[willow.cat.Category.Cat],[willow.basic.Identity._$_==_],[willow.cat.Opposite.cOp],[willow.cat.Sets.cSet]]
+checked positivity
+Finished willow.cat.Groupoids.CoreAdjunction.
