@@ -3,9 +3,9 @@ module willow.cat.Groupoids.LocalizationAdjunction where
 open import willow.cat.Groupoids.LocalizationFunctor public
 
 localizationAdjunction : ∀{ℓo ℓh} → cloc{ℓo}{ℓo ⊔ ℓh} ⊣ cforgetGrpd{ℓo}{ℓo ⊔ ℓh}
-≅.fwd localizationAdjunction = record
-  -- cf : loc L → R ; now create functor cf> : L → R
-  { obj = λ cL,gR → λ cf → record
+
+-- cf : loc L → R ; now create functor cf> : L → R
+nt.obj (≅.fwd localizationAdjunction) cL,gR cf = record
     { obj = f.obj cf
     ; hom = λ φ → f.hom cf (lp-fwd φ)
     ; hom-id =
@@ -20,12 +20,12 @@ localizationAdjunction : ∀{ℓo ℓh} → cloc{ℓo}{ℓo ⊔ ℓh} ⊣ cforge
         via (g.cat (prr cL,gR) $ f.hom cf (lp-fwd ψ) m∘ f.hom cf (lp-fwd φ)) $ f.hom-m∘ cf (lp-fwd ψ) (lp-fwd φ) •
         refl
     }
-  -- cg : L' → L , ch : R → R' ; now show that ch ∘ cf> ∘ cg = (ch ∘ cf> ∘ (loc cg))
-  ; hom = λ cg,ch → λ= cf => functorext (pair-ext refl refl)
-  }
-≅.bck localizationAdjunction = record
-  -- cf : L → R ; now create functor cf< : loc L → R
-  { obj = λ cL,gR → λ cf → record
+    
+-- cg : L' → L , ch : R → R' ; now show that ch ∘ cf> ∘ cg = (ch ∘ cf> ∘ (loc cg))
+nt.hom (≅.fwd localizationAdjunction) {cL,gR}{cL,gR'} cg,ch = λ= cf => functorext (pair-ext refl refl)
+
+-- cf : L → R ; now create functor cf< : loc L → R
+nt.obj (≅.bck localizationAdjunction) cL,gR cf = record
     { obj = f.obj cf
     ; hom = λ lp → fuseLocpath (prr cL,gR) (mapLocpath cf lp)
     ; hom-id = λ x → refl
@@ -39,10 +39,12 @@ localizationAdjunction : ∀{ℓo ℓh} → cloc{ℓo}{ℓo ⊔ ℓh} ⊣ cforge
         fuse-lp• (prr cL,gR) (mapLocpath cf lpa) (mapLocpath cf lpb) •
       refl
     }
-  -- cg : L' → L , ch : R → R' ; now show that ch ∘ cf< ∘ (loc cg) = (ch ∘ cf ∘ cg)<
-  -- f.hom LHS = ch ∘ fuse ∘ (loc cf) ∘ (loc cg).
-  -- f.hom RHS = fuse ∘ (loc (ch ∘ cf ∘ cg))
-  ; hom = λ {cL,gR}{cL,gR'} cg,ch → λ= cf => functorext (pair-ext refl (λi= x => λi= y => λ= lp =>
+    
+-- cg : L' → L , ch : R → R' ; now show that ch ∘ cf< ∘ (loc cg) = (ch ∘ cf ∘ cg)<
+nt.hom (≅.bck localizationAdjunction) {cL,gR}{cL,gR'} cg,ch =
+    -- f.hom LHS = ch ∘ fuse ∘ (loc cf) ∘ (loc cg).
+    -- f.hom RHS = fuse ∘ (loc (ch ∘ cf ∘ cg))
+    λ= cf => functorext (pair-ext refl (λi= x => λi= y => λ= lp =>
         {- (ch ∘ fuse ∘ (loc cf) ∘ (loc cg))(φ)
          = fuse[ ((loc ch) ∘ (loc cf) ∘ (loc cg))(φ) ]
          = fuse[ ((loc ch ∘ cf) ∘ (loc cg))(φ) ]
@@ -64,6 +66,6 @@ localizationAdjunction : ∀{ℓo ℓh} → cloc{ℓo}{ℓo ⊔ ℓh} ⊣ cforge
           •
         refl
     ))
-  }
+    
 ≅.src-id localizationAdjunction = {!!}
 ≅.tgt-id localizationAdjunction = {!!}
