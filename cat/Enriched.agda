@@ -1,6 +1,6 @@
-module aken.cat.Enriched where
+module willow.cat.Enriched where
 
-open import aken.cat.Monoidal public
+open import willow.cat.Monoidal public
 
 record ECat (α : Level) {β γ} (M : MCat β γ) : Set ((lsuc α) ⊔ β ⊔ γ) where
   field

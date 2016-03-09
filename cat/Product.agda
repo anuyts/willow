@@ -1,7 +1,7 @@
-module aken.cat.Product where
+module willow.cat.Product where
 
-open import aken.cat.Category
-open import aken.basic.Basic
+open import willow.cat.Category
+open import willow.basic.Basic
 
 _c×_ : ∀{ℓoL ℓhL ℓoR ℓhR} → (cL : Cat ℓoL ℓhL) → (cR : Cat ℓoR ℓhR) → Cat (ℓoL ⊔ ℓoR) (ℓhL ⊔ ℓhR)
 cL c× cR = record

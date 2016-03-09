@@ -1,7 +1,7 @@
-module aken.basic.Interval where
+module willow.basic.Interval where
 
-open import aken.basic.Basic
-open import aken.basic.Function
+open import willow.basic.Basic
+open import willow.basic.Function
 
 private
   data I' : Set lzero where

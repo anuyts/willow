@@ -1,15 +1,15 @@
-module aken.basic.Basic where
+module willow.basic.Basic where
 
-open import aken.basic.Levels public
-open import aken.basic.Identity public
-open import aken.basic.Truth public
-open import aken.basic.Booleans public
-open import aken.basic.Naturals public
-open import aken.basic.Coproduct public
-open import aken.basic.List public
-open import aken.basic.Fin public
-open import aken.basic.Vector public
-open import aken.basic.Sum public
+open import willow.basic.Levels public
+open import willow.basic.Identity public
+open import willow.basic.Truth public
+open import willow.basic.Booleans public
+open import willow.basic.Naturals public
+open import willow.basic.Coproduct public
+open import willow.basic.List public
+open import willow.basic.Fin public
+open import willow.basic.Vector public
+open import willow.basic.Sum public
 
 --PROOF-TOOLS-------------------
 

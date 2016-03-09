@@ -1,10 +1,10 @@
-module aken.cat.Adjunction where
+module willow.cat.Adjunction where
 
-open import aken.cat.Category public
-open import aken.cat.Sets public
-open import aken.cat.Isomorphism public
-open import aken.cat.HomFunctor public
-open import aken.cat.Product public
+open import willow.cat.Category public
+open import willow.cat.Sets public
+open import willow.cat.Isomorphism public
+open import willow.cat.HomFunctor public
+open import willow.cat.Product public
 
 _⊣_ : ∀{ℓo ℓh} → {cL cR : Cat ℓo ℓh} → (cf : cL ++> cR) → (cg : cR ++> cL) → Set (ℓo ⊔ lsuc ℓh)
 _⊣_ {ℓo}{ℓh} {cL}{cR} cf cg =

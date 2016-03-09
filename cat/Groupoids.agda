@@ -1,7 +1,7 @@
-module aken.cat.Groupoids where
+module willow.cat.Groupoids where
 
-open import aken.cat.Groupoid public
-open import aken.cat.Categories public
+open import willow.cat.Groupoid public
+open import willow.cat.Categories public
 
 cGrpd : (ℓo ℓh : Level) → Cat (lsuc (ℓo ⊔ ℓh)) (ℓo ⊔ ℓh)
 cGrpd ℓo ℓh = record

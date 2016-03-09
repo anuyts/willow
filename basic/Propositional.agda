@@ -1,7 +1,7 @@
-module aken.basic.Propositional where
+module willow.basic.Propositional where
 
-open import aken.basic.Basic
-open import aken.basic.Function
+open import willow.basic.Basic
+open import willow.basic.Function
 
 -- proposition --------------------------------------------------
 

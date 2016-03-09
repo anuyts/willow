@@ -1,6 +1,6 @@
-module aken.basic.QEquivalence where
+module willow.basic.QEquivalence where
 
-open import aken.basic.Function
+open import willow.basic.Function
 
 record _≈_ {α β}  (A : Set α) (B : Set β) : Set (lsuc (α ⊔ β)) where
   constructor prove≈

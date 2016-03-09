@@ -1,6 +1,6 @@
-module aken.basic.Preimage where
+module willow.basic.Preimage where
 
-open import aken.basic.Function
+open import willow.basic.Function
 
 data _!_↦_ {ℓA ℓB} (A : Set ℓA) {B : Set ℓB} (f : A → B) : B → Set ℓA where
   in! : (a : A) → A ! f ↦ f a --qed

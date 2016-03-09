@@ -1,7 +1,7 @@
-module aken.cat.RawZigzag.Fuse where
+module willow.cat.RawZigzag.Fuse where
 
-open import aken.cat.RawZigzag public
-open import aken.cat.Groupoid public
+open import willow.cat.RawZigzag public
+open import willow.cat.Groupoid public
 
 fuseRawZigzag : ∀{ℓo ℓh} → (g : Groupoid ℓo ℓh) → {x y : g.Obj g} → (rz : RawZigzag (g.cat g) x y) → g.Hom g x y
 fuseRawZigzag {ℓo}{ℓh} g {x}{.x} rz-refl = g.id g x

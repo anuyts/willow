@@ -1,8 +1,8 @@
-module aken.cat.Category where
+module willow.cat.Category where
 
-open import aken.basic.Basic public
-open import aken.basic.Function public
-open import aken.basic.UIP public
+open import willow.basic.Basic public
+open import willow.basic.Function public
+open import willow.basic.UIP public
 
 record Cat (α β : Level) : Set (lsuc (α ⊔ β)) where
   no-eta-equality

@@ -1,9 +1,9 @@
-module aken.basic.Function where
+module willow.basic.Function where
 
-open import aken.basic.Identity public
-open import aken.basic.Coproduct public
-open import aken.basic.Sum public
---open import aken.basic.Basic public
+open import willow.basic.Identity public
+open import willow.basic.Coproduct public
+open import willow.basic.Sum public
+--open import willow.basic.Basic public
 
 --identity----------------------------------
 

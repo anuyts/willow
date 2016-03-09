@@ -1,7 +1,7 @@
-module aken.cat.Groupoids.CoreFunctor where
+module willow.cat.Groupoids.CoreFunctor where
 
-open import aken.cat.Groupoids public
-open import aken.cat.Adjunction public
+open import willow.cat.Groupoids public
+open import willow.cat.Adjunction public
 
 ccore : {ℓo ℓh : Level} → cCat ℓo ℓh ++> cGrpd ℓo ℓh
 ccore = record

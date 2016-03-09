@@ -1,7 +1,7 @@
-module aken.cat2.OmegaCategory where
+module willow.cat2.OmegaCategory where
 
-open import aken.cat2.Category public
-open import aken.basic.Basic public
+open import willow.cat2.Category public
+open import willow.basic.Basic public
 
 record 2CatStr {ℓi ℓo ℓh}
   {Idx : Set ℓi} {Obj : Set ℓo} {Mph : Set ℓh}

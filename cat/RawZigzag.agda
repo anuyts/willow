@@ -1,6 +1,6 @@
-module aken.cat.RawZigzag where
+module willow.cat.RawZigzag where
 
-open import aken.cat.Category public
+open import willow.cat.Category public
 
 data RawZigzag {ℓo ℓh} (c : Cat ℓo ℓh) (x : c.Obj c) : (y : c.Obj c) → Set (ℓo ⊔ ℓh) where
   rz-refl : RawZigzag c x x

@@ -1,8 +1,8 @@
-module aken.cat2.Category where
+module willow.cat2.Category where
 
-open import aken.basic.Basic public
-open import aken.basic.Function renaming (id to idf) public
-open import aken.basic.Preimage public
+open import willow.basic.Basic public
+open import willow.basic.Function renaming (id to idf) public
+open import willow.basic.Preimage public
 
 record CatStr {ℓo ℓh} (Obj : Set ℓo) (Mph : Set ℓh) : Set (ℓo ⊔ ℓh) where
   no-eta-equality
