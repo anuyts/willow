@@ -72,6 +72,10 @@ prl (coreIsGrpd c {x}{y} φ) = record
   }
 prr (coreIsGrpd c {x}{y} φ) = refl
 
+gCore : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → Groupoid ℓo ℓh
+g.cat(gCore c) = cCore c
+g.isGrpd(gCore c) = coreIsGrpd c
+
 --core is right adjoint to forgetful functor Grpd → Cat
 --core is a comonad
 --Grpd type with grpd module
@@ -95,6 +99,10 @@ prl (locIsGrpd c {x}{y} φ) = record
   ; tgt-id = lp-tgt-eq φ
   }
 prr (locIsGrpd c {x}{y} φ) = refl
+
+gLoc : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → Groupoid ℓo (ℓo ⊔ ℓh)
+g.cat(gLoc c) = cLoc c
+g.isGrpd(gLoc c) = locIsGrpd c
 
 f-hom-inv : ∀{ℓoA ℓhA ℓoB ℓhB}
   (gA : Groupoid ℓoA ℓhA) (gB : Groupoid ℓoB ℓhB)

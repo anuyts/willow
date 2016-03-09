@@ -2,10 +2,13 @@ module willow.cat.Groupoids.LocalizationAdjunction where
 
 open import willow.cat.Groupoids.LocalizationFunctor public
 
-localizationAdjunction : ∀{ℓo ℓh} → cloc{ℓo}{ℓo ⊔ ℓh} ⊣ cforgetGrpd{ℓo}{ℓo ⊔ ℓh}
+-- prerequisites --------------------
 
--- cf : loc L → R ; now create functor cf> : L → R
-nt.obj (≅.fwd localizationAdjunction) cL,gR cf = record
+localizationAdjunction:fwd:obj : ∀{ℓo ℓh}
+  (cL,gR : Cat ℓo (ℓo ⊔ ℓh) × Groupoid ℓo (ℓo ⊔ ℓh))
+  (cf : cLoc (prl cL,gR) ++> g.cat (prr cL,gR))
+  → prl cL,gR ++> g.cat (prr cL,gR)
+localizationAdjunction:fwd:obj cL,gR cf = record
     { obj = f.obj cf
     ; hom = λ φ → f.hom cf (lp-fwd φ)
     ; hom-id =
@@ -20,6 +23,61 @@ nt.obj (≅.fwd localizationAdjunction) cL,gR cf = record
         via (g.cat (prr cL,gR) $ f.hom cf (lp-fwd ψ) m∘ f.hom cf (lp-fwd φ)) $ f.hom-m∘ cf (lp-fwd ψ) (lp-fwd φ) •
         refl
     }
+
+localizationAdjunction:lemma : ∀{ℓo ℓh}
+  (cL,gR : Cat ℓo (ℓo ⊔ ℓh) × Groupoid ℓo (ℓo ⊔ ℓh))
+  (cf : cLoc (prl cL,gR) ++> g.cat (prr cL,gR))
+  (x y : c.Obj (prl cL,gR)) (rz : RawZigzag (prl cL,gR) x y)
+  → fuseLocpath
+       (prr cL,gR)
+       (mapLocpath (localizationAdjunction:fwd:obj{ℓo}{ℓh} cL,gR cf) (mk-lp rz))
+     == f.hom cf (mk-lp rz)
+localizationAdjunction:lemma {ℓo}{ℓh} cL,gR cf x .x rz-refl = sym (f.hom-id cf x)
+-- f>< (mklp (rz, φ)) := fuse[ (loc f>)(rz, φ) ] := fuse((loc f>)(rz), (f>)(φ)) := fuse( (loc f>)(rz), f((φ)) )
+-- := f((φ)) ∘ fuse[ (loc f>)(rz) ] =: f((φ)) ∘ f>< (mklp rz) = f((φ)) ∘ f(mklp rz) = f((φ) ∘ mklp rz)
+-- := f(mklp rz • (φ)) := f(mklp (rz, φ))
+localizationAdjunction:lemma {ℓo}{ℓh} cL,gR cf x z (rz rz> φ) =
+  via (
+    g.cat (prr cL,gR) $
+    f.hom cf (lp-fwd φ) m∘
+    fuseLocpath
+      (prr cL,gR)
+      (mapLocpath (localizationAdjunction:fwd:obj{ℓo}{ℓh} cL,gR cf) (mk-lp rz))
+  ) $ refl •
+  via (g.cat (prr cL,gR) $ f.hom cf (lp-fwd φ) m∘ f.hom cf (mk-lp rz)) $
+    map= (λ ξ → g.cat (prr cL,gR) $ f.hom cf (lp-fwd φ) m∘ ξ) (localizationAdjunction:lemma {ℓo}{ℓh} cL,gR cf x _ rz) •
+  via f.hom cf (cLoc(prl cL,gR) $ lp-fwd φ m∘ mk-lp rz) $ sym (f.hom-m∘ cf (lp-fwd φ) (mk-lp rz)) •
+  refl
+-- f>< (mklp (rz, φ*)) := fuse[ (loc f>)(rz, φ*) ] := fuse((loc f>)(rz), (f>)(φ)*) := fuse( (loc f>)(rz), f((φ))* )
+-- := f((φ))-1 ∘ fuse[ (loc f>)(rz) ] =: f((φ))-1 ∘ f>< (mklp rz) = f((φ))-1 ∘ f(mklp rz) = f((φ)-1) ∘ f(mklp rz)
+-- := f((φ*)) ∘ f(mklp rz) = f((φ*) ∘ mklp rz)
+-- := f(mklp rz • (φ*)) := f(mklp (rz, φ*))
+localizationAdjunction:lemma {ℓo}{ℓh} cL,gR cf x z (rz rz< φ) = 
+  via (
+    g.cat (prr cL,gR) $
+    g.inv (prr cL,gR) (f.hom cf (lp-fwd φ)) m∘
+    fuseLocpath
+      (prr cL,gR)
+      (mapLocpath (localizationAdjunction:fwd:obj{ℓo}{ℓh} cL,gR cf) (mk-lp rz))
+  ) $ refl •
+  via (g.cat (prr cL,gR) $ g.inv (prr cL,gR) (f.hom cf (lp-fwd φ)) m∘ f.hom cf (mk-lp rz)) $
+    map=
+      (λ ξ → g.cat (prr cL,gR) $ g.inv (prr cL,gR) (f.hom cf (lp-fwd φ)) m∘ ξ)
+      (localizationAdjunction:lemma {ℓo}{ℓh} cL,gR cf x _ rz) •
+  via (g.cat (prr cL,gR) $ f.hom cf (g.inv (gLoc (prl cL,gR)) (lp-fwd φ)) m∘ f.hom cf (mk-lp rz)) $
+    map=
+      (λ ξ → g.cat (prr cL,gR) $ ξ m∘ f.hom cf (mk-lp rz))
+      (sym (f-hom-inv (gLoc (prl cL,gR)) (prr cL,gR) cf (lp-fwd φ))) •
+  via (g.cat (prr cL,gR) $ f.hom cf (lp-bck φ) m∘ f.hom cf (mk-lp rz)) $ refl •
+  via f.hom cf (cLoc(prl cL,gR) $ lp-bck φ m∘ mk-lp rz) $ sym (f.hom-m∘ cf (lp-bck φ) (mk-lp rz)) •
+  refl
+
+-- the adjunction ----------------------
+
+localizationAdjunction : ∀{ℓo ℓh} → cloc{ℓo}{ℓo ⊔ ℓh} ⊣ cforgetGrpd{ℓo}{ℓo ⊔ ℓh}
+
+-- cf : loc L → R ; now create functor cf> : L → R
+nt.obj (≅.fwd (localizationAdjunction{ℓo}{ℓh})) = localizationAdjunction:fwd:obj{ℓo}{ℓh}
     
 -- cg : L' → L , ch : R → R' ; now show that ch ∘ cf> ∘ cg = (ch ∘ cf> ∘ (loc cg))
 nt.hom (≅.fwd localizationAdjunction) {cL,gR}{cL,gR'} cg,ch = λ= cf => functorext (pair-ext refl refl)
@@ -67,5 +125,20 @@ nt.hom (≅.bck localizationAdjunction) {cL,gR}{cL,gR'} cg,ch =
         refl
     ))
     
-≅.src-id localizationAdjunction = {!!}
-≅.tgt-id localizationAdjunction = {!!}
+≅.src-id (localizationAdjunction {ℓo}{ℓh}) = nt-ext (λ= cL,gR => λ= cf => functorext (pair-ext
+    refl
+    (λi= x => λi= y0 => λ= lp0 =>
+      --f>< lp := fuse ((loc f>) lp) = ... = f(lp)
+      elimd-lp
+        (λ y lp →
+          fuseLocpath (prr cL,gR) (mapLocpath (nt.obj(≅.fwd (localizationAdjunction{ℓo}{ℓh})) cL,gR cf) lp) == f.hom cf lp)
+        (localizationAdjunction:lemma {ℓo}{ℓh} cL,gR cf x)
+        (λ y rz rz' p → uip)
+        lp0
+    )
+  ))
+
+≅.tgt-id localizationAdjunction = nt-ext (λ= cL,gR => λ= cf => functorext (pair-ext
+    refl
+    (λi= x => λi= y => λ= φ => g.m∘runit (prr cL,gR))
+  ))

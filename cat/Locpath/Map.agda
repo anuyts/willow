@@ -70,3 +70,13 @@ mapLocpath-c∘ cg cf {x} = elimd-lp
   (λ y lp → mapLocpath (cg c∘ cf) lp == mapLocpath cg (mapLocpath cf lp))
   (λ y rz → map= mk-lp (mapRawZigzag-c∘ cg cf rz))
   (λ y rz rz' p → uip)
+
+--the adjunction lemma---------------------------
+
+{-
+adjunction-lemma-lp : ∀{ℓoA ℓhA ℓoB ℓhB}
+  (cA : Cat ℓoA ℓhA) (gB : Groupoid ℓoB ℓhB)
+  (cf : cLoc cA ++> g.cat gB)
+  {x y : c.Obj cA} (lp : Locpath cA x y)
+  →
+-}
