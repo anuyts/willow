@@ -27,3 +27,20 @@ fuseLocpath g {x} = elim-lp
   (λ y → g.Hom g x y)
   (λ y rz → fuseRawZigzag g rz)
   (λ y rz rz' p → fuseEqLocpath g rz rz' p)
+
+fuse-rz•lp : ∀{ℓo ℓh} (g : Groupoid ℓo ℓh) {x y : g.Obj g}
+  (rza : RawZigzag (g.cat g) x y) {z : g.Obj g} (lpb : Locpath (g.cat g) y z)
+  → (fuseLocpath g (rza rz•lp lpb)) == (g.cat g $ fuseLocpath g lpb m∘ fuseRawZigzag g rza)
+fuse-rz•lp g rza = elimd-lp
+  (λ z lpb → (fuseLocpath g (rza rz•lp lpb)) == (g.cat g $ fuseLocpath g lpb m∘ fuseRawZigzag g rza))
+  (λ y rzb → fuse-rz• g rza rzb)
+  (λ y rz rz' p → uip)
+
+fuse-lp• : ∀{ℓo ℓh} (g : Groupoid ℓo ℓh) {x y : g.Obj g}
+    (lpa : Locpath (g.cat g) x y) {z : g.Obj g} (lpb : Locpath (g.cat g) y z)
+    → (fuseLocpath g (lpa lp• lpb)) == (g.cat g $ fuseLocpath g lpb m∘ fuseLocpath g lpa)
+fuse-lp• {ℓo}{ℓh} g {x} = elimd-lp
+    (λ y lpa → {z : g.Obj g} (lpb : Locpath (g.cat g) y z)
+      → (fuseLocpath g (lpa lp• lpb)) == (g.cat g $ fuseLocpath g lpb m∘ fuseLocpath g lpa))
+    (λ y rza lpb → fuse-rz•lp g rza lpb)
+    (λ y rz rz' p → λi= z => λ= lpb => uip)

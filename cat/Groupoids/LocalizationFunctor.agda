@@ -20,25 +20,3 @@ cloc = record
       (λi= x => λi= y => λ= lp => mapLocpath-m∘ cg cf lp)
     )
   }
-
-cloc⊣cforgetGrpd : ∀{ℓo ℓh} → cloc{ℓo}{ℓo ⊔ ℓh} ⊣ cforgetGrpd{ℓo}{ℓo ⊔ ℓh}
-cloc⊣cforgetGrpd = record
-  { iso = λ {cL gR} → record
-    { fwd = λ cf → record
-      { obj = λ x → f.obj cf x
-      ; hom = λ lp → fuseLocpath gR {!!}
-      ; hom-id = {!!}
-      ; hom-m∘ = {!!}
-      }
-    ; bck = λ cg → record
-      { obj = λ x → f.obj cg x
-      ; hom = {!!}
-      ; hom-id = {!!}
-      ; hom-m∘ = {!!}
-      }
-    ; src-id = {!!}
-    ; tgt-id = {!!}
-    }
-  ; fwd-m∘ = {!!}
-  ; bck-m∘ = {!!}
-  }
