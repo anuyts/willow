@@ -78,6 +78,8 @@ mapIso {_}{_}{_}{_} {cA}{cB} cf {x}{y} η = record
   ; tgt-id = sym (f.hom-m∘ cf (≅.fwd η) (≅.bck η)) • map= (f.hom cf) (≅.tgt-id η) • f.hom-id cf y
   }
 
+map≅ = mapIso
+
 inv-id : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → (x : c.Obj c) → (η : Iso c x x) → (≅.fwd η == c.id c x) → (≅.bck η == c.id c x)
 inv-id c x (mk≅ .(c.id c x) bck src-id tgt-id) refl = sym (c.m∘runit c) • src-id
 

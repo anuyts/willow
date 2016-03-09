@@ -88,10 +88,10 @@ mapRawZigzag-id c rz-refl = refl
 mapRawZigzag-id c (rz rz> φ) = map= (λ rz' → rz' rz> φ) (mapRawZigzag-id c rz)
 mapRawZigzag-id c (rz rz< φ) = map= (λ rz' → rz' rz< φ) (mapRawZigzag-id c rz)
 
-mapRawZigzag-m∘ : ∀{ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cC : Cat ℓoC ℓhC}
+mapRawZigzag-c∘ : ∀{ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cC : Cat ℓoC ℓhC}
   → (cg : cB ++> cC) → (cf : cA ++> cB)
   → {x y : c.Obj cA} → (rz : RawZigzag cA x y)
   → mapRawZigzag (cg c∘ cf) rz == mapRawZigzag cg (mapRawZigzag cf rz)
-mapRawZigzag-m∘ cg cf rz-refl = refl
-mapRawZigzag-m∘ cg cf (rz rz> φ) = map= (λ rz' → rz' rz> f.hom (cg c∘ cf) φ) (mapRawZigzag-m∘ cg cf rz)
-mapRawZigzag-m∘ cg cf (rz rz< φ) = map= (λ rz' → rz' rz< f.hom (cg c∘ cf) φ) (mapRawZigzag-m∘ cg cf rz)
+mapRawZigzag-c∘ cg cf rz-refl = refl
+mapRawZigzag-c∘ cg cf (rz rz> φ) = map= (λ rz' → rz' rz> f.hom (cg c∘ cf) φ) (mapRawZigzag-c∘ cg cf rz)
+mapRawZigzag-c∘ cg cf (rz rz< φ) = map= (λ rz' → rz' rz< f.hom (cg c∘ cf) φ) (mapRawZigzag-c∘ cg cf rz)

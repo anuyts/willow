@@ -17,6 +17,6 @@ cloc = record
       (λi= x => λi= y => λ= lp => mapLocpath-id cA lp)
     )
   ; hom-m∘ = λ {cA cB cC} cg cf → functorext (pair-ext refl
-      (λi= x => λi= y => λ= lp => mapLocpath-m∘ cg cf lp)
+      (λi= x => λi= y => λ= lp => mapLocpath-c∘ cg cf lp)
     )
   }

@@ -40,7 +40,7 @@ elim-lp : ∀{ℓo ℓh ℓB} → {c : Cat ℓo ℓh} → {x : c.Obj c}
 elim-lp {_}{_}{_} {c} {x} B f f-eq {y} (mk-lp' rz) = f y rz
 
 elimd-lp : ∀{ℓo ℓh ℓB} → {c : Cat ℓo ℓh} → {x : c.Obj c}
-  → (B : (y : c.Obj c) → (Locpath c x y) → Set ℓB)
+  → (B : (y : c.Obj c) → (lp : Locpath c x y) → Set ℓB)
   → (f : (y : c.Obj c) → (rz : RawZigzag c x y) → B y (mk-lp rz))
   → (f-eq : (y : c.Obj c) → (rz rz' : RawZigzag c x y) → (p : EqLocpath c rz rz') → tra (B y) / eq-lp p of f y rz == f y rz')
   → {y : c.Obj c} → (lp : Locpath c x y) → B y lp

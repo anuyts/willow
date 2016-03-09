@@ -42,15 +42,27 @@ localizationAdjunction : ∀{ℓo ℓh} → cloc{ℓo}{ℓo ⊔ ℓh} ⊣ cforge
   -- cg : L' → L , ch : R → R' ; now show that ch ∘ cf< ∘ (loc cg) = (ch ∘ cf ∘ cg)<
   -- f.hom LHS = ch ∘ fuse ∘ (loc cf) ∘ (loc cg).
   -- f.hom RHS = fuse ∘ (loc (ch ∘ cf ∘ cg))
-  ; hom = λ {cL,gR}{cL,gR'} cg,ch → λ= cf => functorext (pair-ext refl (λi= x => λi= y0 => λ= lp0 =>
-        elimd-lp
-          (λ y lp →
-            f.hom (prr cg,ch) (fuseLocpath (prr cL,gR) (mapLocpath cf (mapLocpath (prl cg,ch) lp))) ==
-            fuseLocpath (prr cL,gR') (mapLocpath ((prr cg,ch) c∘ cf c∘ (prl cg,ch)) lp)
-          )
-          (λ y rz → {!!})
-          (λ y rz rz' p → uip)
-          lp0
+  ; hom = λ {cL,gR}{cL,gR'} cg,ch → λ= cf => functorext (pair-ext refl (λi= x => λi= y => λ= lp =>
+        {- (ch ∘ fuse ∘ (loc cf) ∘ (loc cg))(φ)
+         = fuse[ ((loc ch) ∘ (loc cf) ∘ (loc cg))(φ) ]
+         = fuse[ ((loc ch ∘ cf) ∘ (loc cg))(φ) ]
+         = fuse[ (loc ch ∘ cg ∘ cf)(φ) ]
+        -}
+        via f.hom (prr cg,ch) (fuseLocpath (prr cL,gR) (mapLocpath cf (mapLocpath (prl cg,ch) lp))) $
+          refl •
+        via fuseLocpath (prr cL,gR') (mapLocpath (prr cg,ch) (mapLocpath cf (mapLocpath (prl cg,ch) lp))) $
+          fuse-map-lp (prr cL,gR) (prr cL,gR') (prr cg,ch) (mapLocpath cf (mapLocpath (prl cg,ch) lp)) •
+        via fuseLocpath (prr cL,gR') (mapLocpath (prr cg,ch c∘ cf) (mapLocpath (prl cg,ch) lp)) $
+          map=
+            (fuseLocpath (prr cL,gR'))
+            (sym (mapLocpath-c∘ (prr cg,ch) cf (mapLocpath (prl cg,ch) lp)))
+          •
+        via fuseLocpath (prr cL,gR') (mapLocpath (prr cg,ch c∘ cf c∘ prl cg,ch) lp) $
+          map=
+            (λ lp' → fuseLocpath (prr cL,gR') lp')
+            (sym (mapLocpath-c∘ (prr cg,ch c∘ cf) (prl cg,ch) lp))
+          •
+        refl
     ))
   }
 ≅.src-id localizationAdjunction = {!!}

@@ -62,11 +62,11 @@ mapLocpath-id c {x} = elimd-lp
   (λ y rz → map= mk-lp (mapRawZigzag-id c rz))
   (λ y rz rz' p → uip)
 
-mapLocpath-m∘ : ∀{ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cC : Cat ℓoC ℓhC}
+mapLocpath-c∘ : ∀{ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cC : Cat ℓoC ℓhC}
   → (cg : cB ++> cC) → (cf : cA ++> cB)
   → {x y : c.Obj cA} → (lp : Locpath cA x y)
   → mapLocpath (cg c∘ cf) lp == mapLocpath cg (mapLocpath cf lp)
-mapLocpath-m∘ cg cf {x} = elimd-lp
+mapLocpath-c∘ cg cf {x} = elimd-lp
   (λ y lp → mapLocpath (cg c∘ cf) lp == mapLocpath cg (mapLocpath cf lp))
-  (λ y rz → map= mk-lp (mapRawZigzag-m∘ cg cf rz))
+  (λ y rz → map= mk-lp (mapRawZigzag-c∘ cg cf rz))
   (λ y rz rz' p → uip)

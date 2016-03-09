@@ -95,3 +95,15 @@ prl (locIsGrpd c {x}{y} φ) = record
   ; tgt-id = lp-tgt-eq φ
   }
 prr (locIsGrpd c {x}{y} φ) = refl
+
+f-hom-inv : ∀{ℓoA ℓhA ℓoB ℓhB}
+  (gA : Groupoid ℓoA ℓhA) (gB : Groupoid ℓoB ℓhB)
+  (cf : g.cat gA ++> g.cat gB)
+  {x y : g.Obj gA} (φ : g.Hom gA x y)
+  → f.hom cf (g.inv gA φ) == g.inv gB (f.hom cf φ)
+f-hom-inv gA gB cf φ =
+  let η = g.asIso gA φ
+      θ = g.asIso gB (f.hom cf φ)
+      p : map≅ cf η == θ
+      p = ≅ext refl
+  in map= ≅.bck p

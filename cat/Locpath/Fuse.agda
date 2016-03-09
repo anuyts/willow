@@ -4,6 +4,8 @@ open import willow.cat.Locpath public
 open import willow.cat.RawZigzag.Fuse public
 open import willow.cat.Groupoid public
 
+--fusing locpaths--------------------------------------
+
 fuseEqLocpath : ∀{ℓo ℓh} → (g : Groupoid ℓo ℓh) → {x y : g.Obj g}
   → (rza rzb : RawZigzag (g.cat g) x y) → (p : EqLocpath (g.cat g) rza rzb) → (fuseRawZigzag g rza == fuseRawZigzag g rzb)
 fuseEqLocpath g rzb .rzb lp-refl = refl
@@ -44,3 +46,15 @@ fuse-lp• {ℓo}{ℓh} g {x} = elimd-lp
       → (fuseLocpath g (lpa lp• lpb)) == (g.cat g $ fuseLocpath g lpb m∘ fuseLocpath g lpa))
     (λ y rza lpb → fuse-rz•lp g rza lpb)
     (λ y rz rz' p → λi= z => λ= lpb => uip)
+
+--fuse commutes with functor application-------------------------------
+
+fuse-map-lp : ∀{ℓoA ℓhA ℓoB ℓhB}
+  (gA : Groupoid ℓoA ℓhA) (gB : Groupoid ℓoB ℓhB)
+  (cf : g.cat gA ++> g.cat gB)
+  {x y : g.Obj gA} (lp : Locpath (g.cat gA) x y)
+  → f.hom cf (fuseLocpath gA lp) == fuseLocpath gB (mapLocpath cf lp)
+fuse-map-lp gA gB cf {x} = elimd-lp
+  (λ y lp → f.hom cf (fuseLocpath gA lp) == fuseLocpath gB (mapLocpath cf lp))
+  (λ y rz → fuse-map-rz gA gB cf rz)
+  (λ y rz rz' p → uip)
