@@ -1,35 +1,35 @@
-module willow.cat.Locpath.Tools where
+module willow.cat.Zigzag.Tools where
 
 open import willow.cat.RawZigzag public
-open import willow.cat.Locpath.Definition public
+open import willow.cat.Zigzag.Definition public
 
 ---------------auxiliary-----------------------------------------
 
-lp-nil : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x : c.Obj c} → Locpath c x x
-lp-nil = mk-lp rz-refl
+zz-nil : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x : c.Obj c} → Zigzag c x x
+zz-nil = mk-zz rz-refl
 
-pre-lp> : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c} (lp : Locpath c x y) {z : c.Obj c} (φ : c.Hom c y z) → Locpath c x z
-pre-lp> {ℓo}{ℓh}{c}{x} = elim-lp
-  (λ y → {z : c.Obj c} (φ : c.Hom c y z) → Locpath c x z)
-  (λ y rz φ → mk-lp (rz rz> φ))
-  (λ y rz rz' p → λi= z => λ= φ => eq-lp (lp-cong-fwd p))
+pre-zz> : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c} (zz : Zigzag c x y) {z : c.Obj c} (φ : c.Hom c y z) → Zigzag c x z
+pre-zz> {ℓo}{ℓh}{c}{x} = elim-zz
+  (λ y → {z : c.Obj c} (φ : c.Hom c y z) → Zigzag c x z)
+  (λ y rz φ → mk-zz (rz rz> φ))
+  (λ y rz rz' p → λi= z => λ= φ => eq-zz (zz-cong-fwd p))
 
-_lp>_ : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c} (lp : Locpath c x y) (φ : c.Hom c y z) → Locpath c x z
-lp lp> φ = pre-lp> lp φ
+_zz>_ : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c} (zz : Zigzag c x y) (φ : c.Hom c y z) → Zigzag c x z
+zz zz> φ = pre-zz> zz φ
 
-pre-lp< : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c} (lp : Locpath c x y) {z : c.Obj c} (φ : c.Hom c z y) → Locpath c x z
-pre-lp< {ℓo}{ℓh}{c}{x} = elim-lp
-  (λ y → {z : c.Obj c} (φ : c.Hom c z y) → Locpath c x z)
-  (λ y rz φ → mk-lp (rz rz< φ))
-  (λ y rz rz' p → λi= z => λ= φ => eq-lp (lp-cong-bck p))
+pre-zz< : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c} (zz : Zigzag c x y) {z : c.Obj c} (φ : c.Hom c z y) → Zigzag c x z
+pre-zz< {ℓo}{ℓh}{c}{x} = elim-zz
+  (λ y → {z : c.Obj c} (φ : c.Hom c z y) → Zigzag c x z)
+  (λ y rz φ → mk-zz (rz rz< φ))
+  (λ y rz rz' p → λi= z => λ= φ => eq-zz (zz-cong-bck p))
 
-_lp<_ : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c} (lp : Locpath c x y) (φ : c.Hom c z y) → Locpath c x z
-lp lp< φ = pre-lp< lp φ
+_zz<_ : ∀ {ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c} (zz : Zigzag c x y) (φ : c.Hom c z y) → Zigzag c x z
+zz zz< φ = pre-zz< zz φ
 
-infixl 10 _lp>_ _lp<_
+infixl 10 _zz>_ _zz<_
 
-lp-fwd : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c} → c.Hom c x y → Locpath c x y
-lp-fwd φ = mk-lp (rz-fwd φ)
+zz-fwd : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c} → c.Hom c x y → Zigzag c x y
+zz-fwd φ = mk-zz (rz-fwd φ)
 
-lp-bck : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c} → c.Hom c y x → Locpath c x y
-lp-bck φ = mk-lp (rz-bck φ)
+zz-bck : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c} → c.Hom c y x → Zigzag c x y
+zz-bck φ = mk-zz (rz-bck φ)

@@ -1,97 +1,95 @@
-module willow.cat.Locpath.Composition where
+module willow.cat.Zigzag.Composition where
 
 open import willow.cat.RawZigzag public
-open import willow.cat.Locpath.Definition public
-open import willow.cat.Locpath.Tools public
+open import willow.cat.Zigzag.Definition public
+open import willow.cat.Zigzag.Tools public
 
 ---------------composition of locpaths---------------------------
 
-rz•eq-lp : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c}
+rz•eq-zz : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c}
   → (rz-l : RawZigzag c x y) → (rz-ra rz-rb : RawZigzag c y z)
-  → EqLocpath c rz-ra rz-rb → (EqLocpath c (rz-l rz• rz-ra) (rz-l rz• rz-rb))
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l rz-r .rz-r lp-refl = lp-refl
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l _ rz-rb lp-id-fwd = lp-id-fwd
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l _ rz-rb lp-id-bck = lp-id-bck
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l _ _ lp-comp-fwd = lp-comp-fwd
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l _ _ lp-comp-bck = lp-comp-bck
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l _ rz-rb lp-cancel-up = lp-cancel-up
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l _ rz-rb lp-cancel-dn = lp-cancel-dn
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l (rz-ra rz> φ) (rz-rb rz> .φ) (lp-cong-fwd p) = lp-cong-fwd (rz•eq-lp rz-l rz-ra rz-rb p)
-rz•eq-lp {_}{_} {c} {x}{y}{z} rz-l (rz-ra rz< φ) (rz-rb rz< .φ) (lp-cong-bck p) = lp-cong-bck (rz•eq-lp rz-l rz-ra rz-rb p)
+  → EqZigzag c rz-ra rz-rb → (EqZigzag c (rz-l rz• rz-ra) (rz-l rz• rz-rb))
+rz•eq-zz {_}{_} {c} {x}{y}{z} rz-l rz-r .rz-r zz-refl = zz-refl
+rz•eq-zz {_}{_} {c} {x}{y}{z} rz-l _ rz-rb zz-id-fwd = zz-id-fwd
+rz•eq-zz {_}{_} {c} {x}{y}{z} rz-l _ rz-rb zz-id-bck = zz-id-bck
+rz•eq-zz {_}{_} {c} {x}{y}{z} rz-l _ _ zz-comp-fwd = zz-comp-fwd
+rz•eq-zz {_}{_} {c} {x}{y}{z} rz-l _ _ zz-comp-bck = zz-comp-bck
+rz•eq-zz {_}{_} {c} {x}{y}{z} rz-l (rz-ra rz> φ) (rz-rb rz> .φ) (zz-cong-fwd p) = zz-cong-fwd (rz•eq-zz rz-l rz-ra rz-rb p)
+rz•eq-zz {_}{_} {c} {x}{y}{z} rz-l (rz-ra rz< φ) (rz-rb rz< .φ) (zz-cong-bck p) = zz-cong-bck (rz•eq-zz rz-l rz-ra rz-rb p)
 
-_rz•lp_ : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c} → (RawZigzag c x y) → (Locpath c y z) → (Locpath c x z)
-_rz•lp_ {_}{_} {c} {x}{y}{z0} rz-l lp-r = elim-lp (λ z → Locpath c x z)
-  (λ z rz-r → mk-lp (rz-l rz• rz-r))
-  (λ z rz-ra rz-rb p → eq-lp (rz•eq-lp rz-l rz-ra rz-rb p))
-  {z0} lp-r
+_rz•zz_ : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c} → (RawZigzag c x y) → (Zigzag c y z) → (Zigzag c x z)
+_rz•zz_ {_}{_} {c} {x}{y}{z0} rz-l zz-r = elim-zz (λ z → Zigzag c x z)
+  (λ z rz-r → mk-zz (rz-l rz• rz-r))
+  (λ z rz-ra rz-rb p → eq-zz (rz•eq-zz rz-l rz-ra rz-rb p))
+  {z0} zz-r
 
-eq-lp•rz : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c}
+eq-zz•rz : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c}
   → (rz-la rz-lb : RawZigzag c x y) → (rz-r : RawZigzag c y z)
-  → EqLocpath c rz-la rz-lb → (EqLocpath c (rz-la rz• rz-r) (rz-lb rz• rz-r))
-eq-lp•rz rz-la rz-lb rz-refl p = p
-eq-lp•rz rz-la rz-lb (rz-r rz> φ) p = lp-cong-fwd (eq-lp•rz rz-la rz-lb rz-r p)
-eq-lp•rz rz-la rz-lb (rz-r rz< φ) p = lp-cong-bck (eq-lp•rz rz-la rz-lb rz-r p)
+  → EqZigzag c rz-la rz-lb → (EqZigzag c (rz-la rz• rz-r) (rz-lb rz• rz-r))
+eq-zz•rz rz-la rz-lb rz-refl p = p
+eq-zz•rz rz-la rz-lb (rz-r rz> φ) p = zz-cong-fwd (eq-zz•rz rz-la rz-lb rz-r p)
+eq-zz•rz rz-la rz-lb (rz-r rz< φ) p = zz-cong-bck (eq-zz•rz rz-la rz-lb rz-r p)
 
-eq-lp•lp : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c}
-  → (rz-la rz-lb : RawZigzag c x y) → (lp-r : Locpath c y z)
-  → EqLocpath c rz-la rz-lb → ((rz-la rz•lp lp-r) == (rz-lb rz•lp lp-r))
-eq-lp•lp {_}{_} {c} {x}{y}{z0} rz-la rz-lb lp-r0 p = elimd-lp {c = c}{x = y}
-  (λ z lp-r → (rz-la rz•lp lp-r) == (rz-lb rz•lp lp-r))
-  (λ z rz-r → eq-lp (eq-lp•rz rz-la rz-lb rz-r p))
+eq-zz•zz : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c}
+  → (rz-la rz-lb : RawZigzag c x y) → (zz-r : Zigzag c y z)
+  → EqZigzag c rz-la rz-lb → ((rz-la rz•zz zz-r) == (rz-lb rz•zz zz-r))
+eq-zz•zz {_}{_} {c} {x}{y}{z0} rz-la rz-lb zz-r0 p = elimd-zz {c = c}{x = y}
+  (λ z zz-r → (rz-la rz•zz zz-r) == (rz-lb rz•zz zz-r))
+  (λ z rz-r → eq-zz (eq-zz•rz rz-la rz-lb rz-r p))
   (λ z rz-ra rz-rb q → uip)
-  {z0} lp-r0
+  {z0} zz-r0
 
-_lp•_ : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c} → (Locpath c x y) → (Locpath c y z) → (Locpath c x z)
-_lp•_ {_}{_} {c} {x}{y0}{z0} lp-l lp-r0 = elim-lp {c = c} {x = x}
-  (λ y → (z : c.Obj c) → (Locpath c y z) → (Locpath c x z))
-  (λ y rz-l z lp-r → rz-l rz•lp lp-r)
-  (λ y rz-la rz-lb p → λ= z => λ= lp-r => eq-lp•lp rz-la rz-lb lp-r p)
-  {y0} lp-l z0 lp-r0
+_zz•_ : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c} → (Zigzag c x y) → (Zigzag c y z) → (Zigzag c x z)
+_zz•_ {_}{_} {c} {x}{y0}{z0} zz-l zz-r0 = elim-zz {c = c} {x = x}
+  (λ y → (z : c.Obj c) → (Zigzag c y z) → (Zigzag c x z))
+  (λ y rz-l z zz-r → rz-l rz•zz zz-r)
+  (λ y rz-la rz-lb p → λ= z => λ= zz-r => eq-zz•zz rz-la rz-lb zz-r p)
+  {y0} zz-l z0 zz-r0
 
 --associativity of locpath composition------------------
 
-lp•assoc : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {w x y z : c.Obj c}
-  → (lp-l : Locpath c w x) → (lp-m : Locpath c x y) → (lp-r : Locpath c y z)
-  → (lp-l lp• lp-m) lp• lp-r == lp-l lp• (lp-m lp• lp-r)
-lp•assoc {_}{_}{c} {w}{x0}{y0}{z0} lp-l0 lp-m0 lp-r0 =
-  elimd-lp
-  (λ x lp-l →
-    {y z : c.Obj c} → (lp-m : Locpath c x y) → (lp-r : Locpath c y z)
-    → (lp-l lp• lp-m) lp• lp-r == lp-l lp• (lp-m lp• lp-r)
+zz•assoc : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {w x y z : c.Obj c}
+  → (zz-l : Zigzag c w x) → (zz-m : Zigzag c x y) → (zz-r : Zigzag c y z)
+  → (zz-l zz• zz-m) zz• zz-r == zz-l zz• (zz-m zz• zz-r)
+zz•assoc {_}{_}{c} {w}{x0}{y0}{z0} zz-l0 zz-m0 zz-r0 =
+  elimd-zz
+  (λ x zz-l →
+    {y z : c.Obj c} → (zz-m : Zigzag c x y) → (zz-r : Zigzag c y z)
+    → (zz-l zz• zz-m) zz• zz-r == zz-l zz• (zz-m zz• zz-r)
   )
-  (λ x rz-l {y1}{z1} lp-m1 lp-r1 →
-    elimd-lp
-    (λ y lp-m →
-      {z : c.Obj c} → (lp-r : Locpath c y z)
-      → ((mk-lp rz-l) lp• lp-m) lp• lp-r == (mk-lp rz-l) lp• (lp-m lp• lp-r)
+  (λ x rz-l {y1}{z1} zz-m1 zz-r1 →
+    elimd-zz
+    (λ y zz-m →
+      {z : c.Obj c} → (zz-r : Zigzag c y z)
+      → ((mk-zz rz-l) zz• zz-m) zz• zz-r == (mk-zz rz-l) zz• (zz-m zz• zz-r)
     )
-    (λ y rz-m {z2} lp-r2 →
-      elimd-lp
-      (λ z lp-r → ((mk-lp rz-l) lp• (mk-lp rz-m)) lp• lp-r == (mk-lp rz-l) lp• ((mk-lp rz-m) lp• lp-r))
-      (λ z rz-r → map= mk-lp (rz•assoc rz-l rz-m rz-r))
+    (λ y rz-m {z2} zz-r2 →
+      elimd-zz
+      (λ z zz-r → ((mk-zz rz-l) zz• (mk-zz rz-m)) zz• zz-r == (mk-zz rz-l) zz• ((mk-zz rz-m) zz• zz-r))
+      (λ z rz-r → map= mk-zz (rz•assoc rz-l rz-m rz-r))
       (λ z rz-r rz-r' p → uip)
-      {z2} lp-r2
+      {z2} zz-r2
     )
-    (λ y rz-m rz-m' p → λ¶i z => λ¶ lp-r => uip)
-    {y1} lp-m1 lp-r1
+    (λ y rz-m rz-m' p → λ¶i z => λ¶ zz-r => uip)
+    {y1} zz-m1 zz-r1
   )
-  (λ x rz-l rz-l' p → λ¶i y => λ¶i z => λ¶ lp-m => λ¶ lp-r => uip)
-  {x0} lp-l0 lp-m0 lp-r0
+  (λ x rz-l rz-l' p → λ¶i y => λ¶i z => λ¶ zz-m => λ¶ zz-r => uip)
+  {x0} zz-l0 zz-m0 zz-r0
 
 --left and right unit laws-------------------------
 
-lp•lunit : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c}
-  → (lp : Locpath c x y)
-  → ((mk-lp rz-refl) lp• lp) == lp
-lp•lunit {_}{_}{x} = elimd-lp
-  (λ y lp → ((mk-lp rz-refl) lp• lp) == lp)
-  (λ y rz → map= mk-lp (rz•lunit rz))
+zz•lunit : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c}
+  → (zz : Zigzag c x y)
+  → ((mk-zz rz-refl) zz• zz) == zz
+zz•lunit {_}{_}{x} = elimd-zz
+  (λ y zz → ((mk-zz rz-refl) zz• zz) == zz)
+  (λ y rz → map= mk-zz (rz•lunit rz))
   (λ y rz rz' p → uip)
 
-lp•runit : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c}
-  → (lp : Locpath c x y)
-  → (lp lp• (mk-lp rz-refl)) == lp
-lp•runit {_}{_}{x} = elimd-lp
-  (λ y lp → (lp lp• (mk-lp rz-refl)) == lp)
+zz•runit : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c}
+  → (zz : Zigzag c x y)
+  → (zz zz• (mk-zz rz-refl)) == zz
+zz•runit {_}{_}{x} = elimd-zz
+  (λ y zz → (zz zz• (mk-zz rz-refl)) == zz)
   (λ y rz → refl)
   (λ y rz rz' p → uip)
