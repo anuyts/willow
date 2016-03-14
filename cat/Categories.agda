@@ -12,9 +12,9 @@ cCat α β = record
   ; Hom = λ cA cB → cA ++> cB
   ; id = c-id
   ; comp = _c∘_
-  ; m∘assoc = λ {cA cB cC cD ch cg cf} → functorext (pair-ext refl refl)
-  ; m∘lunit = λ {cA cB cf} → functorext (pair-ext refl refl)
-  ; m∘runit = λ {cA cB cf} → functorext (pair-ext refl refl)
+  ; m∘assoc = functorext refl
+  ; m∘lunit = functorext refl
+  ; m∘runit = functorext refl
   }
 
 cCat× : ∀{α β} → cCat α β c× cCat α β ++> cCat α β

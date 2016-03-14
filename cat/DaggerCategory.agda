@@ -32,6 +32,35 @@ record DCat (ℓo ℓh : Level) : Set (lsuc (ℓo ⊔ ℓh)) where
 
 module dc = DCat
 
+--isDaggerFunctor : ∀{ℓoA ℓhA ℓoB ℓhB} (dcA : DCat ℓoA ℓhA) (dcB : DCat ℓoB ℓhB) (cf : dc.cat dcA ++> dc.cat dcB) → Set ?
+--isDaggerFunctor dcA dcB cf 
+
+record _dc→_ {α β γ δ} (dcA : DCat α β) (dcB : DCat γ δ) : Set (α ⊔ β ⊔ γ ⊔ δ) where
+  no-eta-equality
+  constructor mk-df
+  field
+    f : dc.cat dcA ++> dc.cat dcB
+    hom-† : {x y : dc.Obj dcA} → (φ : dc.Hom dcA x y) → f.hom f (dc.† dcA φ) == dc.† dcB (f.hom f φ)
+  open _++>_ f public
+infix 1 _dc→_
+module df = _dc→_
+
+dc-id : ∀{ℓo ℓh} (dc : DCat ℓo ℓh) → (dc dc→ dc)
+df.f (dc-id dc) = c-id (dc.cat dc)
+df.hom-† (dc-id dc) φ = refl
+
+_dc∘_ : ∀{ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} {dcA : DCat ℓoA ℓhA} {dcB : DCat ℓoB ℓhB} {dcC : DCat ℓoC ℓhC} →
+  (dcB dc→ dcC) → (dcA dc→ dcB) → (dcA dc→ dcC)
+df.f (dcg dc∘ dcf) = df.f dcg c∘ df.f dcf
+df.hom-† (dcg dc∘ dcf) φ = map= (df.hom dcg) (df.hom-† dcf φ) • df.hom-† dcg (df.hom dcf φ)
+infixl 10 _dc∘_
+
+dfunctorext : ∀{ℓoA}{ℓhA}{ℓoB}{ℓhB} → {dcA : DCat ℓoA ℓhA} → {dcB : DCat ℓoB ℓhB} → {dcf dcg : dcA dc→ dcB}
+  → (df.f dcf == df.f dcg) → dcf == dcg
+dfunctorext {ℓoA}{ℓhA}{ℓoB}{ℓhB} {dcA}{dcB} {mk-df cf p} {mk-df .cf q} refl = map= (mk-df cf) (λi= x => λi= y => λ= φ => uip)
+
+----adjoints-----------------------------------
+
 cBidir : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → Cat ℓo ℓh
 c.Obj (cBidir c) = c.Obj c
 c.Hom (cBidir c) x y = c.Hom c x y × c.Hom c y x
@@ -69,15 +98,3 @@ IsDCat.††-eq (zigzagsIsDCat c) ζ = zz-inv-inv ζ
 dcZigzags : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → DCat ℓo (ℓo ⊔ ℓh)
 DCat.cat (dcZigzags c) = cZigzags c
 DCat.isDCat (dcZigzags c) = zigzagsIsDCat c
-
---isDaggerFunctor : ∀{ℓoA ℓhA ℓoB ℓhB} (dcA : DCat ℓoA ℓhA) (dcB : DCat ℓoB ℓhB) (cf : dc.cat dcA ++> dc.cat dcB) → Set ?
---isDaggerFunctor dcA dcB cf 
-
-record _dc→_ {α β γ δ} (dcA : DCat α β) (dcB : DCat γ δ) : Set (α ⊔ β ⊔ γ ⊔ δ) where
-  no-eta-equality
-  field
-    cf : dc.cat dcA ++> dc.cat dcB
-    hom-† : {x y : dc.Obj dcA} → (φ : dc.Hom dcA x y) → f.hom cf (dc.† dcA φ) == dc.† dcB (f.hom cf φ)
-  open _++>_ cf public
-infix 1 _dc→_
-module df = _dc→_
