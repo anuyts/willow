@@ -55,6 +55,9 @@ df.f (dcg dc∘ dcf) = df.f dcg c∘ df.f dcf
 df.hom-† (dcg dc∘ dcf) φ = map= (df.hom dcg) (df.hom-† dcf φ) • df.hom-† dcg (df.hom dcf φ)
 infixl 10 _dc∘_
 
+--† is a †-functor!
+--dc† : ∀{ℓo ℓh} (dc : DCat ℓo ℓh) 
+
 dfunctorext : ∀{ℓoA}{ℓhA}{ℓoB}{ℓhB} → {dcA : DCat ℓoA ℓhA} → {dcB : DCat ℓoB ℓhB} → {dcf dcg : dcA dc→ dcB}
   → (df.f dcf == df.f dcg) → dcf == dcg
 dfunctorext {ℓoA}{ℓhA}{ℓoB}{ℓhB} {dcA}{dcB} {mk-df cf p} {mk-df .cf q} refl = map= (mk-df cf) (λi= x => λi= y => λ= φ => uip)

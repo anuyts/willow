@@ -1,7 +1,6 @@
 module willow.cat.Groupoids.LocalizationFunctor where
 
 open import willow.cat.Groupoids public
-open import willow.cat.Adjunction public
 open import willow.cat.Locpath.Fuse public
 
 cloc : {ℓo ℓh : Level} → cCat ℓo ℓh ++> cGrpd ℓo (ℓo ⊔ ℓh)

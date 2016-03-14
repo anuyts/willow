@@ -1,7 +1,6 @@
 module willow.cat.Groupoids.CoreFunctor where
 
 open import willow.cat.Groupoids public
-open import willow.cat.Adjunction public
 
 ccore : {ℓo ℓh : Level} → cCat ℓo ℓh ++> cGrpd ℓo ℓh
 ccore = record

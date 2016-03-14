@@ -58,12 +58,3 @@ fuse-map-rz gA gB cf (rz rz< φ) =
   via (g.cat gB $ g.inv gB (f.hom cf φ) m∘ fuseRawZigzag gB (mapRawZigzag cf rz)) $
     map= (λ ξ → g.cat gB $ g.inv gB (f.hom cf φ) m∘ ξ) (fuse-map-rz gA gB cf rz) • 
   refl
-
---the adjunction lemma-----------------------------------------------
-
-{-
-adjunction-lemma : ∀{ℓoA ℓhA ℓoB ℓhB}
-  (cA : Cat ℓoA ℓhA) (gB : Groupoid ℓoB ℓhB)
-  (cf : cLoc cA ++> g.cat gB)
-  {x y : c.Obj cA} (rz : RawZigzag cA x y)
--}
