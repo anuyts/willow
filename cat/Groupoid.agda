@@ -4,6 +4,8 @@ open import willow.cat.Isomorphism public
 open import willow.cat.Locpath public
 open import willow.cat.Opposite public
 
+--NOTE: INSTEAD OF IMPLEMENTING LOCALIZATION AND CORE, IMPLEMENT UNITARIZATION AND UNITARY CORE
+
 IsGrpd : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → Set (ℓh ⊔ ℓo)
 IsGrpd c = {x y : c.Obj c} → (φ : c.Hom c x y) → IsIso c φ
 

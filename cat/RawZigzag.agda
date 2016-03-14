@@ -70,6 +70,45 @@ precomp-twice-dn rz-refl ψ φ = refl
 precomp-twice-dn (rz rz> ξ) ψ φ = map= (λ rz' → rz' rz> ξ) (precomp-twice-dn rz ψ φ)
 precomp-twice-dn (rz rz< ξ) ψ φ = map= (λ rz' → rz' rz< ξ) (precomp-twice-dn rz ψ φ)
 
+rz-inv-rz• : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y z : c.Obj c}
+  → (rz-l : RawZigzag c x y) → (rz-r : RawZigzag c y z)
+  → rz-inv (rz-l rz• rz-r) == (rz-inv rz-r) rz• (rz-inv rz-l)
+rz-inv-rz• rz-l rz-refl = sym (rz•lunit (rz-inv rz-l))
+rz-inv-rz• rz-l (rz-r rz> φ) =
+  {-IDEA
+    (rzl • (rzr, φ))-1 := ((rzl • rzr), φ)-1 := (φ*) • (rzl • rzr)-1
+    = (φ*) • (rzr-1 • rzl-1)
+    = ((φ*) • rzr-1) • rzl-1
+    =: (rzr, φ)-1 • rzl-1
+  -}
+  via (rz-bck φ) rz• rz-inv (rz-l rz• rz-r) $ refl •
+  via (rz-bck φ) rz• (rz-inv rz-r rz• rz-inv rz-l) $
+    map= (λ rz → (rz-bck φ) rz• rz) (rz-inv-rz• rz-l rz-r) •
+  sym (rz•assoc (rz-bck φ) (rz-inv rz-r) (rz-inv rz-l))
+rz-inv-rz• rz-l (rz-r rz< φ) =
+  via (rz-fwd φ) rz• rz-inv (rz-l rz• rz-r) $ refl •
+  via (rz-fwd φ) rz• (rz-inv rz-r rz• rz-inv rz-l) $
+    map= (λ rz → (rz-fwd φ) rz• rz) (rz-inv-rz• rz-l rz-r) •
+  sym (rz•assoc (rz-fwd φ) (rz-inv rz-r) (rz-inv rz-l))
+
+rz-inv-inv : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c}
+  → (rz : RawZigzag c x y) → rz-inv (rz-inv rz) == rz
+rz-inv-inv rz-refl = refl
+rz-inv-inv (rz rz> φ) =
+  {-IDEA
+    (rz, φ)-1-1 := ((φ*) • rz -1)-1
+    = rz -1-1 • (φ*)-1 = rz • (φ*)-1 =: (rz, φ)
+  -}
+  via rz-inv(rz-bck φ rz• rz-inv rz) $ refl •
+  via rz-inv(rz-inv rz) rz• rz-inv(rz-bck φ) $ rz-inv-rz• (rz-bck φ) (rz-inv rz) •
+  via rz rz• rz-fwd φ $ map= (λ rz' → rz' rz• rz-fwd φ) (rz-inv-inv rz) •
+  refl
+rz-inv-inv (rz rz< φ) =
+  via rz-inv(rz-fwd φ rz• rz-inv rz) $ refl •
+  via rz-inv(rz-inv rz) rz• rz-inv(rz-fwd φ) $ rz-inv-rz• (rz-fwd φ) (rz-inv rz) •
+  via rz rz• rz-bck φ $ map= (λ rz' → rz' rz• rz-bck φ) (rz-inv-inv rz) •
+  refl
+
 --mapping zigzags---------------------------
 
 mapRawZigzag : ∀{ℓoA ℓhA ℓoB ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → (cf : cA ++> cB) → {x y : c.Obj cA} → (rz : RawZigzag cA x y) → RawZigzag cB (f.obj cf x) (f.obj cf y)

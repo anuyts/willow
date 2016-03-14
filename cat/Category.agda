@@ -6,6 +6,7 @@ open import willow.basic.UIP public
 
 record Cat (α β : Level) : Set (lsuc (α ⊔ β)) where
   no-eta-equality
+  constructor mkCat
   field
     Obj : Set α
     Hom : (x : Obj) → (y : Obj) → Set β

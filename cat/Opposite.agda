@@ -1,6 +1,8 @@
 module willow.cat.Opposite where
 
 open import willow.cat.Category
+open import willow.cat.Categories
+open import willow.cat.Isomorphism public
 
 cOp : ∀{ℓo ℓh} → Cat ℓo ℓh → Cat ℓo ℓh
 cOp c = record
@@ -20,3 +22,19 @@ c-op cf = record
   ; hom-id = f.hom-id cf
   ; hom-m∘ = λ ψ φ → f.hom-m∘ cf φ ψ
   }
+
+≅OpOp : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → Iso (cCat ℓo ℓh) c (cOp (cOp c))
+--
+f.obj (Iso.fwd (≅OpOp c)) x = x
+f.hom (Iso.fwd (≅OpOp c)) φ = φ
+f.hom-id (Iso.fwd (≅OpOp c)) x = refl
+f.hom-m∘ (Iso.fwd (≅OpOp c)) ψ φ = refl
+--
+f.obj (Iso.bck (≅OpOp c)) x = x
+f.hom (Iso.bck (≅OpOp c)) φ = φ
+f.hom-id (Iso.bck (≅OpOp c)) x = refl
+f.hom-m∘ (Iso.bck (≅OpOp c)) ψ φ = refl
+--
+≅.src-id (≅OpOp c) = refl
+--
+≅.tgt-id (≅OpOp c) = refl

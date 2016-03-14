@@ -31,3 +31,22 @@ zz-inv {_}{_}{c}{x} = elim-zz
   (λ y → Zigzag c y x)
   (λ y rz → mk-zz (rz-inv rz))
   (λ y rza rzb p → eq-zz (eq-zz-inv rza rzb p))
+
+zz-inv-zz• : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c}
+  → (ζ : Zigzag c x y) → {z : c.Obj c} → (η : Zigzag c y z)
+  → zz-inv (ζ zz• η) == (zz-inv η) zz• (zz-inv ζ)
+zz-inv-zz• {ℓo}{ℓh} {c} {x} = elimd-zz
+  (λ y ζ → {z : c.Obj c} → (η : Zigzag c y z) → zz-inv (ζ zz• η) == (zz-inv η) zz• (zz-inv ζ))
+  (λ y rz-l → elimd-zz
+    (λ z η → zz-inv (mk-zz rz-l zz• η) == (zz-inv η) zz• (zz-inv (mk-zz rz-l)))
+    (λ z rz-r → map= mk-zz (rz-inv-rz• rz-l rz-r))
+    (λ z rz-r rz-r' p → uip)
+  )
+  (λ y rz rz' p → λi= z => λ= η => uip)
+
+zz-inv-inv : ∀{ℓo ℓh} {c : Cat ℓo ℓh} {x y : c.Obj c}
+  → (ζ : Zigzag c x y) → zz-inv (zz-inv ζ) == ζ
+zz-inv-inv {ℓo}{ℓh} {c} {x} = elimd-zz
+  (λ y ζ → zz-inv (zz-inv ζ) == ζ)
+  (λ y rz → map= mk-zz (rz-inv-inv rz))
+  (λ y rz rz' p → uip)
