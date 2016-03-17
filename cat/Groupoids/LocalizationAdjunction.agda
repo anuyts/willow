@@ -1,6 +1,7 @@
 module willow.cat.Groupoids.LocalizationAdjunction where
 
 open import willow.cat.Groupoids.LocalizationFunctor public
+open import willow.cat.Adjunction public
 
 -- prerequisites --------------------
 

@@ -3,6 +3,10 @@ module willow.cat.Everything where
 open import willow.cat.Adjunction public
 open import willow.cat.Categories public
 open import willow.cat.Category public
+open import willow.cat.DaggerCategories public
+open import willow.cat.DaggerCategories.BidirAdjunction public
+--open import willow.cat.DaggerCategories.ZigzagsAdjunction public
+open import willow.cat.DaggerCategory public
 open import willow.cat.Groupoid public
 open import willow.cat.Groupoids public
 open import willow.cat.Groupoids.CoreAdjunction public

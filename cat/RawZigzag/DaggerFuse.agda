@@ -58,3 +58,20 @@ dfuse-map-rz dcA dcB dcf (rz rz< φ) =
   via (dc.cat dcB $ dc.† dcB (df.hom dcf φ) m∘ dfuseRawZigzag dcB (mapRawZigzag (df.f dcf) rz)) $
     map= (λ ξ → dc.cat dcB $ dc.† dcB (df.hom dcf φ) m∘ ξ) (dfuse-map-rz dcA dcB dcf rz) • 
   refl
+
+--dfuse of the inverse, yields the dagger
+
+dfuse-rz-inv : ∀{ℓo}{ℓh} (dcA : DCat ℓo ℓh) {x y : dc.Obj dcA} (rz : RawZigzag (dc.cat dcA) x y)
+  → dfuseRawZigzag dcA (rz-inv rz) == dc.† dcA (dfuseRawZigzag dcA rz)
+dfuse-rz-inv dcA rz-refl = sym (dc.†-id dcA _)
+dfuse-rz-inv dcA (rz rz> φ) =
+  dfuse-rz• dcA (rz-bck φ) (rz-inv rz) •
+  map= (λ ξ → (dc.cat dcA) $ (dfuseRawZigzag dcA (rz-inv rz)) m∘ ξ) (dc.m∘runit dcA) •
+  map= (λ ξ → (dc.cat dcA) $ ξ m∘ dc.† dcA φ) (dfuse-rz-inv dcA rz) •
+  sym (dc.†-m∘ dcA φ (dfuseRawZigzag dcA rz))
+dfuse-rz-inv dcA (rz rz< φ) = 
+  dfuse-rz• dcA (rz-fwd φ) (rz-inv rz) •
+  map= (λ ξ → (dc.cat dcA) $ (dfuseRawZigzag dcA (rz-inv rz)) m∘ ξ) (dc.m∘runit dcA) •
+  map= (λ ξ → (dc.cat dcA) $ (dfuseRawZigzag dcA (rz-inv rz)) m∘ ξ) (sym (dc.††-eq dcA φ)) •
+  map= (λ ξ → (dc.cat dcA) $ ξ m∘ dc.† dcA (dc.† dcA φ)) (dfuse-rz-inv dcA rz) •
+  sym (dc.†-m∘ dcA (dc.† dcA φ) (dfuseRawZigzag dcA rz))

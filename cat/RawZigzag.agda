@@ -134,3 +134,14 @@ mapRawZigzag-c∘ : ∀{ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} → {cA : Cat ℓoA
 mapRawZigzag-c∘ cg cf rz-refl = refl
 mapRawZigzag-c∘ cg cf (rz rz> φ) = map= (λ rz' → rz' rz> f.hom (cg c∘ cf) φ) (mapRawZigzag-c∘ cg cf rz)
 mapRawZigzag-c∘ cg cf (rz rz< φ) = map= (λ rz' → rz' rz< f.hom (cg c∘ cf) φ) (mapRawZigzag-c∘ cg cf rz)
+
+map-rz-inv : ∀{ℓoA ℓhA ℓoB ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → (cf : cA ++> cB)
+  → {x y : c.Obj cA} → (rz : RawZigzag cA x y)
+  → mapRawZigzag cf (rz-inv rz) == rz-inv (mapRawZigzag cf rz)
+map-rz-inv cf rz-refl = refl
+map-rz-inv cf (rz rz> φ) =
+  map-rz• cf (rz-refl rz< φ) (rz-inv rz) •
+  map= (λ rz' → (rz-refl rz< f.hom cf φ) rz• rz') (map-rz-inv cf rz)
+map-rz-inv cf (rz rz< φ) = 
+  map-rz• cf (rz-refl rz> φ) (rz-inv rz) •
+  map= (λ rz' → (rz-refl rz> f.hom cf φ) rz• rz') (map-rz-inv cf rz)

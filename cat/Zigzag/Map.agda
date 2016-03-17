@@ -3,6 +3,7 @@ module willow.cat.Zigzag.Map where
 open import willow.cat.RawZigzag public
 open import willow.cat.Zigzag.Definition public
 open import willow.cat.Zigzag.Composition public
+open import willow.cat.Zigzag.Inversion public
 
 --mapping locpaths-----------------------------------------
 
@@ -69,12 +70,10 @@ mapZigzag-c∘ cg cf {x} = elimd-zz
   (λ y rz → map= mk-zz (mapRawZigzag-c∘ cg cf rz))
   (λ y rz rz' p → uip)
 
---the adjunction lemma---------------------------
-
-{-
-adjunction-lemma-zz : ∀{ℓoA ℓhA ℓoB ℓhB}
-  (cA : Cat ℓoA ℓhA) (gB : Groupoid ℓoB ℓhB)
-  (cf : cLoc cA ++> g.cat gB)
-  {x y : c.Obj cA} (zz : Zigzag cA x y)
-  →
--}
+map-zz-inv : ∀{ℓoA ℓhA ℓoB ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → (cf : cA ++> cB)
+  → {x y : c.Obj cA} → (ζ : Zigzag cA x y)
+  → mapZigzag cf (zz-inv ζ) == zz-inv (mapZigzag cf ζ)
+map-zz-inv {_}{_}{_}{_} {cA}{cB} cf {x} = elimd-zz
+  (λ y ζ → mapZigzag cf (zz-inv ζ) == zz-inv (mapZigzag cf ζ))
+  (λ y rz → map= mk-zz (map-rz-inv cf rz))
+  (λ y rz rz' p → uip)

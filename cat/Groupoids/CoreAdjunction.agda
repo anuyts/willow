@@ -4,6 +4,7 @@
 module willow.cat.Groupoids.CoreAdjunction where
 
 open import willow.cat.Groupoids.CoreFunctor public
+open import willow.cat.Adjunction public
 
 coreAdjunction : ∀{ℓo ℓh} → cforgetGrpd{ℓo}{ℓh} ⊣ ccore{ℓo}{ℓh}
 ≅.fwd coreAdjunction = record

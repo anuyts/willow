@@ -53,3 +53,12 @@ dfuse-map-zz dcA dcB dcf {x} = elimd-zz
   (λ y zz → df.hom dcf (dfuseZigzag dcA zz) == dfuseZigzag dcB (mapZigzag (df.f dcf) zz))
   (λ y rz → dfuse-map-rz dcA dcB dcf rz)
   (λ y rz rz' p → uip)
+
+--dfuse of the inverse, yields the dagger
+
+dfuse-zz-inv : ∀{ℓo}{ℓh} (dcA : DCat ℓo ℓh) {x y : dc.Obj dcA} (ζ : Zigzag (dc.cat dcA) x y)
+  → dfuseZigzag dcA (zz-inv ζ) == dc.† dcA (dfuseZigzag dcA ζ)
+dfuse-zz-inv dcA {x} = elimd-zz
+  (λ y ζ → dfuseZigzag dcA (zz-inv ζ) == dc.† dcA (dfuseZigzag dcA ζ))
+  (λ y rz → dfuse-rz-inv dcA rz)
+  (λ y rz rz' p → uip)
