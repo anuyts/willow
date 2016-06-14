@@ -9,6 +9,6 @@ data Vector {ξ} (X : Set ξ) : (n : Nat) -> Set ξ where
 
 infixr 5 _v::_
 
-_[_] : {X : Set} -> {n : Nat} -> Vector X n -> Fin n -> X
-(x v:: xs) [ fzero ] = x
-(x v:: xs) [ fsuc n ] = xs [ n ]
+_v[_] : {X : Set} -> {n : Nat} -> Vector X n -> Fin n -> X
+(x v:: xs) v[ fzero ] = x
+(x v:: xs) v[ fsuc n ] = xs v[ n ]
