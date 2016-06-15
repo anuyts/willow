@@ -23,6 +23,12 @@ cSet× = record
   ; hom-m∘ = λ gs fs → refl
   }
 
+c-setlift : ∀(ℓ ℓ' : Level) → cSet ℓ ++> cSet (ℓ ⊔ ℓ')
+f.obj (c-setlift ℓ ℓ') X = Lift {ℓ}{ℓ'} X
+f.hom (c-setlift ℓ ℓ') f x = lift (f (lower x))
+f.hom-id (c-setlift ℓ ℓ') X = refl
+f.hom-m∘ (c-setlift ℓ ℓ') g f = refl
+
 {-
 mcSet : (α : Level) → MCat (lsuc α) α
 mcSet α = record
