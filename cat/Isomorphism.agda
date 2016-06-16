@@ -16,6 +16,12 @@ module ≅ = Iso --cong
 IsIso : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y : c.Obj c} → (φ : c.Hom c x y) → Set ℓh
 IsIso {_}{_} c {x}{y} φ = Sum λ (η : Iso c x y) → ≅.fwd η == φ
 
+i-refurbish : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y : c.Obj c} → {φ : c.Hom c x y} → (p : IsIso c φ) → Iso c x y
+≅.fwd (i-refurbish c {x}{y}{φ} p) = φ
+≅.bck (i-refurbish c {x}{y}{φ} p) = ≅.bck (prl p)
+≅.src-id (i-refurbish c {x}{y}{φ} p) = map= (λ ξ → c $ ≅.bck (prl p) m∘ ξ) (sym (prr p)) • ≅.src-id (prl p)
+≅.tgt-id (i-refurbish c {x}{y}{φ} p) = map= (λ ξ → c $ ξ m∘ ≅.bck (prl p)) (sym (prr p)) • ≅.tgt-id (prl p)
+
 _$_i∘_ : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y z : c.Obj c} → (ψ : Iso c y z) → (φ : Iso c x y) → Iso c x z
 c $ ψ i∘ φ = record
   { fwd = c $ ≅.fwd ψ m∘ ≅.fwd φ

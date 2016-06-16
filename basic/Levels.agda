@@ -2,7 +2,7 @@ module willow.basic.Levels where
 
 open import Agda.Primitive public
 
-record Lift {a ℓ} (A : Set a) : Set (a ⊔ ℓ) where
+record Lift {ℓ↓ ℓ↑} (A : Set ℓ↓) : Set (ℓ↓ ⊔ ℓ↑) where
   constructor lift
   field lower : A
 open Lift public
