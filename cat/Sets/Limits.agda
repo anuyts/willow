@@ -3,6 +3,32 @@ module willow.cat.Sets.Limits where
 open import willow.cat.Sets public
 open import willow.cat.Limits public
 
+record Lim {ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} (cd : cI ++> cSet ℓ) : Set (ℓ ⊔ ℓoI ⊔ ℓhI) where
+  field
+    obj : (i : c.Obj cI) → f.obj cd i
+    hom : {i j : c.Obj cI} → (η : c.Hom cI i j) → f.hom cd η (obj i) == obj j
+
+
+
+cSetHasLimits : ∀{ℓ} → HasLimits (cSet ℓ) ℓ ℓ
+
+prl (cSetHasLimits {ℓ} {cI} cd) = Lim cd
+
+--≅.fwd is a NT that maps cones from X to maps (X → Lim cd)
+--(lower ... x) is the element of the limit you get for x : X
+Lim.obj (lower (nt.obj (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) X q) x) i = Cone.obj q i x
+Lim.hom (lower (nt.obj (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) X q) x) {i}{j} η =
+  map= (λ h → h x) (Cone.hom q η)
+nt.hom (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= q => map= lift (λ= x => {!!}) -- need lim-ext
+
+nt.obj (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) = {!!}
+nt.hom (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) = {!!}
+
+≅.src-id (prr (cSetHasLimits {ℓ} {cI} cd)) = {!!}
+
+≅.tgt-id (prr (cSetHasLimits {ℓ} {cI} cd)) = {!!}
+
+{-
 cSetHasLimits : ∀{ℓ} → HasLimits (cSet ℓ) ℓ ℓ
 prl (cSetHasLimits {ℓ} {cI} cd) = Cone (Lift ⊤) cd
 
@@ -39,3 +65,4 @@ nt.hom(≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} g = λ= liftf => cone
 
 Limset : ∀{ℓ} {cI : Cat ℓ ℓ} (cd : cI ++> cSet ℓ) → Set ℓ
 Limset cd = prl (cSetHasLimits cd)
+-}
