@@ -4,11 +4,14 @@ open import willow.cat.Sets public
 open import willow.cat.Limits public
 
 record Lim {ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} (cd : cI ++> cSet ℓ) : Set (ℓ ⊔ ℓoI ⊔ ℓhI) where
+  no-eta-equality
+  constructor mk-lim
   field
     obj : (i : c.Obj cI) → f.obj cd i
     hom : {i j : c.Obj cI} → (η : c.Hom cI i j) → f.hom cd η (obj i) == obj j
 
-
+lim-ext : ∀{ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} {cd : cI ++> cSet ℓ} {la lb : Lim cd} (p : Lim.obj la == Lim.obj lb) → la == lb
+lim-ext {cI = cI}{cd}{mk-lim obj ahom}{mk-lim .obj bhom} refl = map= (mk-lim obj) (λ¶i i => λ¶i j => λ¶ η => uip)
 
 cSetHasLimits : ∀{ℓ} → HasLimits (cSet ℓ) ℓ ℓ
 
@@ -19,14 +22,16 @@ prl (cSetHasLimits {ℓ} {cI} cd) = Lim cd
 Lim.obj (lower (nt.obj (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) X q) x) i = Cone.obj q i x
 Lim.hom (lower (nt.obj (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) X q) x) {i}{j} η =
   map= (λ h → h x) (Cone.hom q η)
-nt.hom (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= q => map= lift (λ= x => {!!}) -- need lim-ext
+nt.hom (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= q => map= lift (λ= x => lim-ext refl)
 
-nt.obj (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) = {!!}
-nt.hom (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) = {!!}
+--≅.bck is a NT that maps maps (X → Lim cd) to cones from X
+Cone.obj (nt.obj (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) X (lift g)) i x = Lim.obj (g x) i
+Cone.hom (nt.obj (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) X (lift g)) {i}{j} η = λ= x => Lim.hom (g x) η
+nt.hom (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= liftg => cone-ext refl
 
-≅.src-id (prr (cSetHasLimits {ℓ} {cI} cd)) = {!!}
+≅.src-id (prr (cSetHasLimits {ℓ} {cI} cd)) = nt-ext (λ= X => λ= q => cone-ext (λ= i => λ= x => refl))
 
-≅.tgt-id (prr (cSetHasLimits {ℓ} {cI} cd)) = {!!}
+≅.tgt-id (prr (cSetHasLimits {ℓ} {cI} cd)) = nt-ext (λ= X => λ= liftg => map= lift (λ= x => lim-ext refl))
 
 {-
 cSetHasLimits : ∀{ℓ} → HasLimits (cSet ℓ) ℓ ℓ

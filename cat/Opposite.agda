@@ -38,3 +38,8 @@ f.hom-m∘ (Iso.bck (≅OpOp c)) ψ φ = refl
 ≅.src-id (≅OpOp c) = refl
 --
 ≅.tgt-id (≅OpOp c) = refl
+
+nt-op : ∀{ℓoA ℓhA ℓoB ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB}
+  → {cf cg : cA ++> cB} → (nta : cf nt→ cg) → (c-op cg nt→ c-op cf)
+nt.obj (nt-op nta) x = nt.obj nta x
+nt.hom (nt-op nta) φ = sym (nt.hom nta φ)
