@@ -8,6 +8,7 @@ open import willow.cat.OfElements.DeptPairFunctor public
 open import willow.cat.Sets.Limits public
 open import willow.cat.HomFunctor
 open import willow.basic.TransportLemmas
+open import willow.basic.Propositional.HeteroIdentity
 
 {-
   -You get a natural transformation on Ctx^op × ∫ Ty ++> Set, from
@@ -15,8 +16,8 @@ open import willow.basic.TransportLemmas
     Δ Γ T ↦ Sum (σ : Sub Δ Γ) Tm Δ T[σ]
    Define both functors and the NT and require it to be an isomorphism.
 -}
-
 record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm)) where
+  no-eta-equality
   field
     cCtx : Cat ℓctx ℓsub
     
@@ -48,7 +49,10 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   Tsub {Δ} {Γ} T σ = f.hom c-ty σ T
   _T[_] = Tsub
 
-  T[][] : {Θ Δ Γ : c.Obj cCtx} {T : Ty Γ} {σ : Sub Δ Γ} {τ : Sub Θ Δ} → T T[ σ σ∘ τ ] == (T T[ σ ]) T[ τ ]
+  T[id] : {Γ : Ctx} {T : Ty Γ} → T T[ σ-id Γ ] == T
+  T[id] {Γ}{T} = map= (λ h → h T) (f.hom-id c-ty Γ)
+
+  T[][] : {Θ Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {τ : Sub Θ Δ} → T T[ σ σ∘ τ ] == (T T[ σ ]) T[ τ ]
   T[][] {Θ}{Δ}{Γ}{T}{σ}{τ} = map= (λ h → h T) (f.hom-m∘ c-ty τ σ)
 
   _„_ : (Γ : Ctx) → (T : Ty Γ) → Ctx
@@ -72,23 +76,51 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   field
     --lim-var is an element of the limit of (Γ, T) ↦ Tm(Γ.T, T[wkn])
     lim-var : Lim (c-tm c∘ c-op c-aux-compr)
+        
+  tvar : {Γ : c.Obj cCtx} → {T : f.obj c-ty Γ} → f.obj c-tm ((Γ „ T) , (f.hom c-ty σwkn T))
+  tvar {Γ}{T} = Lim.obj lim-var (Γ , T)
+
+  field
+    canpair : {Δ Γ : c.Obj cCtx} → {T : f.obj c-ty Γ} →
+      IsIso (cSet (ℓtm ⊔ ℓsub))
+        {Lift {ℓ↑ = ℓtm ⊔ ℓsub} (c.Hom cCtx Δ (Γ „ T))}
+        {Sum λ(σ : c.Hom cCtx Δ Γ) → f.obj c-tm (Δ , f.hom c-ty σ T)}
+        (λ {(lift τ) →
+          (cCtx $ σwkn m∘ τ) ,
+          (f.hom c-tm (τ , sym (map= (λ f → f T) (f.hom-m∘ c-ty τ σwkn))) tvar)
+        })
+
+  i-unpair : {Δ Γ : Ctx} → {T : Ty Γ} →
+      Iso (cSet (ℓtm ⊔ ℓsub))
+        (Lift {ℓ↑ = ℓtm ⊔ ℓsub} (Sub Δ (Γ „ T)))
+        (Sum λ(σ : Sub Δ Γ) → Tm Δ (T T[ σ ]))
+  i-unpair = i-refurbish (cSet (ℓtm ⊔ ℓsub)) canpair
+
+  i-pair : {Δ Γ : Ctx} → {T : Ty Γ} →
+      Iso (cSet (ℓtm ⊔ ℓsub))
+        (Sum λ(σ : Sub Δ Γ) → Tm Δ (T T[ σ ]))
+        (Lift {ℓ↑ = ℓtm ⊔ ℓsub} (Sub Δ (Γ „ T)))
+  i-pair = i-inv (cSet (ℓtm ⊔ ℓsub)) i-unpair
+
+  _“_ : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → Sub Δ (Γ „ T)
+  σ “ t = lower (≅.fwd i-pair (σ , t))
 
   -- this is the functor (Δ, (Γ, T)) ↦ Sub Δ Γ.T
   cSubIntoCompr : cOp cCtx c× cOp∫ c-ty ++> cSet ℓsub
   cSubIntoCompr = cHom cCtx c∘ (c-prl (cOp cCtx) (cOp∫ c-ty) c⊠ c-compr c∘ c-prr (cOp cCtx) (cOp∫ c-ty))
 
+--  t[id] : {Γ : Ctx} {T : Ty Γ} {t : Tm Γ T} → t t[ σ-id Γ ] === t
+--  t[id] {Γ}{T}{t} rewrite toAgdaEq (sym (T[id] {Γ} {T})) = {!prr (c.id (cOp∫ c-ty) (Γ , T))!}
+
+  {-
   -- this is the functor (Δ, (Γ, T)) ↦ Sum (σ : Sub Δ Γ) Tm Δ T[σ]
   cSubAndTerm : cOp cCtx c× cOp∫ c-ty ++> cSet (ℓsub ⊔ ℓtm)
-  cSubAndTerm = mk-f
-    --obj
-    ( λ Δ,Γ,T →
+  _++>_.obj cSubAndTerm = λ Δ,Γ,T →
           let Δ = prl Δ,Γ,T
               Γ = prl (prr Δ,Γ,T)
               T = prr (prr Δ,Γ,T)
           in  Sum λ (σ : Sub Δ Γ) → Tm Δ (T T[ σ ])
-    )
-    --hom
-    ( λ {Δ,Γ,T} {Δ',Γ',T'} δ,γ,p σ,t →
+  _++>_.hom cSubAndTerm = λ {Δ,Γ,T} {Δ',Γ',T'} δ,γ,p σ,t →
           let Δ = prl Δ,Γ,T
               Γ = prl (prr Δ,Γ,T)
               T = prr (prr Δ,Γ,T)
@@ -107,30 +139,28 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
                 via T' T[ (γ σ∘ σ) σ∘ δ ] $ (sym T[][]) • 
                 via T' T[ f.hom (cHom cCtx) (δ , γ) σ ] $ map= (λ τ → T' T[ τ ]) refl • refl
               of (t t[ δ ]))
-    )
-    --hom-id
-    (λ {(Δ , (Γ , T)) → λ= σ,t => pair-ext
+  _++>_.hom-id cSubAndTerm = λ {(Δ , (Γ , T)) → λ= σ,t => pair-hext
         (map= (λ h → h (prl σ,t)) (f.hom-id (cHom cCtx) (Δ , Γ)))
         (
-          (map= (tra (λ σ → Tm Δ (T T[ σ ])) / _) tra-canon • tra-canon • tra-comp • {!!})
+          (htra (Tm Δ) / _ of ((prr σ,t) t[ c.id cCtx Δ ])) h• {!!}
         )
-      })
-    --hom-m∘
-    {!!}
-    --; hom-id = {!!}
-    --; hom-m∘ = {!!}
-   -- }
-
-  field
-    test : ⊤
-
-  --tvar : {Γ : Ctx} → {T : Ty Γ} → Tm (Γ „ T) (T T[ σwkn ])
-  --prl (tvar {Γ}{T}) = {!!}
-  --prr (tvar {Γ}{T}) = {!!}
+        {-(
+          map= (tra (λ σ → Tm Δ (T T[ σ ])) / _) (tra-canon {B = Tm Δ} {b = (prr σ,t) t[ c.id cCtx Δ ]}) •
+          tra-canon
+            {B = (λ σ → Tm Δ (T T[ σ ]))}
+            {b = (tra idf / map= (Tm Δ) _ of (prr σ,t t[ Cat.id cCtx Δ ]))} •
+          tra-comp {B = idf} {p = map= (Tm Δ) _} {q = map= (λ σ → Tm Δ (T T[ σ ])) _} {b = (prr σ,t) t[ c.id cCtx Δ ]} •
+          via {!tra idf / refl of (prr σ,t t[ Cat.id cCtx Δ ])!} $ {!!} •
+          {!!}
+          --tra-canon {B = (λ σ → Tm Δ (T T[ σ ]))} • {!!}
+          --(map= (tra (λ σ → Tm Δ (T T[ σ ])) / _) tra-canon • tra-canon • tra-comp • {!!})
+        )-}
+      }
+  _++>_.hom-m∘ cSubAndTerm ψ φ = {!!}
+  -}
 
 
 --This is leading nowhere!
-
 {-
 record CwF' (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm)) where
   field
@@ -213,8 +243,9 @@ record CwF' (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
         T = prr Γ,T
         σ = prl σ,p
         p = prr σ,p
+        q : (Tσ T[ σwkn ]) == (T T[ σ σ∘ σwkn ])
         q = map= (λ S → S T[ σwkn ]) (sym p) • sym T[][]
-    in  (prl σ,p σ∘ σwkn) “ (tra Tm (Δ „ Tσ) / q of tvar)
+    in  (σ σ∘ σwkn) “ (tra Tm (Δ „ Tσ) / q of tvar)
   f.hom-id c-compr Γ,T =
     let Γ = prl Γ,T
         T = prr Γ,T

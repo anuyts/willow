@@ -27,3 +27,13 @@ tra_/_ = transport
 
 sym : ∀{α} → {A : Set α} → {a b : A} → (a == b) → (b == a)
 sym refl = refl
+
+infix 4 _≡_
+data _≡_ {a} {A : Set a} (x : A) : A → Set a where
+  instance arefl : x ≡ x
+
+{-# BUILTIN EQUALITY _≡_ #-}
+{-# BUILTIN REFL arefl #-}
+
+toAgdaEq : ∀{ℓ} {A : Set ℓ} → {a b : A} → (a == b) → a ≡ b
+toAgdaEq refl = arefl
