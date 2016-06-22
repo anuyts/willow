@@ -1,18 +1,37 @@
 {-OPTIONS -vtc.pos.tick:100 -vtc.pos.graph:100 -vtc.pos.check:100
               -vtc.pos.record:100 -vtc.pos.args:100 -vtc.pos:25-} 
 
-open import willow.cat.CwF
+open import willow.cat.CwF public
 
 module willow.cat.CwF.Psh {ℓoW ℓhW : Level} (ℓty ℓtm : Level) (cW : Cat ℓoW ℓhW) where
 
-open import willow.cat.Presheaf ℓty cW
+open import willow.cat.Presheaf ℓty cW public
 
 postulate hole : ∀{ℓ} {A : Set ℓ} → A
 
 cwfPsh : CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓty) (ℓoW ⊔ ℓhW ⊔ lsuc ℓty) ℓty ℓtm
 CwF.cCtx cwfPsh = cPsh
 CwF.∙ cwfPsh = p⊤
-CwF.∙isterminal cwfPsh = hole --isterminal-p⊤
+CwF.∙isterminal cwfPsh = --hole --isterminal-p⊤
+  let IsTerminalUncurried : Sum (λ (cA : Cat (ℓoW ⊔ ℓhW ⊔ lsuc ℓty) (ℓoW ⊔ ℓhW ⊔ lsuc ℓty)) → c.Obj cA)
+                          → Set (lsuc (lsuc ℓty) ⊔ (lsuc ℓhW ⊔ lsuc ℓoW))
+      IsTerminalUncurried = λ {(cA , a) → IsTerminal cA a}
+      p : Sum (λ (cA : Cat _ _) → c.Obj cA) $ (CwF.cCtx cwfPsh , CwF.∙ cwfPsh) == (cPsh , p⊤)
+      p = refl
+      --isterminaluncurried-p⊤ : IsTerminalUncurried (cPsh , p⊤)
+      --isterminaluncurried-p⊤ = isterminal-p⊤
+      q : IsTerminal (CwF.cCtx cwfPsh) (CwF.∙ cwfPsh) == IsTerminal cPsh p⊤
+      q = via IsTerminalUncurried (CwF.cCtx cwfPsh , CwF.∙ cwfPsh) $ refl •
+          via IsTerminalUncurried (cPsh , p⊤) $ map= IsTerminalUncurried p •
+          via IsTerminal cPsh p⊤ $ refl •
+          refl
+  in  tra idf / sym q of (IsTerminal cPsh p⊤ ∋ {!isterminal-p⊤!})
+  --{!IsTerminalUncurried (CwF.cCtx cwfPsh , CwF.∙ cwfPsh) ∋ (tra IsTerminalUncurried / p of ((IsTerminalUncurried (cPsh , p⊤)) ∋ {!isterminal-p⊤!}))!}
+  {-
+  IsTerminal (CwF.cCtx cwfPsh) (CwF.∙ cwfPsh) ∋ (tra (λ cA → IsTerminal cA (CwF.∙ cwfPsh)) / refl of (
+    IsTerminal cPsh (CwF.∙ cwfPsh) ∋ ?
+  ))
+  -}
 CwF.c-ty cwfPsh = hole
 CwF.c-tm cwfPsh = hole
 CwF.c-compr cwfPsh = hole
