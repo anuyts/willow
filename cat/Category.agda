@@ -43,29 +43,25 @@ infix 1 _++>_
 module f = _++>_
 
 _c∘_ : ∀{α β γ δ ε ζ} → {cA : Cat α β} → {cB : Cat γ δ} → {cC : Cat ε ζ} → (cB ++> cC) → (cA ++> cB) → (cA ++> cC)
-_c∘_ {α}{β}{γ}{δ}{ε}{ζ} {cA}{cB}{cC} cg cf = record
-  { obj = (f.obj cg) ∘ (f.obj cf)
-  ; hom = (f.hom cg) ∘ (f.hom cf)
-  ; hom-id = λ a → via f.hom cg (c.id cB (f.obj cf a)) $ map= (f.hom cg) (f.hom-id cf a) • f.hom-id cg (f.obj cf a)
-  ; hom-m∘ = λ ψ φ → map= (f.hom cg) (f.hom-m∘ cf ψ φ) • f.hom-m∘ cg (f.hom cf ψ) (f.hom cf φ)
-  }
+f.obj (cg c∘ cf) = f.obj cg ∘ f.obj cf
+f.hom (cg c∘ cf) = f.hom cg ∘ f.hom cf
+f.hom-id (_c∘_ {α}{β}{γ}{δ}{ε}{ζ} {cA}{cB}{cC} cg cf) a =
+  via f.hom cg (c.id cB (f.obj cf a)) $ map= (f.hom cg) (f.hom-id cf a) • f.hom-id cg (f.obj cf a)
+f.hom-m∘ (_c∘_ {α}{β}{γ}{δ}{ε}{ζ} {cA}{cB}{cC} cg cf) ψ φ =
+  map= (f.hom cg) (f.hom-m∘ cf ψ φ) • f.hom-m∘ cg (f.hom cf ψ) (f.hom cf φ)
 infixl 10 _c∘_
 
 c-id : ∀{α β} → (cA : Cat α β) → (cA ++> cA)
-c-id cA = record
-  { obj = idf
-  ; hom = idf
-  ; hom-id = λ a → refl
-  ; hom-m∘ = λ ψ φ → refl
-  }
+f.obj (c-id cA) = idf
+f.hom (c-id cA) = idf
+f.hom-id (c-id cA) x = refl
+f.hom-m∘ (c-id cA) ψ φ = refl
 
 cConst : ∀{α β γ δ} → {cA : Cat α β} → {cB : Cat γ δ} → (b : c.Obj cB) → (cA ++> cB)
-cConst {α}{β}{γ}{δ} {cA}{cB} b = record
-  { obj = λ x → b
-  ; hom = λ {x} {y} _ → c.id cB b
-  ; hom-id = λ a → refl
-  ; hom-m∘ = λ ψ φ → sym (c.m∘lunit cB)
-  }
+f.obj (cConst b) x = b
+f.hom (cConst {cB = cB} b) φ = c.id cB b
+f.hom-id (cConst b) x = refl
+f.hom-m∘ (cConst {cB = cB} b) ψ φ = sym (c.m∘lunit cB)
 
 functorext : ∀{ℓoA}{ℓhA}{ℓoB}{ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cf cg : cA ++> cB}
   → (Candid-objhom cA cB $ (f.obj cf , f.hom cf) == (f.obj cg , f.hom cg))
@@ -144,15 +140,12 @@ nt-ext {α} {β} {γ} {δ} {cA} {cB} {cf} {cg} {nta} {ntb} p =
 -}
 
 nt-id : ∀{α β γ δ} → {cA : Cat α β} → {cB : Cat γ δ} → (cf : cA ++> cB) → (cf nt→ cf)
-nt-id {α} {β} {γ} {δ} {cA} {cB} cf = record
-  { obj = λ x → c.id cB (f.obj cf x)
-  ; hom = λ φ → via (f.hom cf φ) $ c.m∘runit cB • sym (c.m∘lunit cB)
-  }
+nt.obj (nt-id {cB = cB} cf) x = c.id cB (f.obj cf x)
+nt.hom (nt-id {cB = cB} cf) φ = via (f.hom cf φ) $ c.m∘runit cB • sym (c.m∘lunit cB)
 
 _nt∘_ : ∀{α β γ δ} → {cA : Cat α β} → {cB : Cat γ δ} → {cf cg ch : cA ++> cB} → (ntb : cg nt→ ch) → (nta : cf nt→ cg) → (cf nt→ ch)
-_nt∘_ {α}{β}{γ}{δ}{cA}{cB}{cf}{cg}{ch} ntb nta = record
-  { obj = λ x → c.comp cB {f.obj cf x}{f.obj cg x}{f.obj ch x} (nt.obj ntb x) (nt.obj nta x)
-  ; hom = λ {x} {y} φ →
+nt.obj (_nt∘_ {cB = cB}{cf}{cg}{ch} ntb nta) x = c.comp cB {f.obj cf x}{f.obj cg x}{f.obj ch x} (nt.obj ntb x) (nt.obj nta x)
+nt.hom (_nt∘_ {cB = cB}{cf}{cg}{ch} ntb nta) {x}{y} φ =
     via (cB $ (f.hom ch φ) m∘ (cB $ (nt.obj ntb x) m∘ (nt.obj nta x))) $ refl •
     via (cB $ (cB $ (f.hom ch φ) m∘ (nt.obj ntb x)) m∘ (nt.obj nta x)) $ sym (c.m∘assoc cB) •
     via (cB $ (cB $ (nt.obj ntb y) m∘ (f.hom cg φ)) m∘ (nt.obj nta x)) $ map= (λ ψ → cB $ ψ m∘ (nt.obj nta x)) (nt.hom ntb φ) •
@@ -160,22 +153,19 @@ _nt∘_ {α}{β}{γ}{δ}{cA}{cB}{cf}{cg}{ch} ntb nta = record
     via (cB $ (nt.obj ntb y) m∘ (cB $ (nt.obj nta y) m∘ (f.hom cf φ))) $ map= (λ ψ → cB $ (nt.obj ntb y) m∘ ψ) (nt.hom nta φ) •
     via (cB $ (cB $ (nt.obj ntb y) m∘ (nt.obj nta y)) m∘ (f.hom cf φ)) $ sym (c.m∘assoc cB) •
     refl
-  }
 
 nt∘assoc : ∀ {α β γ δ} → {cA : Cat α β} → {cB : Cat γ δ} → {cf cg ch ck : cA ++> cB} → {ntc : ch nt→ ck} → {ntb : cg nt→ ch} → {nta : cf nt→ cg} → (ntc nt∘ ntb) nt∘ nta == ntc nt∘ (ntb nt∘ nta)
 nt∘assoc {α}{β}{γ}{δ} {cA}{cB} {cf}{cg}{ch}{ck} {ntc}{ntb}{nta} =
   nt-ext (λ= x => c.m∘assoc cB)
 
 _nt∘c_ : ∀ {ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cC : Cat ℓoC ℓhC} → {cf cg : cB ++> cC} → (nt : cf nt→ cg) → (ck : cA ++> cB) → (cf c∘ ck nt→ cg c∘ ck)
-_nt∘c_ {_}{_}{_}{_}{_}{_} {cA}{cB}{cC} {cf}{cg} nt ck = record
-  { obj = λ a → nt.obj nt (f.obj ck a)
-  ; hom = λ φ → nt.hom nt (f.hom ck φ)
-  }
+nt.obj (nt nt∘c ck) x = nt.obj nt (f.obj ck x)
+nt.hom (nt nt∘c ck) φ = nt.hom nt (f.hom ck φ)
 infixl 11 _nt∘c_
 
 _c∘nt_ : ∀ {ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cC : Cat ℓoC ℓhC} → (ck : cB ++> cC) → {cf cg : cA ++> cB} → (nt : cf nt→ cg) → (ck c∘ cf nt→ ck c∘ cg)
-_c∘nt_ {_}{_}{_}{_}{_}{_} {cA}{cB}{cC} ck {cf}{cg} nt = record
-  { obj = λ a → f.hom ck (nt.obj nt a)
+nt.obj (_c∘nt_ ck {cf}{cg} nt) x = f.hom ck (nt.obj nt x)
+nt.hom (_c∘nt_ ck {cf}{cg} nt) φ =
      {- Idee:
      (k ∘ g)(φ) ∘ k(nt(x))
      := k(g(φ)) ∘ k(nt(x))
@@ -184,64 +174,31 @@ _c∘nt_ {_}{_}{_}{_}{_}{_} {cA}{cB}{cC} ck {cf}{cg} nt = record
      = k(nt(y)) ∘ k(f(φ))
      := k(nt(y)) ∘ (k ∘ f)(φ)
      -}
-  ; hom = λ φ →
     sym (f.hom-m∘ ck (f.hom cg φ) (nt.obj nt _)) •
     map= (f.hom ck) (nt.hom nt φ) •
     f.hom-m∘ ck (nt.obj nt _) (f.hom cf φ)
-  }
 infixl 11 _c∘nt_
 
-cExp : ∀{α β γ δ} → (cA : Cat α β) → (cB : Cat γ δ) → Cat (α ⊔ β ⊔ γ ⊔ δ) (α ⊔ β ⊔ γ ⊔ δ)
-cExp cA cB = record
-  { Obj = cA ++> cB
-  ; Hom = _nt→_
-  ; id = nt-id
-  ; comp = _nt∘_
-  ; m∘assoc = λ {cf cg ch ck ntc ntb nta} → nt-ext (λ= x => c.m∘assoc cB) -- ((ntc nt∘ ntb) nt∘ nta) (ntc nt∘ (ntb nt∘ nta)) (λi= x => m∘assoc cB)
-  --; m∘assoc = λ {cf cg ch ck ntc ntb nta} → nt∘assoc {_}{_}{_}{_} {cA}{cB} {cf}{cg}{ch}{ck} {ntc}{ntb}{nta}
-  ; m∘lunit = λ {cf cg nt} → nt-ext (λ= x => c.m∘lunit cB) --nt-ext (nt-id nt∘ nt) nt (λi= x => m∘lunit cB)
-  ; m∘runit = λ {cf cg nt} → nt-ext (λ= x => c.m∘runit cB) --nt-ext (nt nt∘ nt-id) nt (λi= x => m∘runit cB)
-  }
+cExp : ∀{ℓoA ℓhA ℓoB ℓhB} → (cA : Cat ℓoA ℓhA) → (cB : Cat ℓoB ℓhB) → Cat (ℓoA ⊔ ℓhA ⊔ ℓoB ⊔ ℓhB) (ℓoA ⊔ ℓhA ⊔ ℓoB ⊔ ℓhB)
+Cat.Obj (cExp cA cB) = cA ++> cB
+Cat.Hom (cExp cA cB) = _nt→_
+Cat.id (cExp cA cB) = nt-id
+Cat.comp (cExp cA cB) = _nt∘_
+Cat.m∘assoc (cExp cA cB) = nt-ext (λ= x => c.m∘assoc cB)
+Cat.m∘lunit (cExp cA cB) = nt-ext (λ= x => c.m∘lunit cB)
+Cat.m∘runit (cExp cA cB) = nt-ext (λ= x => c.m∘runit cB)
 
 c⊥ : Cat lzero lzero
-c⊥ = record
-  { Obj = ⊥
-  ; Hom = λ ()
-  ; id = λ ()
-  ; comp = λ {}
-  ; m∘assoc = λ {}
-  ; m∘lunit = λ {}
-  ; m∘runit = λ {}
-  }
+Cat.Obj c⊥ = ⊥
+Cat.Hom c⊥ ()
+Cat.id c⊥ ()
+Cat.comp c⊥ {}
+Cat.m∘assoc c⊥ {}
+Cat.m∘lunit c⊥ {}
+Cat.m∘runit c⊥ {}
 
 c⊥elim : ∀{α β} → {c : Cat α β} → (c⊥ ++> c)
-c⊥elim = record
-  { obj = λ ()
-  ; hom = λ {}
-  ; hom-id = λ ()
-  ; hom-m∘ = λ {}
-  }
-
-{-
-record
-  { Obj = {!!}
-  ; Hom = {!!}
-  ; id = {!!}
-  ; comp = {!!}
-  ; m∘assoc = {!!}
-  ; m∘lunit = {!!}
-  ; m∘runit = {!!}
-  }
-
-record
-  { obj = ?
-  ; hom = ?
-  ; hom-id = ?
-  ; hom-m∘ = ?
-  }
-
-record
-  { obj = ?
-  ; hom = ?
-  }
--}
+f.obj c⊥elim ()
+f.hom c⊥elim {}
+f.hom-id c⊥elim ()
+f.hom-m∘ c⊥elim {}

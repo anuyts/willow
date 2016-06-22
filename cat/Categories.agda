@@ -6,24 +6,20 @@ open import willow.cat.Top public
 open import willow.cat.Lift public
 open import willow.cat.Product public
 
-cCat : (α β : Level) → Cat (lsuc (α ⊔ β)) (α ⊔ β)
-cCat α β = record
-  { Obj = Cat α β
-  ; Hom = λ cA cB → cA ++> cB
-  ; id = c-id
-  ; comp = _c∘_
-  ; m∘assoc = functorext refl
-  ; m∘lunit = functorext refl
-  ; m∘runit = functorext refl
-  }
+cCat : (ℓo ℓh : Level) → Cat (lsuc (ℓo ⊔ ℓh)) (ℓo ⊔ ℓh)
+Cat.Obj (cCat ℓo ℓh) = Cat ℓo ℓh
+Cat.Hom (cCat ℓo ℓh) cA cB = cA ++> cB
+Cat.id (cCat ℓo ℓh) = c-id
+Cat.comp (cCat ℓo ℓh) = _c∘_
+Cat.m∘assoc (cCat ℓo ℓh) = functorext refl
+Cat.m∘lunit (cCat ℓo ℓh) = functorext refl
+Cat.m∘runit (cCat ℓo ℓh) = functorext refl
 
-cCat× : ∀{α β} → cCat α β c× cCat α β ++> cCat α β
-cCat× = record
-  { obj = λ cs → prl cs c× prr cs
-  ; hom = λ {cAs}{cBs} cfs → c×intro (prl cBs) (prr cBs) (prl cfs c∘ (c-prl (prl cAs) (prr cAs))) (prr cfs c∘ (c-prr (prl cAs) (prr cAs)))
-  ; hom-id = λ x → refl
-  ; hom-m∘ = λ {cAs cBs cCs} cfs cgs → functorext (pair-ext refl refl)
-  }
+cCat× : ∀{ℓo ℓh} → cCat ℓo ℓh c× cCat ℓo ℓh ++> cCat ℓo ℓh
+f.obj cCat× cs = prl cs c× prr cs
+f.hom cCat× {cAs}{cBs} cfs = c×intro (prl cBs) (prr cBs) (prl cfs c∘ (c-prl (prl cAs) (prr cAs))) (prr cfs c∘ (c-prr (prl cAs) (prr cAs)))
+f.hom-id cCat× x = refl
+f.hom-m∘ cCat× {cAs} {cBs} {cCs} cfs cgs = functorext (pair-ext refl refl)
 
 {-
 mcCat : (α β : Level) → MCat (lsuc (α ⊔ β)) (α ⊔ β)

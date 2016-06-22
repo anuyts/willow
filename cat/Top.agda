@@ -4,23 +4,19 @@ module willow.cat.Top where
 open import willow.cat.Category public
 
 c⊤ : Cat lzero lzero
-c⊤ = record
-  { Obj = ⊤
-  ; Hom = λ x y → ⊤
-  ; id = λ x → unit
-  ; comp = λ ψ φ → unit
-  ; m∘assoc = refl
-  ; m∘lunit = λ {x y} → λ { {unit} → refl }
-  ; m∘runit = λ {x y} → λ { {unit} → refl }
-  }
+c.Obj c⊤ = ⊤
+c.Hom c⊤ x y = ⊤
+c.id c⊤ x = unit
+c.comp c⊤ ψ φ = unit
+c.m∘assoc c⊤ = refl
+c.m∘lunit c⊤ {x} {y} {unit} = refl
+c.m∘runit c⊤ {x} {y} {unit} = refl
 
 c⊤intro : ∀{α β} → {c : Cat α β} → (c ++> c⊤)
-c⊤intro = record
-  { obj = λ _ → unit
-  ; hom = λ {x} {y} _ → unit
-  ; hom-id = λ x → refl
-  ; hom-m∘ = λ {x} {y} {z} ψ φ → refl
-  }
+f.obj c⊤intro _ = unit
+f.hom c⊤intro {x}{y} _ = unit
+f.hom-id c⊤intro x = refl
+f.hom-m∘ c⊤intro {x}{y}{z} ψ φ = refl
 
 c⊤universal : ∀{α β} → {c : Cat α β} → {cf cg : c ++> c⊤} → (cf == cg)
 c⊤universal {α}{β} {c} {cf}{cg} = functorext (pair-ext (λ¶ x => is¶⊤) (λ¶i x => λ¶i y => λ¶ φ => is¶⊤))
