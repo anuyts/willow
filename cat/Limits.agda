@@ -14,8 +14,18 @@ IsLimit {ℓoA}{ℓhA}{ℓoI}{ℓhI} {cA} {cI} a cd =
     (cCone {cA = cA} cI c∘ (c-id (cOp cA) c⊠ cConst {cB = cExp cI cA} cd))
     (c-setlift ℓhA (ℓoI ⊔ ℓhI ⊔ ℓhA) c∘ cHom (cA) c∘ (c-id (cOp cA) c⊠ cConst {cB = cA} a))
 
+record [IsLimit] {ℓoA ℓhA ℓoI ℓhI : Level} {cA : Cat ℓoA ℓhA} {cI : Cat ℓoI ℓhI}
+       (a : c.Obj cA) (cd : cI ++> cA) : Set (lsuc ℓhI ⊔ (lsuc ℓoI ⊔ (lsuc ℓhA ⊔ ℓoA))) where
+  constructor wrap
+  no-eta-equality
+  field
+    use : IsLimit a cd
+
 IsTerminal : ∀{ℓoA ℓhA} (cA : Cat ℓoA ℓhA) (a : c.Obj cA) → Set (lsuc ℓhA ⊔ ℓoA)
 IsTerminal cA a = IsLimit {cA = cA} a c⊥elim
+
+[IsTerminal] : ∀{ℓoA ℓhA} (cA : Cat ℓoA ℓhA) (a : c.Obj cA) → Set (lsuc ℓhA ⊔ ℓoA)
+[IsTerminal] cA a = [IsLimit] {cA = cA} a c⊥elim
 
 cone-out : ∀{ℓoA ℓhA ℓoI ℓhI} {cA : Cat ℓoA ℓhA} {cI : Cat ℓoI ℓhI}
   {a : c.Obj cA} {cd : cI ++> cA} (p : IsLimit a cd) → Cone a cd

@@ -33,3 +33,17 @@ f.obj c-co-pr x = prl x
 f.hom c-co-pr φ = prl φ
 f.hom-id c-co-pr x = refl
 f.hom-m∘ c-co-pr ψ φ = refl
+
+c∫-hom : ∀{ℓoA ℓhA ℓf} {cA : Cat ℓoA ℓhA} → {cf cg : cA ++> cSet ℓf} → (nta : cf nt→ cg) → c∫ cf ++> c∫ cg
+f.obj (c∫-hom nta) a,x = (prl a,x) , (nt.obj nta (prl a,x) (prr a,x))
+prl (f.hom (c∫-hom nta) {a,x} {b,y} φ,p) = prl φ,p
+prr (f.hom (c∫-hom {cA = cA}{cf}{cg} nta) {a,x} {b,y} φ,p) =
+  via (f.hom cg (prl φ,p) ∘ nt.obj nta (prl a,x)) (prr a,x) $ refl •
+  via (nt.obj nta (prl b,y) ∘ f.hom cf (prl φ,p)) (prr a,x) $ happly (nt.hom nta (prl φ,p)) (prr a,x) •
+  via (nt.obj nta (prl b,y)) (prr b,y) $ map= (nt.obj nta (prl b,y)) (prr φ,p) •
+  refl
+f.hom-id (c∫-hom nta) a,x = pair-ext refl uip
+f.hom-m∘ (c∫-hom nta) ψ,q φ,p = pair-ext refl uip
+
+cOp∫-hom : ∀{ℓoA ℓhA ℓf} {cA : Cat ℓoA ℓhA} → {cf cg : cA ++> cSet ℓf} → (nta : cf nt→ cg) → cOp∫ cf ++> cOp∫ cg
+cOp∫-hom nta = c-op (c∫-hom nta)

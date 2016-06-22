@@ -3,6 +3,7 @@ open import willow.cat.Opposite
 open import willow.cat.Sets
 open import willow.cat.Limits
 open import willow.cat.OfElements
+open import willow.basic.Propositional.HeteroIdentity
 
 module willow.cat.Presheaf {ℓoW ℓhW : Level} (ℓ : Level) (cW : Cat ℓoW ℓhW) where
 
@@ -29,5 +30,18 @@ nt.hom (≅.bck isterminal-p⊤) {pA} {pB} pf = λ= liftp* => cone-ext (funext (
 ≅.src-id isterminal-p⊤ = nt-ext (λ= pA => λ= q => cone-ext (funext (λ())))
 ≅.tgt-id isterminal-p⊤ = nt-ext (λ= pA => λ= liftp* => map= lift (nt-ext (λ= w => λ= a => map= lift is¶⊤)))
 
-DPsh : (ℓtm : Level) → (pA : Psh) → Set ((lsuc ℓtm) ⊔ ℓ ⊔ ℓhW ⊔ ℓoW)
-DPsh ℓtm pA = cOp∫ pA ++> cSet ℓtm
+[isterminal-p⊤] : [IsTerminal] cPsh p⊤
+[isterminal-p⊤] = wrap isterminal-p⊤
+
+DPsh : (pA : Psh) → Set ((lsuc ℓ) ⊔ ℓhW ⊔ ℓoW)
+DPsh pA = cOp∫ pA ++> cSet ℓ
+
+c-dpsh : cOp cPsh ++> cSet ((lsuc ℓ) ⊔ ℓhW ⊔ ℓoW)
+f.obj c-dpsh pA = DPsh pA
+f.hom c-dpsh {pB}{pA} pf dpT = dpT c∘ cOp∫-hom pf
+f.hom-id c-dpsh pA = λ= dpT => functorext (pair-ext refl (λi= w,a => λi= w',a' => λ= ρ,p =>
+    map= (f.hom dpT) (pair-ext refl uip)
+  ))
+f.hom-m∘ c-dpsh {pC}{pB}{pA} pf pg = λ= dpT => functorext (pair-ext refl (λi= w,a => λi= w',a' => λ= ρ,p =>
+    map= (f.hom dpT) (pair-ext refl uip)
+  ))

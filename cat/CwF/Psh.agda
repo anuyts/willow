@@ -3,16 +3,22 @@
 
 open import willow.cat.CwF public
 
-module willow.cat.CwF.Psh {ℓoW ℓhW : Level} (ℓty ℓtm : Level) (cW : Cat ℓoW ℓhW) where
+module willow.cat.CwF.Psh {ℓoW ℓhW : Level} (ℓtm : Level) (cW : Cat ℓoW ℓhW) where
 
-open import willow.cat.Presheaf ℓty cW public
+open import willow.cat.Presheaf ℓtm cW public
 
 postulate hole : ∀{ℓ} {A : Set ℓ} → A
 
-cwfPsh : CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓty) (ℓoW ⊔ ℓhW ⊔ lsuc ℓty) ℓty ℓtm
+--the term functor
+c-pshtm : (cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet ℓtm) --cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet ℓtm
+c-pshtm = {!!}
+
+cwfPsh : CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) ℓtm
 CwF.cCtx cwfPsh = cPsh
 CwF.∙ cwfPsh = p⊤
-CwF.∙isterminal cwfPsh = --hole --isterminal-p⊤
+CwF.∙isterminal cwfPsh = [isterminal-p⊤]
+  --hole --isterminal-p⊤
+  {-
   let IsTerminalUncurried : Sum (λ (cA : Cat (ℓoW ⊔ ℓhW ⊔ lsuc ℓty) (ℓoW ⊔ ℓhW ⊔ lsuc ℓty)) → c.Obj cA)
                           → Set (lsuc (lsuc ℓty) ⊔ (lsuc ℓhW ⊔ lsuc ℓoW))
       IsTerminalUncurried = λ {(cA , a) → IsTerminal cA a}
@@ -26,14 +32,16 @@ CwF.∙isterminal cwfPsh = --hole --isterminal-p⊤
           via IsTerminal cPsh p⊤ $ refl •
           refl
   in  tra idf / sym q of (IsTerminal cPsh p⊤ ∋ {!isterminal-p⊤!})
+  -}
+
   --{!IsTerminalUncurried (CwF.cCtx cwfPsh , CwF.∙ cwfPsh) ∋ (tra IsTerminalUncurried / p of ((IsTerminalUncurried (cPsh , p⊤)) ∋ {!isterminal-p⊤!}))!}
   {-
   IsTerminal (CwF.cCtx cwfPsh) (CwF.∙ cwfPsh) ∋ (tra (λ cA → IsTerminal cA (CwF.∙ cwfPsh)) / refl of (
     IsTerminal cPsh (CwF.∙ cwfPsh) ∋ ?
   ))
   -}
-CwF.c-ty cwfPsh = hole
-CwF.c-tm cwfPsh = hole
+CwF.c-ty cwfPsh = c-dpsh
+CwF.c-tm cwfPsh = {!c-pshtm!}
 CwF.c-compr cwfPsh = hole
 CwF.nt-wkn cwfPsh = hole
 CwF.lim-var cwfPsh = hole
