@@ -5,23 +5,19 @@ open import willow.cat.Product public
 --open import willow.cat.Monoidal public
 
 cSet : (α : Level) → Cat (lsuc α) α
-cSet α = record
-  { Obj = Set α
-  ; Hom = λ X Y → (X → Y)
-  ; id = λ X → (λ x → x)
-  ; comp = λ g f → g ∘ f
-  ; m∘assoc = λ {W} {X} {Y} {Z} {h} {g} {f} → ∘assoc f g h
-  ; m∘lunit = λ {X} {Y} {f} → λ= x => refl
-  ; m∘runit = λ {X} {Y} {f} → λ= x => refl
-  }
+c.Obj (cSet α) = Set α
+c.Hom (cSet α) X Y = X → Y
+c.id (cSet α) X = idf
+c.comp (cSet α) g f = g ∘ f
+c.m∘assoc (cSet α) {W} {X} {Y} {Z} {h} {g} {f} = ∘assoc f g h
+c.m∘lunit (cSet α) {X} {Y} {f} = λ= x => refl
+c.m∘runit (cSet α) {X} {Y} {f} = λ= x => refl
 
 cSet× : ∀ {α} → cSet α c× cSet α ++> cSet α
-cSet× = record
-  { obj = λ Xs → prl Xs × prr Xs
-  ; hom = λ fs → λ xs → (prl fs) (prl xs) , (prr fs) (prr xs)
-  ; hom-id = λ Xs → refl
-  ; hom-m∘ = λ gs fs → refl
-  }
+_++>_.obj cSet× Xs = prl Xs × prr Xs
+_++>_.hom cSet× fs xs = (prl fs) (prl xs) , (prr fs) (prr xs)
+_++>_.hom-id cSet× Xs = refl
+_++>_.hom-m∘ cSet× gs fs = refl
 
 c-setlift : ∀(ℓ ℓ' : Level) → cSet ℓ ++> cSet (ℓ ⊔ ℓ')
 f.obj (c-setlift ℓ ℓ') X = Lift {ℓ}{ℓ'} X

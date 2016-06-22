@@ -23,30 +23,26 @@ i-refurbish : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y : c.Obj c} → {φ
 ≅.tgt-id (i-refurbish c {x}{y}{φ} p) = map= (λ ξ → c $ ξ m∘ ≅.bck (prl p)) (sym (prr p)) • ≅.tgt-id (prl p)
 
 _$_i∘_ : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y z : c.Obj c} → (ψ : Iso c y z) → (φ : Iso c x y) → Iso c x z
-c $ ψ i∘ φ = record
-  { fwd = c $ ≅.fwd ψ m∘ ≅.fwd φ
-  ; bck = c $ ≅.bck φ m∘ ≅.bck ψ
-  ; src-id =
+≅.fwd (c $ ψ i∘ φ) = c $ ≅.fwd ψ m∘ ≅.fwd φ
+≅.bck (c $ ψ i∘ φ) = c $ ≅.bck φ m∘ ≅.bck ψ
+≅.src-id (c $ ψ i∘ φ) =
     c.m∘assoc c •
     map= (λ ξ → c $ ≅.bck φ m∘ ξ) (sym (c.m∘assoc c)) •
     map= (λ ξ → c $ ≅.bck φ m∘ (c $ ξ m∘ ≅.fwd φ)) (≅.src-id ψ) •
     map= (λ ξ → c $ ≅.bck φ m∘ ξ) (c.m∘lunit c) •
     ≅.src-id φ
-  ; tgt-id =
+≅.tgt-id (c $ ψ i∘ φ) =
     c.m∘assoc c •
     map= (λ ξ → c $ ≅.fwd ψ m∘ ξ) (sym (c.m∘assoc c)) •
     map= (λ ξ → c $ ≅.fwd ψ m∘ (c $ ξ m∘ ≅.bck ψ)) (≅.tgt-id φ) •
     map= (λ ξ → c $ ≅.fwd ψ m∘ ξ) (c.m∘lunit c) •
     ≅.tgt-id ψ
-  }
 
 i-id : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → (x : c.Obj c) → Iso c x x
-i-id c x = record
-  { fwd = c.id c x
-  ; bck = c.id c x
-  ; src-id = c.m∘lunit c
-  ; tgt-id = c.m∘lunit c
-  }
+≅.fwd (i-id c x) = c.id c x
+≅.bck (i-id c x) = c.id c x
+≅.src-id (i-id c x) = c.m∘lunit c
+≅.tgt-id (i-id c x) = c.m∘lunit c
 
 ≅ext : ∀{ℓo ℓh} → {c : Cat ℓo ℓh} → {x y : c.Obj c} → {φ ψ : Iso c x y} → (≅.fwd φ == ≅.fwd ψ) → φ == ψ
 ≅ext {_}{_} {c} {x}{y} {mk≅ φfwd φbck φsrc-id φtgt-id}{mk≅ .φfwd ψbck ψsrc-id ψtgt-id} refl =
@@ -69,20 +65,16 @@ is¶IsIso {ℓo}{ℓh} {c} {x}{y} φ {≅φ}{≅φ'} =
   in pair¶ext eq-iso (λ a → uip)
 
 i-inv : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y : c.Obj c} → (φ : Iso c x y) → Iso c y x
-i-inv c φ = record
-  { fwd = ≅.bck φ
-  ; bck = ≅.fwd φ
-  ; src-id = ≅.tgt-id φ
-  ; tgt-id = ≅.src-id φ
-  }
+≅.fwd (i-inv c φ) = ≅.bck φ
+≅.bck (i-inv c φ) = ≅.fwd φ
+≅.src-id (i-inv c φ) = ≅.tgt-id φ
+≅.tgt-id (i-inv c φ) = ≅.src-id φ
 
 mapIso : ∀{ℓoA ℓhA ℓoB ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → (cf : cA ++> cB) → {x y : c.Obj cA} → (η : Iso cA x y) → Iso cB (f.obj cf x) (f.obj cf y)
-mapIso {_}{_}{_}{_} {cA}{cB} cf {x}{y} η = record
-  { fwd = f.hom cf (≅.fwd η)
-  ; bck = f.hom cf (≅.bck η)
-  ; src-id = sym (f.hom-m∘ cf (≅.bck η) (≅.fwd η)) • map= (f.hom cf) (≅.src-id η) • f.hom-id cf x
-  ; tgt-id = sym (f.hom-m∘ cf (≅.fwd η) (≅.bck η)) • map= (f.hom cf) (≅.tgt-id η) • f.hom-id cf y
-  }
+≅.fwd (mapIso cf η) = f.hom cf (≅.fwd η)
+≅.bck (mapIso cf η) = f.hom cf (≅.bck η)
+≅.src-id (mapIso cf {x}{y} η) = sym (f.hom-m∘ cf (≅.bck η) (≅.fwd η)) • map= (f.hom cf) (≅.src-id η) • f.hom-id cf x
+≅.tgt-id (mapIso cf {x}{y} η) = sym (f.hom-m∘ cf (≅.fwd η) (≅.bck η)) • map= (f.hom cf) (≅.tgt-id η) • f.hom-id cf y
 
 map≅ = mapIso
 
@@ -94,12 +86,3 @@ inv-m∘ : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y z : c.Obj c}
   → (≅.fwd η == c $ ≅.fwd ψ m∘ ≅.fwd φ) → (≅.bck η == c $ ≅.bck φ m∘ ≅.bck ψ)
 inv-m∘ c ψ φ (mk≅ .(c $ ≅.fwd ψ m∘ ≅.fwd φ) ηbck ηsrc ηtgt) refl =
   map= ≅.bck (((mk≅ (c $ ≅.fwd ψ m∘ ≅.fwd φ) ηbck ηsrc ηtgt) == c $ ψ i∘ φ) ∋ ≅ext refl)
-
-{-
-record
-  { fwd = ?
-  ; bck = ?
-  ; src-id = ?
-  ; tgt-id = ?
-  }
--}

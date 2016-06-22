@@ -3,17 +3,17 @@ module willow.cat.Groupoids.CoreFunctor where
 open import willow.cat.Groupoids public
 
 ccore : {ℓo ℓh : Level} → cCat ℓo ℓh ++> cGrpd ℓo ℓh
-ccore = record
-  { obj = λ cA → mk-grpd (cCore cA) (coreIsGrpd cA)
-  ; hom = λ {cA cB} cf → record
-    { obj = f.obj cf
-    ; hom = λ {x y} η → mapIso cf η
-    ; hom-id = λ x → ≅ext (f.hom-id cf x)
-    ; hom-m∘ = λ ψ φ → ≅ext (f.hom-m∘ cf (≅.fwd ψ) (≅.fwd φ))
-    }
-  ; hom-id = λ cA → functorext (pair-ext refl (λi= x => λi= y => λ= η => ≅ext refl))
-  ; hom-m∘ = λ {cA cB cC} cg cf → functorext (pair-ext refl (λi= x => λi= y => λ= η => ≅ext refl))
-  }
+
+f.obj ccore cA = gCore cA
+
+f.obj (f.hom ccore cf) = f.obj cf
+f.hom (f.hom ccore cf) {x}{y} η = mapIso cf η
+f.hom-id (f.hom ccore cf) x = ≅ext (f.hom-id cf x)
+f.hom-m∘ (f.hom ccore cf) ψ φ = ≅ext (f.hom-m∘ cf (≅.fwd ψ) (≅.fwd φ))
+
+f.hom-id ccore cA = functorext (pair-ext refl (λi= x => λi= y => λ= η => ≅ext refl))
+
+f.hom-m∘ ccore {cA}{cB}{cC} cg cf = functorext (pair-ext refl (λi= x => λi= y => λ= η => ≅ext refl))
 
 {-
 coreAdjunction : ∀{ℓo ℓh} → cforgetGrpd{ℓo}{ℓh} ⊣ ccore{ℓo}{ℓh}

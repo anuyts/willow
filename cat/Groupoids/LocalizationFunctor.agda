@@ -4,18 +4,18 @@ open import willow.cat.Groupoids public
 open import willow.cat.Locpath.Fuse public
 
 cloc : {ℓo ℓh : Level} → cCat ℓo ℓh ++> cGrpd ℓo (ℓo ⊔ ℓh)
-cloc = record
-  { obj = λ cA → mk-grpd (cLoc cA) (locIsGrpd cA)
-  ; hom = λ {cA cB} cf → record
-    { obj = f.obj cf
-    ; hom = λ {x y} lp → mapLocpath cf lp
-    ; hom-id = λ x → refl
-    ; hom-m∘ = λ {x y z} ψ φ → map-lp• cf φ ψ
-    }
-  ; hom-id = λ cA → functorext (pair-ext refl
+
+f.obj cloc cA = mk-grpd (cLoc cA) (locIsGrpd cA)
+
+f.obj (f.hom cloc cf) = f.obj cf
+f.hom (f.hom cloc cf) lp = mapLocpath cf lp
+f.hom-id (f.hom cloc cf) x = refl
+f.hom-m∘ (f.hom cloc cf) ψ φ = map-lp• cf φ ψ
+
+f.hom-id cloc cA = functorext (pair-ext refl
       (λi= x => λi= y => λ= lp => mapLocpath-id cA lp)
     )
-  ; hom-m∘ = λ {cA cB cC} cg cf → functorext (pair-ext refl
+
+f.hom-m∘ cloc {cA}{cB}{cC} cg cf = functorext (pair-ext refl
       (λi= x => λi= y => λ= lp => mapLocpath-c∘ cg cf lp)
     )
-  }
