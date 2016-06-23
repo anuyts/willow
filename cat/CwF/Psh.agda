@@ -2,6 +2,8 @@
               -vtc.pos.record:100 -vtc.pos.args:100 -vtc.pos:25-} 
 
 open import willow.cat.CwF public
+open import willow.cat.NaturalTransformation public
+open import willow.basic.TransportLemmas public
 
 module willow.cat.CwF.Psh {ℓoW ℓhW : Level} (ℓtm : Level) (cW : Cat ℓoW ℓhW) where
 
@@ -10,13 +12,48 @@ open import willow.cat.Presheaf ℓtm cW public
 postulate hole : ∀{ℓ} {A : Set ℓ} → A
 
 --the term functor
-c-pshtm : (cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet ℓtm) --cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet ℓtm
-c-pshtm = {!!}
+c-pshtm : (cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet (ℓtm ⊔ (ℓhW ⊔ ℓoW))) --cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet ℓtm
+f.obj c-pshtm (pA , T) = Lim T
+--Lim.obj (f.hom c-pshtm {pB , T} {pA , Tf} (pf , Tf=) t) (w , a) =
+--        tra (λ S → f.obj S (w , a)) / Tf= of Lim.obj t (w , nt.obj pf w a)
+--Lim.hom (f.hom c-pshtm {pB , T} {pA , Tf} (pf , Tf=) t) {w , aρ} {w' , a} (ρ , aρ=) = {!!}
+f.hom c-pshtm {pB , T} {pA , Tf} (pf , Tf=) = mapLim (nt-tra idf / Tf=) ∘ restrLim (c-op (c∫-hom pf))
+f.hom-id c-pshtm (pA , T) =
+  via f.hom c-pshtm {pA , T} {pA , T} (c.id (cOp∫ {cA = cOp cPsh} c-dpsh) (pA , T)) $ refl •
+  via mapLim (nt-tra idf / prr (c.id (cOp∫ {cA = cOp cPsh} c-dpsh) (pA , T))) ∘ restrLim (c-op (c∫-hom (nt-id pA))) $ refl •
+  via mapLim (nt-tra idf / map= (λ f → f(prr (pA , T))) (f.hom-id c-dpsh (prl (pA , T)))) ∘ restrLim (c-op (c∫-hom (nt-id pA))) $ refl •
+  {!!}
 
-cwfPsh : CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) ℓtm
+  {-λ= l => lim-ext (funext λ{(w , a) →
+    via nt.obj (nt-id T) (w , a) (Lim.obj l (w , a)) $ {!!} •
+    {!!}
+  })
+  -}
+
+  {-λ= l => lim-ext (
+    via Lim.obj (
+      (mapLim (nt-tra idf / prr (c.id (cOp∫ {cA = cOp cPsh} c-dpsh) (pA , T)))
+      ∘
+      restrLim (c-op (c∫-hom (nt-id pA))))
+      l ) $ refl •
+    via Lim.obj ( (mapLim (nt-transport {-{cA = cOp∫ pA}{cB = cSet ℓtm}-}{E = cOp∫ pA ++> cSet ℓtm}{T}{T} idf refl) ∘ restrLim (c-op (c∫-hom (nt-id pA)))) l ) $
+      map= (λ p → Lim.obj ( (mapLim (nt-tra idf / p) ∘ restrLim (c-op (c∫-hom (nt-id pA)))) l ) ) uip •
+    funext (λ{(w , a) → refl})
+  )-}
+
+  {-(funext (λ {(w , a) →
+    --via nt.obj (nt-tra idf / refl) (w , a) (Lim.obj l (w , a)) $
+    --  {!map= (λ p → nt.obj (nt-tra idf / p) (w , a) (Lim.obj l (w , a))) ?!} •
+    
+    {!!}
+    --map= (λ p → nt.obj (nt-tra idf / p) (w , a) (Lim.obj l (w , a))) uip
+  }))-}
+f.hom-m∘ c-pshtm ψ φ = {!!}
+
+cwfPsh : CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) (ℓtm ⊔ (ℓhW ⊔ ℓoW))
 CwF.cCtx cwfPsh = cPsh
 CwF.∙ cwfPsh = p⊤
-CwF.∙isterminal cwfPsh = [isterminal-p⊤]
+CwF.∙isterminal cwfPsh = isterminal-p⊤
   --hole --isterminal-p⊤
   {-
   let IsTerminalUncurried : Sum (λ (cA : Cat (ℓoW ⊔ ℓhW ⊔ lsuc ℓty) (ℓoW ⊔ ℓhW ⊔ lsuc ℓty)) → c.Obj cA)
@@ -41,7 +78,7 @@ CwF.∙isterminal cwfPsh = [isterminal-p⊤]
   ))
   -}
 CwF.c-ty cwfPsh = c-dpsh
-CwF.c-tm cwfPsh = {!c-pshtm!}
+CwF.c-tm cwfPsh = c-pshtm
 CwF.c-compr cwfPsh = hole
 CwF.nt-wkn cwfPsh = hole
 CwF.lim-var cwfPsh = hole

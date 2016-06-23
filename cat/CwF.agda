@@ -22,7 +22,7 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
     cCtx : Cat ℓctx ℓsub
     
     ∙ : c.Obj cCtx
-    ∙isterminal : [IsTerminal] cCtx ∙
+    ∙isterminal : IsTerminal cCtx ∙
     
     c-ty : cOp cCtx ++> cSet ℓty
     c-tm : cOp (cOp∫ {cA = cOp cCtx} c-ty) ++> cSet ℓtm

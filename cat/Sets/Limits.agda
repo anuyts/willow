@@ -13,6 +13,8 @@ record Lim {ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} (cd : cI ++> cSet ℓ) : Set
 lim-ext : ∀{ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} {cd : cI ++> cSet ℓ} {la lb : Lim cd} (p : Lim.obj la == Lim.obj lb) → la == lb
 lim-ext {cI = cI}{cd}{mk-lim obj ahom}{mk-lim .obj bhom} refl = map= (mk-lim obj) (λ¶i i => λ¶i j => λ¶ η => uip)
 
+-----------------------------------------------------------------------------------------
+
 cSetHasLimits : ∀{ℓ} → HasLimits (cSet ℓ) ℓ ℓ
 
 prl (cSetHasLimits {ℓ} {cI} cd) = Lim cd
@@ -32,6 +34,23 @@ nt.hom (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= liftg => con
 ≅.src-id (prr (cSetHasLimits {ℓ} {cI} cd)) = nt-ext (λ= X => λ= q => cone-ext (λ= i => λ= x => refl))
 
 ≅.tgt-id (prr (cSetHasLimits {ℓ} {cI} cd)) = nt-ext (λ= X => λ= liftg => map= lift (λ= x => lim-ext refl))
+
+-----------------------------------------------------------------------------------------
+
+mapLim : ∀{ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} {cf cg : cI ++> cSet ℓ} (nta : cf nt→ cg) → (Lim cf → Lim cg)
+Lim.obj (mapLim nta l) i = nt.obj nta i (Lim.obj l i)
+Lim.hom (mapLim {cI = cI} {cf} {cg} nta l) {i}{j} η =
+  via (f.hom cg η ∘ nt.obj nta i) (Lim.obj l i) $ refl •
+  via (nt.obj nta j ∘ f.hom cf η) (Lim.obj l i) $ happly (nt.hom nta η) (Lim.obj l i) •
+  via (nt.obj nta j) (Lim.obj l j) $ map= (nt.obj nta j) (Lim.hom l η) •
+  refl
+
+restrLim : ∀{ℓoI ℓhI ℓoJ ℓhJ ℓ} {cI : Cat ℓoI ℓhI} {cJ : Cat ℓoJ ℓhJ} {cd : cJ ++> cSet ℓ}
+  (ci : cI ++> cJ) → (Lim cd → Lim (cd c∘ ci))
+Lim.obj (restrLim ci l) i = Lim.obj l (f.obj ci i)
+Lim.hom (restrLim ci l) {i}{i'} η = Lim.hom l (f.hom ci η)
+
+-----------------------------------------------------------------------------------------
 
 {-
 cSetHasLimits : ∀{ℓ} → HasLimits (cSet ℓ) ℓ ℓ
