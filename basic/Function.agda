@@ -53,9 +53,6 @@ syntax funexti (λ a → s) = λi= a => s
 
 --continuity-------------------------------
 
-map= : ∀ {α β} → {A : Set α} → {B : Set β} → (f : A → B) → {a a' : A} → (p : a == a') → (f a) == (f a')
-map= f {a}{.a} refl = refl
-
 mapd=fwd : ∀ {α β} → {A : Set α} → {B : A → Set β} → (f : (a : A) → B a) → {a a' : A} → (p : a == a') → (tra B / p of (f a)) == (f a')
 mapd=fwd f {a}{.a} refl = refl
 

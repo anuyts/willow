@@ -20,8 +20,15 @@ infixl 10 _•_
 via_$_•_ : ∀ {α} → {A : Set α} → {a c : A} → (b : A) → (a == b) → (b == c) → (a == c)
 via _ $ refl • refl = refl
 
+tra! : ∀{ℓ} {A B : Set ℓ} → (A == B) → (A → B)
+tra! refl = λ x → x
+
+map= : ∀ {α β} → {A : Set α} → {B : Set β} → (f : A → B) → {a a' : A} → (p : a == a') → (f a) == (f a')
+map= f {a}{.a} refl = refl
+
 transport : ∀{α β} → {A : Set α} → {a a' : A} → (B : A → Set β) → (p : a == a') → (b : B a) → B a'
-transport {α} {β} {A} {a} {.a} B refl b = b
+--transport {α} {β} {A} {a} {.a} B refl b = b
+transport B p = tra! (map= B p)
 tra_/_of_ = transport
 tra_/_ = transport
 

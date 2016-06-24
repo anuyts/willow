@@ -10,3 +10,7 @@ tra-canon {a = a} {.a} {B} {refl} {b} = refl
 tra-comp : ∀{α β} → {A : Set α} → {a a' a'' : A} → {B : A → Set β} → {p : a == a'} → {q : a' == a''} → {b : B a}
   → tra B / q of (tra B / p of b) == tra B / (p • q) of b
 tra-comp {a = a} {.a} {.a} {B} {refl} {refl} {b} = refl
+
+tra!-comp : ∀{ℓ} → {A B C : Set ℓ} → (p : A == B) → (q : B == C)
+  → (tra! q ∘ tra! p) == tra! (p • q)
+tra!-comp refl refl = refl

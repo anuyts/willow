@@ -86,3 +86,11 @@ inv-m∘ : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y z : c.Obj c}
   → (≅.fwd η == c $ ≅.fwd ψ m∘ ≅.fwd φ) → (≅.bck η == c $ ≅.bck φ m∘ ≅.bck ψ)
 inv-m∘ c ψ φ (mk≅ .(c $ ≅.fwd ψ m∘ ≅.fwd φ) ηbck ηsrc ηtgt) refl =
   map= ≅.bck (((mk≅ (c $ ≅.fwd ψ m∘ ≅.fwd φ) ηbck ηsrc ηtgt) == c $ ψ i∘ φ) ∋ ≅ext refl)
+
+-------------------------------
+
+i-tra : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y : c.Obj c} → (p : x == y) → Iso c x y
+i-tra c {x}{.x} refl = i-id c x
+
+i-tra-loop : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → (x : c.Obj c) → {p q : x == x} → i-tra c p == i-tra c q
+i-tra-loop c x {p}{q} = map= (i-tra c {x}{x}) {p}{q} uip
