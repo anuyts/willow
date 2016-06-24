@@ -7,8 +7,6 @@ module willow.cat.CwF.Psh {ℓoW ℓhW : Level} (ℓtm : Level) (cW : Cat ℓoW 
 
 open import willow.cat.Presheaf ℓtm cW public
 
-postulate hole : ∀{ℓ} {A : Set ℓ} → A
-
 c-pshtm : (cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet (ℓtm ⊔ (ℓhW ⊔ ℓoW)))
 f.obj c-pshtm (pA , dpT) = Lim dpT
 f.hom c-pshtm {pB , dpT} {pA , dpTf} (pf , dpTf=) =
@@ -97,80 +95,27 @@ f.hom-m∘ c-pshtm {pC , dpC} {pB , dpB} {pA , dpA} (pf , dpBf=A) (pg , dpCg=B) 
         )
       )})
 
-{-
---the term functor
-c-pshtm : (cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet (ℓtm ⊔ (ℓhW ⊔ ℓoW))) --cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet ℓtm
-f.obj c-pshtm (pA , T) = Lim T
---Lim.obj (f.hom c-pshtm {pB , T} {pA , Tf} (pf , Tf=) t) (w , a) =
---        tra (λ S → f.obj S (w , a)) / Tf= of Lim.obj t (w , nt.obj pf w a)
---Lim.hom (f.hom c-pshtm {pB , T} {pA , Tf} (pf , Tf=) t) {w , aρ} {w' , a} (ρ , aρ=) = {!!}
-f.hom c-pshtm {pB , T} {pA , Tf} (pf , Tf=) = mapLim (nt-tra idf / Tf=) ∘ restrLim (c-op (c∫-hom pf))
-f.hom-id c-pshtm (pA , T) =
-  via f.hom c-pshtm {pA , T} {pA , T} (c.id (cOp∫ {cA = cOp cPsh} c-dpsh) (pA , T)) $ refl •
-  via mapLim (nt-tra idf / prr (c.id (cOp∫ {cA = cOp cPsh} c-dpsh) (pA , T))) ∘ restrLim (c-op (c∫-hom (nt-id pA))) $ refl •
-  via mapLim (nt-tra idf / map= (λ f → f(prr (pA , T))) (f.hom-id c-dpsh (prl (pA , T)))) ∘ restrLim (c-op (c∫-hom (nt-id pA))) $ refl •
-  {!!}
+c-pshcompr : cOp∫ c-dpsh ++> cPsh
 
-  {-λ= l => lim-ext (funext λ{(w , a) →
-    via nt.obj (nt-id T) (w , a) (Lim.obj l (w , a)) $ {!!} •
-    {!!}
-  })
-  -}
+f.obj (f.obj c-pshcompr (pA , dpT)) w = Sum λ (a : f.obj pA w) → f.obj dpT (w , a)
+f.hom (f.obj c-pshcompr (pA , dpT)) {v}{w} ρ (a , t) = (f.hom pA ρ a) , (f.hom dpT ({!!} , {!!}) t)
+f.hom-id (f.obj c-pshcompr (pA , dpT)) x = {!!}
+f.hom-m∘ (f.obj c-pshcompr (pA , dpT)) ψ φ = {!!}
 
-  {-λ= l => lim-ext (
-    via Lim.obj (
-      (mapLim (nt-tra idf / prr (c.id (cOp∫ {cA = cOp cPsh} c-dpsh) (pA , T)))
-      ∘
-      restrLim (c-op (c∫-hom (nt-id pA))))
-      l ) $ refl •
-    via Lim.obj ( (mapLim (nt-transport {-{cA = cOp∫ pA}{cB = cSet ℓtm}-}{E = cOp∫ pA ++> cSet ℓtm}{T}{T} idf refl) ∘ restrLim (c-op (c∫-hom (nt-id pA)))) l ) $
-      map= (λ p → Lim.obj ( (mapLim (nt-tra idf / p) ∘ restrLim (c-op (c∫-hom (nt-id pA)))) l ) ) uip •
-    funext (λ{(w , a) → refl})
-  )-}
-
-  {-(funext (λ {(w , a) →
-    --via nt.obj (nt-tra idf / refl) (w , a) (Lim.obj l (w , a)) $
-    --  {!map= (λ p → nt.obj (nt-tra idf / p) (w , a) (Lim.obj l (w , a))) ?!} •
-    
-    {!!}
-    --map= (λ p → nt.obj (nt-tra idf / p) (w , a) (Lim.obj l (w , a))) uip
-  }))-}
-f.hom-m∘ c-pshtm ψ φ = {!!}
--}
+f.hom c-pshcompr φ = {!!}
+f.hom-id c-pshcompr x = {!!}
+f.hom-m∘ c-pshcompr ψ φ = {!!}
 
 cwfPsh : CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) (ℓtm ⊔ (ℓhW ⊔ ℓoW))
 CwF.cCtx cwfPsh = cPsh
 CwF.∙ cwfPsh = p⊤
 CwF.∙isterminal cwfPsh = isterminal-p⊤
-  --hole --isterminal-p⊤
-  {-
-  let IsTerminalUncurried : Sum (λ (cA : Cat (ℓoW ⊔ ℓhW ⊔ lsuc ℓty) (ℓoW ⊔ ℓhW ⊔ lsuc ℓty)) → c.Obj cA)
-                          → Set (lsuc (lsuc ℓty) ⊔ (lsuc ℓhW ⊔ lsuc ℓoW))
-      IsTerminalUncurried = λ {(cA , a) → IsTerminal cA a}
-      p : Sum (λ (cA : Cat _ _) → c.Obj cA) $ (CwF.cCtx cwfPsh , CwF.∙ cwfPsh) == (cPsh , p⊤)
-      p = refl
-      --isterminaluncurried-p⊤ : IsTerminalUncurried (cPsh , p⊤)
-      --isterminaluncurried-p⊤ = isterminal-p⊤
-      q : IsTerminal (CwF.cCtx cwfPsh) (CwF.∙ cwfPsh) == IsTerminal cPsh p⊤
-      q = via IsTerminalUncurried (CwF.cCtx cwfPsh , CwF.∙ cwfPsh) $ refl •
-          via IsTerminalUncurried (cPsh , p⊤) $ map= IsTerminalUncurried p •
-          via IsTerminal cPsh p⊤ $ refl •
-          refl
-  in  tra idf / sym q of (IsTerminal cPsh p⊤ ∋ {!isterminal-p⊤!})
-  -}
-
-  --{!IsTerminalUncurried (CwF.cCtx cwfPsh , CwF.∙ cwfPsh) ∋ (tra IsTerminalUncurried / p of ((IsTerminalUncurried (cPsh , p⊤)) ∋ {!isterminal-p⊤!}))!}
-  {-
-  IsTerminal (CwF.cCtx cwfPsh) (CwF.∙ cwfPsh) ∋ (tra (λ cA → IsTerminal cA (CwF.∙ cwfPsh)) / refl of (
-    IsTerminal cPsh (CwF.∙ cwfPsh) ∋ ?
-  ))
-  -}
 CwF.c-ty cwfPsh = c-dpsh
 CwF.c-tm cwfPsh = c-pshtm
-CwF.c-compr cwfPsh = hole
-CwF.nt-wkn cwfPsh = hole
-CwF.lim-var cwfPsh = hole
-CwF.canpair cwfPsh = hole
+CwF.c-compr cwfPsh = c-pshcompr
+CwF.nt-wkn cwfPsh = {!!}
+CwF.lim-var cwfPsh = {!!}
+CwF.canpair cwfPsh = {!!}
 
 --1 full CPU, but little memory consumption
 
