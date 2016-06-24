@@ -10,22 +10,22 @@ open import willow.cat.Presheaf ℓtm cW public
 c-pshtm : (cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet (ℓtm ⊔ (ℓhW ⊔ ℓoW)))
 f.obj c-pshtm (pA , dpT) = Lim dpT
 f.hom c-pshtm {pB , dpT} {pA , dpTf} (pf , dpTf=) =
-  mapLim (≅.fwd (i-tra (cExp (cOp∫ pA) (cSet ℓtm)) dpTf=)) ∘ restrLim (c-op (c∫-hom pf))
+  mapLim (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpTf=)) ∘ restrLim (c∫-hom pf)
 f.hom-id c-pshtm (pA , dpT) = (f.hom c-pshtm (c.id (cOp (cOp∫ c-dpsh)) (pA , dpT))) == idf ∋ (
     let pf : c.Hom cPsh pA pA
         pf = c.id cPsh pA
         --dpTf= : f.hom c-dpsh (c.id cPsh pA) dpT == dpT
-        dpT∘f : cOp∫ pA ++> cSet ℓtm
-        dpT∘f = dpT c∘ cOp∫-hom pf
-        dpTf= : dpT c∘ cOp∫-hom pf == dpT
+        dpT∘f : c∫ pA ++> cSet ℓtm
+        dpT∘f = dpT c∘ c∫-hom pf
+        dpTf= : dpT c∘ c∫-hom pf == dpT
         dpTf= = map= (λ f → f dpT) (f.hom-id c-dpsh pA)
         nt-tra-dpTf= : dpT∘f nt→ dpT
-        nt-tra-dpTf= = (≅.fwd (i-tra (cExp (cOp∫ pA) (cSet ℓtm)) dpTf=))
-    in mapLim nt-tra-dpTf= ∘ restrLim (cOp∫-hom pf) == idf ∋ (
+        nt-tra-dpTf= = (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpTf=))
+    in mapLim nt-tra-dpTf= ∘ restrLim (c∫-hom pf) == idf ∋ (
       λ= l => lim-ext (funext λ{(w , a) →
-        via Lim.obj ((mapLim nt-tra-dpTf= ∘ restrLim (cOp∫-hom pf)) l) (w , a) $ refl •
-        via nt.obj nt-tra-dpTf= (w , a) (Lim.obj (restrLim (cOp∫-hom pf) l) (w , a)) $ refl •
-        via nt.obj nt-tra-dpTf= (w , a) (Lim.obj l (f.obj (cOp∫-hom pf) (w , a))) $ refl •
+        via Lim.obj ((mapLim nt-tra-dpTf= ∘ restrLim (c∫-hom pf)) l) (w , a) $ refl •
+        via nt.obj nt-tra-dpTf= (w , a) (Lim.obj (restrLim (c∫-hom pf) l) (w , a)) $ refl •
+        via nt.obj nt-tra-dpTf= (w , a) (Lim.obj l (f.obj (c∫-hom pf) (w , a))) $ refl •
         via nt.obj nt-tra-dpTf= (w , a) (Lim.obj l (w , a)) $ refl •
         via tra! (map= (λ ch → f.obj ch (w , a)) dpTf=) (Lim.obj l (w , a)) $
           happly (nt-tra-set-lemma {cf = dpT∘f}{dpT} dpTf= (w , a)) (Lim.obj l (w , a)) •
@@ -38,44 +38,44 @@ f.hom-id c-pshtm (pA , dpT) = (f.hom c-pshtm (c.id (cOp (cOp∫ c-dpsh)) (pA , d
 f.hom-m∘ c-pshtm {pC , dpC} {pB , dpB} {pA , dpA} (pf , dpBf=A) (pg , dpCg=B) =
   let pgf : c.Hom cPsh pA pC
       pgf = cPsh $ pg m∘ pf
-      dpB∘f : cOp∫ pA ++> cSet ℓtm
-      dpB∘f = dpB c∘ cOp∫-hom pf
-      dpC∘g : cOp∫ pB ++> cSet ℓtm
-      dpC∘g = dpC c∘ cOp∫-hom pg
-      dpC∘g∘f : cOp∫ pA ++> cSet ℓtm
-      dpC∘g∘f = dpC c∘ cOp∫-hom (pg nt∘ pf)
+      dpB∘f : c∫ pA ++> cSet ℓtm
+      dpB∘f = dpB c∘ c∫-hom pf
+      dpC∘g : c∫ pB ++> cSet ℓtm
+      dpC∘g = dpC c∘ c∫-hom pg
+      dpC∘g∘f : c∫ pA ++> cSet ℓtm
+      dpC∘g∘f = dpC c∘ c∫-hom (pg nt∘ pf)
       dpCgf=A : dpC∘g∘f == dpA
-      dpCgf=A = (prr (cOp (cOp∫ c-dpsh) $ pf , dpBf=A m∘ (pg , dpCg=B))) 
+      dpCgf=A = (prr (c∫ c-dpsh $ pf , dpBf=A m∘ (pg , dpCg=B))) 
       nt-tra-Bf→A : dpB∘f nt→ dpA
-      nt-tra-Bf→A = (≅.fwd (i-tra (cExp (cOp∫ pA) (cSet ℓtm)) dpBf=A))
+      nt-tra-Bf→A = (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpBf=A))
       nt-tra-Cg→B : dpC∘g nt→ dpB
-      nt-tra-Cg→B = (≅.fwd (i-tra (cExp (cOp∫ pB) (cSet ℓtm)) dpCg=B))
+      nt-tra-Cg→B = (≅.fwd (i-tra (cExp (c∫ pB) (cSet ℓtm)) dpCg=B))
       nt-tra-Cgf→A : dpC∘g∘f nt→ dpA
-      nt-tra-Cgf→A = (≅.fwd (i-tra (cExp (cOp∫ pA) (cSet ℓtm)) dpCgf=A))
+      nt-tra-Cgf→A = (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpCgf=A))
   in  (
-        mapLim (≅.fwd (i-tra (cExp (cOp∫ pA) (cSet ℓtm)) dpCgf=A)) ∘ restrLim (cOp∫-hom pgf)
+        mapLim (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpCgf=A)) ∘ restrLim (c∫-hom pgf)
         ==
-        (mapLim (≅.fwd (i-tra (cExp (cOp∫ pA) (cSet ℓtm)) dpBf=A)) ∘ restrLim (cOp∫-hom pf)) ∘
-        (mapLim (≅.fwd (i-tra (cExp (cOp∫ pB) (cSet ℓtm)) dpCg=B)) ∘ restrLim (cOp∫-hom pg))
+        (mapLim (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpBf=A)) ∘ restrLim (c∫-hom pf)) ∘
+        (mapLim (≅.fwd (i-tra (cExp (c∫ pB) (cSet ℓtm)) dpCg=B)) ∘ restrLim (c∫-hom pg))
       ) ∋ λ= l => lim-ext (funext λ{(w , a) → (
         let b = nt.obj pf w a
             c = nt.obj pg w b
         in  (
-          via Lim.obj ((mapLim (≅.fwd (i-tra (cExp (cOp∫ pA) (cSet ℓtm)) dpCgf=A)) ∘ restrLim (cOp∫-hom pgf)) l) (w , a)
+          via Lim.obj ((mapLim (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpCgf=A)) ∘ restrLim (c∫-hom pgf)) l) (w , a)
             $ refl •
-          via nt.obj nt-tra-Cgf→A (w , a) (Lim.obj (restrLim (cOp∫-hom pgf) l) (w , a)) $ refl •
-          via nt.obj nt-tra-Cgf→A (w , a) (Lim.obj l (f.obj (cOp∫-hom pgf) (w , a))) $ refl •
+          via nt.obj nt-tra-Cgf→A (w , a) (Lim.obj (restrLim (c∫-hom pgf) l) (w , a)) $ refl •
+          via nt.obj nt-tra-Cgf→A (w , a) (Lim.obj l (f.obj (c∫-hom pgf) (w , a))) $ refl •
           via nt.obj nt-tra-Cgf→A (w , a) (Lim.obj l (w , c)) $ refl •
           via tra! (map= (λ ch → f.obj ch (w , a)) dpCgf=A) (Lim.obj l (w , c)) $
             happly (nt-tra-set-lemma dpCgf=A (w , a)) (Lim.obj l (w , c)) •
           refl
         ) • sym (
           via Lim.obj (
-              ((mapLim (≅.fwd (i-tra (cExp (cOp∫ pA) (cSet ℓtm)) dpBf=A)) ∘ restrLim (cOp∫-hom pf)) ∘
-               (mapLim (≅.fwd (i-tra (cExp (cOp∫ pB) (cSet ℓtm)) dpCg=B)) ∘ restrLim (cOp∫-hom pg)))
+              ((mapLim (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpBf=A)) ∘ restrLim (c∫-hom pf)) ∘
+               (mapLim (≅.fwd (i-tra (cExp (c∫ pB) (cSet ℓtm)) dpCg=B)) ∘ restrLim (c∫-hom pg)))
             l) (w , a) $ refl •
           via nt.obj nt-tra-Bf→A (w , a) (Lim.obj
-              ((mapLim (≅.fwd (i-tra (cExp (cOp∫ pB) (cSet ℓtm)) dpCg=B)) ∘ restrLim (cOp∫-hom pg)) l) (w , b)) $ refl •
+              ((mapLim (≅.fwd (i-tra (cExp (c∫ pB) (cSet ℓtm)) dpCg=B)) ∘ restrLim (c∫-hom pg)) l) (w , b)) $ refl •
           via nt.obj nt-tra-Bf→A (w , a) (nt.obj nt-tra-Cg→B (w , b) (Lim.obj l (w , c))) $ refl •
           via tra! (map= (λ ch → f.obj ch (w , a)) dpBf=A) (nt.obj nt-tra-Cg→B (w , b) (Lim.obj l (w , c))) $
             happly (nt-tra-set-lemma dpBf=A (w , a)) (nt.obj nt-tra-Cg→B (w , b) (Lim.obj l (w , c))) •

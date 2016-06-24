@@ -34,11 +34,11 @@ nt.hom (≅.bck isterminal-p⊤) {pA} {pB} pf = λ= liftp* => cone-ext (funext (
 [isterminal-p⊤] = wrap isterminal-p⊤
 
 DPsh : (pA : Psh) → Set ((lsuc ℓ) ⊔ ℓhW ⊔ ℓoW)
-DPsh pA = cOp∫ pA ++> cSet ℓ
+DPsh pA = c∫ pA ++> cSet ℓ
 
 c-dpsh : cOp cPsh ++> cSet ((lsuc ℓ) ⊔ ℓhW ⊔ ℓoW)
 f.obj c-dpsh pA = DPsh pA
-f.hom c-dpsh {pB}{pA} pf dpT = dpT c∘ cOp∫-hom pf
+f.hom c-dpsh {pB}{pA} pf dpT = dpT c∘ c∫-hom pf
 f.hom-id c-dpsh pA = λ= dpT => functorext (pair-ext refl (λi= w,a => λi= w',a' => λ= ρ,p =>
     map= (f.hom dpT) (pair-ext refl uip)
   ))
