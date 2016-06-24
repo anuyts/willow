@@ -3,6 +3,7 @@ module willow.basic.Propositional.HeteroIdentity where
 open import willow.basic.Propositional
 open import willow.basic.Identity
 open import willow.basic.Sum
+open import willow.basic.Function
 
 data _,_$_===_ {ℓ} : (A B : Set ℓ) → (a : A) → (b : B) → Set ℓ where
   hrefl : {A : Set ℓ} → {a : A} → A , A $ a === a
@@ -41,3 +42,11 @@ pair-hext : ∀{α β} → {A : Set α} → {B : A → Set β}
   → {b : B a} → {b' : B a'} → (q : b === b')
   → (a , b) == (a' , b')
 pair-hext {_}{_} {A}{B} {a}{.a} refl {b}{.b} hrefl = refl
+
+{-
+comp-hlemma : ∀{ℓA ℓB ℓC} → {A A' : Set ℓA} → {B B' : Set ℓB} → {C C' : Set ℓC}
+  → {f : A → B} → {f' : A' → B'} → (p : f === f')
+  → {g : B → C} → {g' : B' → C'} → (q : g === g')
+  → (g ∘ f === g' ∘ f')
+comp-hlemma {A = A}{.A}{B}{.B}{C}{.C} hrefl hrefl = hrefl
+-}
