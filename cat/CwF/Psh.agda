@@ -2,6 +2,7 @@ open import willow.cat.CwF public
 open import willow.basic.TransportLemmas public
 open import willow.cat.Isomorphism public
 open import willow.cat.NaturalTransformation
+open import willow.basic.Propositional.HeteroIdentity
 
 module willow.cat.CwF.Psh {ℓoW ℓhW : Level} (ℓtm : Level) (cW : Cat ℓoW ℓhW) where
 
@@ -96,15 +97,42 @@ f.hom-m∘ c-pshtm {pC , dpC} {pB , dpB} {pA , dpA} (pf , dpBf=A) (pg , dpCg=B) 
       )})
 
 c-pshcompr : cOp∫ c-dpsh ++> cPsh
-
---define pshcompr in Presheaf.agda
---show that if f === f' and g === g' then f∘g == f'∘g'
---show that tra! p == id
-f.obj (f.obj c-pshcompr (pA , dpT)) w = Sum λ (a : f.obj pA w) → f.obj dpT (w , a)
-f.hom (f.obj c-pshcompr (pA , dpT)) {v}{w} ρ (a , t) = (f.hom pA ρ a) , (f.hom dpT (ρ , refl) t)
-f.hom-id (f.obj c-pshcompr (pA , dpT)) w = funext λ{(a , t) → pair-ext (happly (f.hom-id pA w) a) {!!}}
-f.hom-m∘ (f.obj c-pshcompr (pA , dpT)) {u}{v}{w} σ ρ = {!!}
-
+_++>_.obj (_++>_.obj c-pshcompr (pA , dpT)) w = Sum λ (a : f.obj pA w) → f.obj dpT (w , a)
+_++>_.hom (_++>_.obj c-pshcompr (pA , dpT)) {v}{w} ρ (a , t) = (f.hom pA ρ a) , (f.hom dpT (ρ , refl) t)
+_++>_.hom-id (_++>_.obj c-pshcompr (pA , dpT)) w = funext λ{(a , t) → pair-ext (happly (f.hom-id pA w) a) (to-homog (
+    via (tra! (map= (λ a → f.obj dpT (w , a)) (happly (f.hom-id pA w) a)) ∘ f.hom dpT (c.id (cOp cW) w , refl)) t $ hrefl h•
+    via f.hom dpT {w , a} {w , f.hom pA (c.id (cOp cW) w) a} (c.id (cOp cW) w , refl) t $
+      hhapply
+        {B = λ _ → f.obj dpT (w , a)}
+        {B' = λ _ → f.obj dpT (w , f.hom pA (c.id (cOp cW) w) a)}
+        (htra! (map= (λ a → f.obj dpT (w , a)) (happly (f.hom-id pA w) a)))
+        (f.hom dpT (c.id (cOp cW) w , refl) t) h•
+    via f.hom dpT {w , a} {w , a} (c.id (c∫ pA) (w , a)) t $
+      hhapply
+        {B = λ _ → f.obj dpT (w , f.hom pA (c.id (cOp cW) w) a)}
+        {B' = λ _ → f.obj dpT (w , a)}
+        {f.hom dpT (c.id (cOp cW) w , refl)}
+        {f.hom dpT (c.id (c∫ pA) (w , a))}
+        ((hdmap= (λ a' → λ p → f.hom dpT {w , a} {w , a'} (c.id (cOp cW) w , p))
+            (happly (f.hom-id pA w) a)
+          ) =aph=
+            huip hrefl
+          )
+        t h•
+    (via t $
+      hhapply
+        {B = λ _ → f.obj dpT (w , a)}
+        {B' = λ _ → f.obj dpT (w , a)}
+        {f.hom dpT {w , a} {w , a} (c.id (c∫ pA) (w , a))}
+        {idf}
+        (to-heter (f.hom-id dpT (w , a)))
+        t h•
+    hrefl)
+  ))}
+_++>_.hom-m∘ (_++>_.obj c-pshcompr (pA , dpT)) {w}{v}{u} ρ σ = funext λ{ (a , t) → pair-ext (happly (f.hom-m∘ pA ρ σ) a) (to-homog (
+    via ? $ ? h•
+    {!!}
+  ))}
 f.hom c-pshcompr φ = {!!}
 f.hom-id c-pshcompr x = {!!}
 f.hom-m∘ c-pshcompr ψ φ = {!!}

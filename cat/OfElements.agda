@@ -8,13 +8,12 @@ open import willow.cat.Opposite public
 c∫ : ∀{ℓoA ℓhA ℓf} → {cA : Cat ℓoA ℓhA} → (cf : cA ++> cSet ℓf) → Cat (ℓf ⊔ ℓoA) (ℓf ⊔ ℓhA)
 Cat.Obj (c∫ {cA = cA} cf) = Sum (λ (x : c.Obj cA) → f.obj cf x)
 Cat.Hom (c∫ {cA = cA} cf) x y = Sum (λ (φ : c.Hom cA (prl x) (prl y)) → (f.hom cf φ) (prr x) == prr y)
-prl (Cat.id (c∫ {cA = cA} cf) x) = (c.id cA (prl x))
-prr (Cat.id (c∫ {cA = cA} cf) x) = map= (λ f → f(prr x)) (f.hom-id cf (prl x))
-prl (Cat.comp (c∫ {cA = cA} cf) ψ φ) = c.comp cA (prl ψ) (prl φ)
-prr (Cat.comp (c∫ {cA = cA} cf) {x}{y}{z} ψ φ) =
-  map= (λ f → f(prr x)) (f.hom-m∘ cf (prl ψ) (prl φ)) •
-  map= (f.hom cf (prl ψ)) (prr φ) •
-  prr ψ
+Cat.id (c∫ {cA = cA} cf) x = (c.id cA (prl x)) , map= (λ f → f(prr x)) (f.hom-id cf (prl x))
+Cat.comp (c∫ {cA = cA} cf) {x}{y}{z} ψ φ = c.comp cA (prl ψ) (prl φ) , (
+    map= (λ f → f(prr x)) (f.hom-m∘ cf (prl ψ) (prl φ)) •
+    map= (f.hom cf (prl ψ)) (prr φ) •
+    prr ψ
+  )
 Cat.m∘assoc (c∫ {cA = cA} cf) = pair-ext (c.m∘assoc cA) uip
 Cat.m∘lunit (c∫ {cA = cA} cf) = pair-ext (c.m∘lunit cA) uip
 Cat.m∘runit (c∫ {cA = cA} cf) = pair-ext (c.m∘runit cA) uip
