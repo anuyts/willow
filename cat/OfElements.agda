@@ -35,8 +35,7 @@ f.hom-m∘ c-co-pr ψ φ = refl
 
 c∫-hom : ∀{ℓoA ℓhA ℓf} {cA : Cat ℓoA ℓhA} → {cf cg : cA ++> cSet ℓf} → (nta : cf nt→ cg) → c∫ cf ++> c∫ cg
 f.obj (c∫-hom nta) a,x = (prl a,x) , (nt.obj nta (prl a,x) (prr a,x))
-prl (f.hom (c∫-hom nta) {a,x} {b,y} φ,p) = prl φ,p
-prr (f.hom (c∫-hom {cA = cA}{cf}{cg} nta) {a,x} {b,y} φ,p) =
+f.hom (c∫-hom {cA = cA}{cf}{cg} nta) {a,x} {b,y} φ,p = prl φ,p ,
   via (f.hom cg (prl φ,p) ∘ nt.obj nta (prl a,x)) (prr a,x) $ refl •
   via (nt.obj nta (prl b,y) ∘ f.hom cf (prl φ,p)) (prr a,x) $ happly (nt.hom nta (prl φ,p)) (prr a,x) •
   via (nt.obj nta (prl b,y)) (prr b,y) $ map= (nt.obj nta (prl b,y)) (prr φ,p) •

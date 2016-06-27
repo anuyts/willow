@@ -49,38 +49,6 @@ f.hom-m∘ c-dpsh {pC}{pB}{pA} pf pg = λ= dpT => functorext (pair-ext refl (λi
 psh∫ : {pA : Psh} (dpT : DPsh pA) → Psh
 f.obj (psh∫ {pA} dpT) w = Sum λ (a : f.obj pA w) → f.obj dpT (w , a)
 f.hom (psh∫ {pA} dpT) {v}{w} ρ (a , t) = (f.hom pA ρ a) , (f.hom dpT (ρ , refl) t)
-{-
-f.hom-id (psh∫ {pA} dpT) w = funext λ{(a , t) → pair-ext (happly (f.hom-id pA w) a) (to-homog (
-    via (tra! (map= (λ a → f.obj dpT (w , a)) (happly (f.hom-id pA w) a)) ∘ f.hom dpT (c.id (cOp cW) w , refl)) t $ hrefl h•
-    via f.hom dpT {w , a} {w , f.hom pA (c.id (cOp cW) w) a} (c.id (cOp cW) w , refl) t $
-      hhapply
-        {B = λ _ → f.obj dpT (w , a)}
-        {B' = λ _ → f.obj dpT (w , f.hom pA (c.id (cOp cW) w) a)}
-        (htra! (map= (λ a → f.obj dpT (w , a)) (happly (f.hom-id pA w) a)))
-        (f.hom dpT (c.id (cOp cW) w , refl) t) h•
-    via f.hom dpT {w , a} {w , a} (c.id (c∫ pA) (w , a)) t $
-      hhapply
-        {B = λ _ → f.obj dpT (w , f.hom pA (c.id (cOp cW) w) a)}
-        {B' = λ _ → f.obj dpT (w , a)}
-        {f.hom dpT (c.id (cOp cW) w , refl)}
-        {f.hom dpT (c.id (c∫ pA) (w , a))}
-        ((hdmap= (λ a' → λ p → f.hom dpT {w , a} {w , a'} (c.id (cOp cW) w , p))
-            (happly (f.hom-id pA w) a)
-          ) =aph=
-            huip hrefl
-          )
-        t h•
-    (via t $
-      hhapply
-        {B = λ _ → f.obj dpT (w , a)}
-        {B' = λ _ → f.obj dpT (w , a)}
-        {f.hom dpT {w , a} {w , a} (c.id (c∫ pA) (w , a))}
-        {idf}
-        (to-heter (f.hom-id dpT (w , a)))
-        t h•
-    hrefl)
-  ))}
--}
 f.hom-id (psh∫ {pA} dpT) w = funext λ{(a , t) → pair-hext (happly (f.hom-id pA w) a) (
     via f.hom dpT {w , a} {w , f.hom pA (c.id (cOp cW) w) a} (c.id (cOp cW) w , refl) t $ hrefl h•
     via f.hom dpT {w , a} {w , a} (c.id (c∫ pA) (w , a)) t $
