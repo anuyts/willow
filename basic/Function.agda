@@ -5,6 +5,11 @@ open import willow.basic.Coproduct public
 open import willow.basic.Sum public
 --open import willow.basic.Basic public
 
+--former-------------------------------------
+
+Fun : ∀{ℓA ℓB} → (A : Set ℓA) → (B : Set ℓB) → Set (ℓB ⊔ ℓA)
+Fun A B = A → B
+
 --identity----------------------------------
 
 idf : ∀ {α} → {X : Set α} → X → X

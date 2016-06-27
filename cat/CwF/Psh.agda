@@ -102,7 +102,10 @@ c-pshcompr : cOp∫ c-dpsh ++> cPsh
 --show that tra! p == id
 f.obj (f.obj c-pshcompr (pA , dpT)) w = Sum λ (a : f.obj pA w) → f.obj dpT (w , a)
 f.hom (f.obj c-pshcompr (pA , dpT)) {v}{w} ρ (a , t) = (f.hom pA ρ a) , (f.hom dpT (ρ , refl) t)
-f.hom-id (f.obj c-pshcompr (pA , dpT)) w = funext λ{(a , t) → pair-ext (happly (f.hom-id pA w) a) {!!}}
+f.hom-id (f.obj c-pshcompr (pA , dpT)) w = funext λ{(a , t) → pair-ext (happly (f.hom-id pA w) a) (
+    via (tra! (map= (λ a → f.obj dpT (w , a)) (happly (f.hom-id pA w) a)) ∘ f.hom dpT (c.id (cOp cW) w , refl)) t $ refl •
+    {!!}
+  )}
 f.hom-m∘ (f.obj c-pshcompr (pA , dpT)) {u}{v}{w} σ ρ = {!!}
 
 f.hom c-pshcompr φ = {!!}
