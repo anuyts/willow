@@ -97,12 +97,12 @@ f.hom-m∘ c-pshtm {pC , dpC} {pB , dpB} {pA , dpA} (pf , dpBf=A) (pg , dpCg=B) 
       )})
 
 c-pshcompr : cOp∫ c-dpsh ++> cPsh
-f.obj c-pshcompr (pA , dpT) = psh∫ dpT
+f.obj c-pshcompr (pA , dpT) = p∫ dpT
 nt.obj (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) w (a , ta) =
   (nt.obj pf w a) , (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) ta)
 nt.hom (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) {w}{v} ρ = funext
-  {A = f.obj (psh∫ dpA) w}
-  {B = λ _ → f.obj (psh∫ dpB) v}
+  {A = f.obj (p∫ dpA) w}
+  {B = λ _ → f.obj (p∫ dpB) v}
   {f = λ a,t → (
     let a = prl a,t
         t = prr a,t
@@ -159,9 +159,86 @@ f.hom-id c-pshcompr (pA , dpT) = nt-ext (λ= w => funext λ{(a , t) → pair-hex
                (λ w,a →
                   funexti
                   (λ w',a' →
-                     funext (λ ρ,p → map= (_++>_.hom dpT₁) (pair-ext refl uip)))))))))))) t)
+                     funext (λ ρ,p → map= (f.hom dpT₁) (pair-ext refl uip)))))))))))) t)
   })
-f.hom-m∘ c-pshcompr ψ φ = {!!}
+f.hom-m∘ c-pshcompr {pA , dpA}{pB , dpB}{pC , dpC} (pg , dpCg=B) (pf , dpBf=A) =
+  nt-ext (λ= w => funext
+    {A = f.obj (p∫ dpA) w}
+    {B = λ _ → f.obj (p∫ dpC) w}
+    {f = λ a,t →
+      let a = prl a,t
+          t = prr a,t
+      in  nt.obj (pg nt∘ pf) w a , tra! (map= (λ dpX → f.obj dpX (w , a))
+            (sym (prr (cOp∫ c-dpsh $ (pg , dpCg=B) m∘ (pf , dpBf=A))))) t
+      }
+    {g = λ a,t →
+      let a = prl a,t
+          b = nt.obj pf w a
+          t = prr a,t
+      in  nt.obj (pg nt∘ pf) w a ,
+            (tra! (map= (λ dpX → f.obj dpX (w , b)) (sym dpCg=B)) ∘ tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A))) t
+      }
+    (λ{(a , t) → pair-hext refl (
+      let b = nt.obj pf w a
+      in
+      via tra! (map= (λ dpX → f.obj dpX (w , a)) (sym (prr (cOp∫ c-dpsh $ pg , dpCg=B m∘ (pf , dpBf=A))))) t $
+        hrefl h•
+      via t $
+        hhapply (htra! (map= (λ dpX → f.obj dpX (w , a)) (sym (prr (cOp∫ c-dpsh $ pg , dpCg=B m∘ (pf , dpBf=A)))))) t h•
+      via (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A))) t $
+        hsym (hhapply (htra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A))) t) h•
+      via (tra! (map= (λ dpX → f.obj dpX (w , _nt→_.obj pf w a)) (sym dpCg=B))
+          ∘ tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A))) t $
+        hsym (hhapply (htra! (map= (λ dpX → f.obj dpX (w , _nt→_.obj pf w a)) (sym dpCg=B)))
+          ((tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A))) t)
+        ) h•
+      hrefl
+    )})
+  )
+
+nt-pshwkn : c-pshcompr nt→ c-co-pr
+nt.obj nt-pshwkn (pA , dpT) = p-pr
+nt.hom nt-pshwkn {pA , dpA}{pB , dpB} (pf , dpBf=A) = nt-ext refl
+
+lim-pshvar-obj : (pA,dpT : Cat.Obj (cOp∫ c-dpsh)) → Lim (f.hom c-dpsh (p-pr {prl pA,dpT}{prr pA,dpT}) (prr pA,dpT))
+Lim.obj (lim-pshvar-obj (pA , dpT)) (w , (a , t)) = t
+Lim.hom (lim-pshvar-obj (pA , dpT)) {wa , (a , ta)} {wb , (b , tb)} (ρ , p) = to-homog (
+    via f.hom dpT {wa , a}{wb , b} (ρ , via b $ map= (λ r → prl r) p • refl) ta $ hrefl h•
+    via f.hom dpT {wa , a}{wb , f.hom pA ρ a} (ρ , refl) ta $
+      (hdmap= (λ b' → λ q → f.hom dpT {wa , a}{wb , b'} (ρ , q) ta) (map= prl (sym p))) =aph= huip hrefl h•
+    via tb $ hdmap= prr p h•
+    hrefl
+  )
+
+lim-pshvar : Lim (c-pshtm c∘ c-op (cOpDeptPair c-pshcompr (c-dpsh c∘nt nt-op nt-pshwkn)))
+Lim.obj lim-pshvar (pA , dpT) = lim-pshvar-obj (pA , dpT)
+Lim.hom lim-pshvar {pB , dpB}{pA , dpA} (pf , dpBf=A) = lim-ext (
+  let monstrosity : (c∫ (p∫ dpA) ++> cSet ℓtm) $
+                      dpB c∘ c∫-hom p-pr c∘ c∫-hom (f.hom c-pshcompr (pf , dpBf=A)) == (dpA c∘ c∫-hom p-pr)
+      monstrosity = prr (f.hom (cOpDeptPair c-pshcompr (c-dpsh c∘nt nt-op nt-pshwkn)) (pf , dpBf=A))
+  in
+  funext
+    {f = Lim.obj
+           (f.hom
+            (c-pshtm c∘
+             c-op (cOpDeptPair c-pshcompr (c-dpsh c∘nt nt-op nt-pshwkn)))
+            (pf , dpBf=A) (lim-pshvar-obj (pB , dpB)))}
+    {g = λ w,a,t → prr (prr w,a,t)}
+    (λ{(w , (a , t)) → to-homog (
+      via nt.obj (nt-tra monstrosity) (w , a , t) (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t) $ hrefl h•
+      via tra! (map= (λ ch → f.obj ch (w , a , t)) monstrosity)
+          (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t) $
+        to-heter (happly (nt-tra-set-lemma monstrosity (w , a , t))
+          (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t)) h•
+      via tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t $
+        hhapply (htra! (map= (λ ch → f.obj ch (w , a , t)) monstrosity))
+          (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t) h•
+      via t $ hhapply (htra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A))) t h•
+      hrefl
+    )
+  }))
+
+--pshcanpair : {pB pA : Psh} {dpT : DPsh pA} → IsIso (cSet ((lsuc ℓtm) ⊔ ℓoW ⊔ ℓhW))
 
 cwfPsh : CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) (ℓtm ⊔ (ℓhW ⊔ ℓoW))
 CwF.cCtx cwfPsh = cPsh
@@ -170,7 +247,13 @@ CwF.∙isterminal cwfPsh = isterminal-p⊤
 CwF.c-ty cwfPsh = c-dpsh
 CwF.c-tm cwfPsh = c-pshtm
 CwF.c-compr cwfPsh = c-pshcompr
-CwF.nt-wkn cwfPsh = {!!}
-CwF.lim-var cwfPsh = {!!}
-CwF.canpair cwfPsh = {!!}
+CwF.nt-wkn cwfPsh = nt-pshwkn
+CwF.lim-var cwfPsh = lim-pshvar
+≅.fwd (prl (CwF.canpair cwfPsh {pB}{pA}{dpT})) = _
+nt.obj (lower (Iso.bck (prl (CwF.canpair cwfPsh {pB}{pA}{dpT})) (pf , t))) w b = nt.obj pf w b , Lim.obj t (w , b)
+nt.hom (lower (Iso.bck (prl (CwF.canpair cwfPsh {pB}{pA}{dpT})) (pf , t))) ρ = λ= b =>
+  pair-hext (happly (nt.hom pf ρ) b) {!!}
+≅.src-id (prl (CwF.canpair cwfPsh {pB}{pA}{dpT})) = {!!}
+≅.tgt-id (prl (CwF.canpair cwfPsh {pB}{pA}{dpT})) = {!!}
+prr (CwF.canpair cwfPsh {pB}{pA}{dpT}) = refl
 

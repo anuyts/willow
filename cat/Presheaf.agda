@@ -46,10 +46,10 @@ f.hom-m∘ c-dpsh {pC}{pB}{pA} pf pg = λ= dpT => functorext (pair-ext refl (λi
     map= (f.hom dpT) (pair-ext refl uip)
   ))
   
-psh∫ : {pA : Psh} (dpT : DPsh pA) → Psh
-f.obj (psh∫ {pA} dpT) w = Sum λ (a : f.obj pA w) → f.obj dpT (w , a)
-f.hom (psh∫ {pA} dpT) {v}{w} ρ (a , t) = (f.hom pA ρ a) , (f.hom dpT (ρ , refl) t)
-f.hom-id (psh∫ {pA} dpT) w = funext λ{(a , t) → pair-hext (happly (f.hom-id pA w) a) (
+p∫ : {pA : Psh} (dpT : DPsh pA) → Psh
+f.obj (p∫ {pA} dpT) w = Sum λ (a : f.obj pA w) → f.obj dpT (w , a)
+f.hom (p∫ {pA} dpT) {v}{w} ρ (a , t) = (f.hom pA ρ a) , (f.hom dpT (ρ , refl) t)
+f.hom-id (p∫ {pA} dpT) w = funext λ{(a , t) → pair-hext (happly (f.hom-id pA w) a) (
     via f.hom dpT {w , a} {w , f.hom pA (c.id (cOp cW) w) a} (c.id (cOp cW) w , refl) t $ hrefl h•
     via f.hom dpT {w , a} {w , a} (c.id (c∫ pA) (w , a)) t $
       hhapply
@@ -73,7 +73,7 @@ f.hom-id (psh∫ {pA} dpT) w = funext λ{(a , t) → pair-hext (happly (f.hom-id
         t h•
     hrefl
   )}
-f.hom-m∘ (psh∫ {pA} dpT) {w}{v}{u} ρ σ =
+f.hom-m∘ (p∫ {pA} dpT) {w}{v}{u} ρ σ =
   funext
     {A = ∑ (f.obj pA w) (λ a → f.obj dpT (w , a))}
     {B = λ _ → ∑ (f.obj pA u) (λ a → f.obj dpT (u , a))}
@@ -83,7 +83,7 @@ f.hom-m∘ (psh∫ {pA} dpT) {w}{v}{u} ρ σ =
           t = prr a,t
       in  f.hom pA ρ (f.hom pA σ a) ,
           f.hom dpT (ρ , refl) (f.hom dpT (σ , refl) t)}
-    --{g = f.hom (psh∫ dpT) ρ ∘ f.hom (psh∫ dpT) σ}
+    --{g = f.hom (p∫ dpT) ρ ∘ f.hom (p∫ dpT) σ}
     (λ a,t →
       let a = prl a,t
           b = f.hom pA σ a
@@ -113,3 +113,7 @@ f.hom-m∘ (psh∫ {pA} dpT) {w}{v}{u} ρ σ =
               hrefl
             )
     )
+
+p-pr : {pA : Psh} {dpT : DPsh pA} → (p∫ dpT nt→ pA)
+nt.obj p-pr w = prl
+nt.hom p-pr ρ = refl

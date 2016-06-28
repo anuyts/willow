@@ -18,8 +18,7 @@ cOpDeptPair : ∀{ℓoA ℓhA ℓoB ℓhB ℓ} → {cA : Cat ℓoA ℓhA} → {c
   → {cf : cOp cA ++> cSet ℓ} → {cg : cOp cB ++> cSet ℓ}
   → (ck : cOp∫ cf ++> cB) → (nta : cf c∘ c-op {cB = cA} (c-co-pr {cf = cf}) nt→ cg c∘ c-op ck) → (cOp∫ cf ++> cOp∫ cg)
 f.obj (cOpDeptPair {cA = cA}{cB} {cf}{cg} ck nta) a,s = f.obj ck (a,s) , nt.obj nta (a,s) (prr a,s)
-prl (f.hom (cOpDeptPair {cA = cA}{cB} {cf}{cg} ck nta) {a',s'}{a,s} α,p) = f.hom ck (α,p)
-prr (f.hom (cOpDeptPair {cA = cA}{cB} {cf}{cg} ck nta) {a',s'}{a,s} α,p) =
+f.hom (cOpDeptPair {cA = cA}{cB} {cf}{cg} ck nta) {a',s'}{a,s} α,p = f.hom ck (α,p) ,
   via ((f.hom (cg c∘ c-op ck) α,p) ∘ (nt.obj nta a,s)) (prr a,s) $ refl •
   via (nt.obj nta (a',s') ∘ f.hom (cf c∘ (c-pr {cf = cf})) α,p) (prr a,s) $ map= (λ h → h (prr a,s)) (nt.hom nta α,p) •
   via nt.obj nta a',s' (prr a',s') $ map= (nt.obj nta a',s') (prr α,p) • refl

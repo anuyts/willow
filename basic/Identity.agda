@@ -18,7 +18,7 @@ refl • refl = refl
 infixl 10 _•_
 
 via_$_•_ : ∀ {α} → {A : Set α} → {a c : A} → (b : A) → (a == b) → (b == c) → (a == c)
-via _ $ refl • refl = refl
+via _ $ refl • p = p
 
 tra! : ∀{ℓ} {A B : Set ℓ} → (A == B) → (A → B)
 tra! refl = λ x → x
