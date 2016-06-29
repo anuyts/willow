@@ -1,4 +1,4 @@
-module willow.basic.Propositional.HeteroIdentity where
+module willow.basic.UIP.HeteroIdentity where
 
 open import willow.basic.Propositional
 open import willow.basic.Identity

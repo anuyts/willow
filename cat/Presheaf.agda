@@ -3,7 +3,7 @@ open import willow.cat.Opposite
 open import willow.cat.Sets
 open import willow.cat.Limits
 open import willow.cat.OfElements
-open import willow.basic.Propositional.HeteroIdentity
+open import willow.basic.UIP.HeteroIdentity
 
 module willow.cat.Presheaf {ℓoW ℓhW : Level} (ℓ : Level) (cW : Cat ℓoW ℓhW) where
 

@@ -8,7 +8,7 @@ open import willow.cat.OfElements.DeptPairFunctor public
 open import willow.cat.Sets.Limits public
 open import willow.cat.HomFunctor
 open import willow.basic.TransportLemmas
-open import willow.basic.Propositional.HeteroIdentity
+open import willow.basic.UIP.HeteroIdentity
 
 {-
   -You get a natural transformation on Ctx^op × ∫ Ty ++> Set, from

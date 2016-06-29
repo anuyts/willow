@@ -2,7 +2,7 @@ module willow.cat.Sets.Limits where
 
 open import willow.cat.Sets public
 open import willow.cat.Limits public
-open import willow.basic.Propositional.HeteroIdentity public
+open import willow.basic.UIP.HeteroIdentity public
 
 record Lim {ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} (cd : cI ++> cSet ℓ) : Set (ℓ ⊔ ℓoI ⊔ ℓhI) where
   no-eta-equality

@@ -2,7 +2,7 @@ open import willow.cat.CwF public
 open import willow.basic.TransportLemmas public
 open import willow.cat.Isomorphism public
 open import willow.cat.NaturalTransformation
-open import willow.basic.Propositional.HeteroIdentity
+open import willow.basic.UIP.HeteroIdentity
 import willow.cat.Presheaf
 
 module willow.cat.CwF.Psh.ComprehensionFunctor {ℓoW ℓhW : Level} (ℓtm : Level) (cW : Cat ℓoW ℓhW) where
