@@ -2,6 +2,7 @@ module willow.cat.Sets.Limits where
 
 open import willow.cat.Sets public
 open import willow.cat.Limits public
+open import willow.basic.Propositional.HeteroIdentity public
 
 record Lim {ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} (cd : cI ++> cSet ℓ) : Set (ℓ ⊔ ℓoI ⊔ ℓhI) where
   no-eta-equality
@@ -12,6 +13,11 @@ record Lim {ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} (cd : cI ++> cSet ℓ) : Set
 
 lim-ext : ∀{ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} {cd : cI ++> cSet ℓ} {la lb : Lim cd} (p : Lim.obj la == Lim.obj lb) → la == lb
 lim-ext {cI = cI}{cd}{mk-lim obj ahom}{mk-lim .obj bhom} refl = map= (mk-lim obj) (λ¶i i => λ¶i j => λ¶ η => uip)
+
+h-lim-ext : ∀{ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} {cd cd' : cI ++> cSet ℓ} (p : cd == cd') {la : Lim cd} {lb : Lim cd'}
+  (p : Lim.obj la === Lim.obj lb) → la === lb
+h-lim-ext {cI = cI}{cd}{.cd} refl {mk-lim obj ahom}{mk-lim .obj bhom} hrefl =
+  hdmap= (mk-lim obj) (λ¶i i => λ¶i j => λ¶ η => uip)
 
 -----------------------------------------------------------------------------------------
 

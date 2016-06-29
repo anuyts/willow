@@ -81,14 +81,28 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   tvar {Γ}{T} = Lim.obj lim-var (Γ , T)
 
   field
+    pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → Sub Δ (Γ „ T)
+
+  _“_ = pair
+
+  field
+    wkn-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → σwkn σ∘ (σ “ t) == σ
+    var-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → tvar{Γ}{T} t[ σ “ t ] === t
+
+  {-
+  unpair : {Δ Γ : c.Obj cCtx} → {T : f.obj c-ty Γ} →
+    (Lift {ℓ↑ = ℓtm ⊔ ℓsub} (c.Hom cCtx Δ (Γ „ T))) → (Sum λ(σ : c.Hom cCtx Δ Γ) → f.obj c-tm (Δ , f.hom c-ty σ T))
+  unpair {Δ}{Γ}{T} = (λ {(lift τ) →
+          (cCtx $ σwkn m∘ τ) ,
+          (f.hom c-tm (τ , sym (map= (λ f → f T) (f.hom-m∘ c-ty τ σwkn))) tvar)
+        })
+
+  field
     canpair : {Δ Γ : c.Obj cCtx} → {T : f.obj c-ty Γ} →
       IsIso (cSet (ℓtm ⊔ ℓsub))
         {Lift {ℓ↑ = ℓtm ⊔ ℓsub} (c.Hom cCtx Δ (Γ „ T))}
         {Sum λ(σ : c.Hom cCtx Δ Γ) → f.obj c-tm (Δ , f.hom c-ty σ T)}
-        (λ {(lift τ) →
-          (cCtx $ σwkn m∘ τ) ,
-          (f.hom c-tm (τ , sym (map= (λ f → f T) (f.hom-m∘ c-ty τ σwkn))) tvar)
-        })
+        unpair
 
   i-unpair : {Δ Γ : Ctx} → {T : Ty Γ} →
       Iso (cSet (ℓtm ⊔ ℓsub))
@@ -108,6 +122,11 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   -- this is the functor (Δ, (Γ, T)) ↦ Sub Δ Γ.T
   cSubIntoCompr : cOp cCtx c× cOp∫ c-ty ++> cSet ℓsub
   cSubIntoCompr = cHom cCtx c∘ (c-prl (cOp cCtx) (cOp∫ c-ty) c⊠ c-compr c∘ c-prr (cOp cCtx) (cOp∫ c-ty))
+  -}
+
+
+
+
 
 --  t[id] : {Γ : Ctx} {T : Ty Γ} {t : Tm Γ T} → t t[ σ-id Γ ] === t
 --  t[id] {Γ}{T}{t} rewrite toAgdaEq (sym (T[id] {Γ} {T})) = {!prr (c.id (cOp∫ c-ty) (Γ , T))!}

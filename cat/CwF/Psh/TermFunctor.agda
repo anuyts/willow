@@ -11,7 +11,7 @@ open willow.cat.Presheaf ℓtm cW
 
 c-pshtm : (cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet (ℓtm ⊔ (ℓhW ⊔ ℓoW)))
 f.obj c-pshtm (pA , dpT) = Lim dpT
-f.hom c-pshtm {pB , dpT} {pA , dpTf} (pf , dpTf=) =
+f.hom c-pshtm {pB , dpT} {pA , dpTf} (pf , dpTf=) = --seems I swapped names dpT and dpTf
   mapLim (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpTf=)) ∘ restrLim (c∫-hom pf)
 f.hom-id c-pshtm (pA , dpT) = (f.hom c-pshtm (c.id (cOp (cOp∫ c-dpsh)) (pA , dpT))) == idf ∋ (
     let pf : c.Hom cPsh pA pA
