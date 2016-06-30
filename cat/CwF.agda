@@ -88,11 +88,40 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   field
     wkn-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → σwkn σ∘ (σ “ t) == σ
     var-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → tvar{Γ}{T} t[ σ “ t ] === t
+    pair-unpair : {Δ Γ : Ctx} → {T : Ty Γ} → (τ : Sub Δ (Γ „ T)) →
+      (σwkn σ∘ τ) “ tra! (map= (Tm Δ) (sym T[][])) (tvar{Γ}{T} t[ τ ]) == τ
 
   σcompr : {Δ Γ : Ctx} → (σ : Sub Δ Γ) → (T : Ty Γ) → Sub (Δ „ (T T[ σ ])) (Γ „ T)
   σcompr σ T = f.hom c-compr (σ , refl)
 
+  σeval : {Γ : Ctx} → {A : Ty Γ} → (a : Tm Γ A) → Sub Γ (Γ „ A)
+  σeval {Γ}{A} a = σ-id Γ “ tra! (map= (Tm Γ) (sym T[id])) a
+
+  --σeval[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → (a : Tm Γ A) → (σeval a σ∘ σ) == (σcompr σ A σ∘ σeval (a t[ σ ]))
+  --σeval[] {Δ}{Γ}{σ}{A} a = {!!}
+
   infix 10 _T[_] _t[_]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   {-
   unpair : {Δ Γ : c.Obj cCtx} → {T : f.obj c-ty Γ} →
