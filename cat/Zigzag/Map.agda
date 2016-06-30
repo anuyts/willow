@@ -12,23 +12,23 @@ mapEqZigzag : ∀{ℓoA ℓhA ℓoB ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : 
   → (EqZigzag cA rza rzb) → EqZigzag cB (mapRawZigzag cf rza) (mapRawZigzag cf rzb)
 mapEqZigzag {_}{_}{_}{_} {cA}{cB} cf {x}{y} rzb .rzb zz-refl = zz-refl
 mapEqZigzag {_}{_}{_}{_} {cA}{cB} cf {x}{y} .(rzb rz> c.id cA y) rzb zz-id-fwd =
-  tra (λ φ → EqZigzag cB ((mapRawZigzag cf rzb) rz> φ) (mapRawZigzag cf rzb)) / sym (f.hom-id cf _) of zz-id-fwd
+  tra (λ φ → EqZigzag cB ((mapRawZigzag cf rzb) rz> φ) (mapRawZigzag cf rzb)) / sym (f.hom-id' cf _) of zz-id-fwd
 mapEqZigzag {_}{_}{_}{_} {cA}{cB} cf {x}{y} .(rzb rz< c.id cA y) rzb zz-id-bck = 
-  tra (λ φ → EqZigzag cB ((mapRawZigzag cf rzb) rz< φ) (mapRawZigzag cf rzb)) / sym (f.hom-id cf _) of zz-id-bck
+  tra (λ φ → EqZigzag cB ((mapRawZigzag cf rzb) rz< φ) (mapRawZigzag cf rzb)) / sym (f.hom-id' cf _) of zz-id-bck
 mapEqZigzag {_}{_}{_}{_} {cA}{cB} cf {x}{y} (rzb rz> φ rz> ψ) .(rzb rz> cA $ ψ m∘ φ) zz-comp-fwd =
   tra
     (λ ξ → EqZigzag cB
       ((mapRawZigzag cf rzb) rz> (f.hom cf φ) rz> (f.hom cf ψ))
       ((mapRawZigzag cf rzb) rz> ξ)
     )
-    / sym (f.hom-m∘ cf _ _) of zz-comp-fwd
+    / sym (f.hom-m∘' cf _ _) of zz-comp-fwd
 mapEqZigzag {_}{_}{_}{_} {cA}{cB} cf {x}{y} (rzb rz< φ rz< ψ) .(rzb rz< cA $ φ m∘ ψ) zz-comp-bck = 
   tra
     (λ ξ → EqZigzag cB
       ((mapRawZigzag cf rzb) rz< (f.hom cf φ) rz< (f.hom cf ψ))
       ((mapRawZigzag cf rzb) rz< ξ)
     )
-    / sym (f.hom-m∘ cf _ _) of zz-comp-bck
+    / sym (f.hom-m∘' cf _ _) of zz-comp-bck
 mapEqZigzag {_}{_}{_}{_} {cA}{cB} cf {x}{y} _ _ (zz-cong-fwd p) = zz-cong-fwd (mapEqZigzag cf _ _ p)
 mapEqZigzag {_}{_}{_}{_} {cA}{cB} cf {x}{y} _ _ (zz-cong-bck p) = zz-cong-bck (mapEqZigzag cf _ _ p)
 

@@ -50,10 +50,10 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   _T[_] = Tsub
 
   T[id] : {Γ : Ctx} {T : Ty Γ} → T T[ σ-id Γ ] == T
-  T[id] {Γ}{T} = map= (λ h → h T) (f.hom-id c-ty Γ)
+  T[id] {Γ}{T} = map= (λ h → h T) (f.hom-id' c-ty Γ)
 
   T[][] : {Θ Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {τ : Sub Θ Δ} → T T[ σ σ∘ τ ] == (T T[ σ ]) T[ τ ]
-  T[][] {Θ}{Δ}{Γ}{T}{σ}{τ} = map= (λ h → h T) (f.hom-m∘ c-ty τ σ)
+  T[][] {Θ}{Δ}{Γ}{T}{σ}{τ} = map= (λ h → h T) (f.hom-m∘' c-ty τ σ)
 
   _„_ : (Γ : Ctx) → (T : Ty Γ) → Ctx
   _„_ Γ T = f.obj c-compr (Γ , T)
@@ -86,10 +86,18 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   _“_ = pair
 
   field
-    wkn-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → σwkn σ∘ (σ “ t) == σ
-    var-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → tvar{Γ}{T} t[ σ “ t ] === t
-    pair-unpair : {Δ Γ : Ctx} → {T : Ty Γ} → (τ : Sub Δ (Γ „ T)) →
-      (σwkn σ∘ τ) “ tra! (map= (Tm Δ) (sym T[][])) (tvar{Γ}{T} t[ τ ]) == τ
+    wkn-pair' : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → σwkn σ∘ (σ “ t) == σ
+    var-pair' : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → tvar{Γ}{T} t[ σ “ t ] === t
+    pair-unpair' : {Δ Γ : Ctx} → {T : Ty Γ} → (τ : Sub Δ (Γ „ T)) →
+      (σwkn σ∘ τ) “ tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar{Γ}{T} t[ τ ]) == τ
+
+  wkn-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → σwkn σ∘ (σ “ t) == σ
+  wkn-pair σ t = trust (wkn-pair' σ t)
+  var-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → tvar{Γ}{T} t[ σ “ t ] === t
+  var-pair σ t = htrust (var-pair' σ t)
+  pair-unpair : {Δ Γ : Ctx} → {T : Ty Γ} → (τ : Sub Δ (Γ „ T)) →
+    (σwkn σ∘ τ) “ tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar{Γ}{T} t[ τ ]) == τ
+  pair-unpair τ = trust (pair-unpair' τ)
 
   σcompr : {Δ Γ : Ctx} → (σ : Sub Δ Γ) → (T : Ty Γ) → Sub (Δ „ (T T[ σ ])) (Γ „ T)
   σcompr σ T = f.hom c-compr (σ , refl)
@@ -128,7 +136,7 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
     (Lift {ℓ↑ = ℓtm ⊔ ℓsub} (c.Hom cCtx Δ (Γ „ T))) → (Sum λ(σ : c.Hom cCtx Δ Γ) → f.obj c-tm (Δ , f.hom c-ty σ T))
   unpair {Δ}{Γ}{T} = (λ {(lift τ) →
           (cCtx $ σwkn m∘ τ) ,
-          (f.hom c-tm (τ , sym (map= (λ f → f T) (f.hom-m∘ c-ty τ σwkn))) tvar)
+          (f.hom c-tm (τ , sym (map= (λ f → f T) (f.hom-m∘' c-ty τ σwkn))) tvar)
         })
 
   field
@@ -192,8 +200,8 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
                 via T' T[ (γ σ∘ σ) σ∘ δ ] $ (sym T[][]) • 
                 via T' T[ f.hom (cHom cCtx) (δ , γ) σ ] $ map= (λ τ → T' T[ τ ]) refl • refl
               of (t t[ δ ]))
-  _++>_.hom-id cSubAndTerm = λ {(Δ , (Γ , T)) → λ= σ,t => pair-hext
-        (map= (λ h → h (prl σ,t)) (f.hom-id (cHom cCtx) (Δ , Γ)))
+  _++>_.hom-id' cSubAndTerm = λ {(Δ , (Γ , T)) → λ= σ,t => pair-hext
+        (map= (λ h → h (prl σ,t)) (f.hom-id' (cHom cCtx) (Δ , Γ)))
         (
           (htra (Tm Δ) / _ of ((prr σ,t) t[ c.id cCtx Δ ])) h• {!!}
         )
@@ -209,7 +217,7 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
           --(map= (tra (λ σ → Tm Δ (T T[ σ ])) / _) tra-canon • tra-canon • tra-comp • {!!})
         )-}
       }
-  _++>_.hom-m∘ cSubAndTerm ψ φ = {!!}
+  _++>_.hom-m∘' cSubAndTerm ψ φ = {!!}
   -}
 
 
@@ -235,7 +243,7 @@ record CwF' (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
         {Sum λ(σ : c.Hom cCtx Δ Γ) → f.obj c-tm (Δ , f.hom c-ty σ T)}
         (λ {(lift τ) →
           (cCtx $ σwkn m∘ τ) ,
-          (f.hom c-tm (τ , sym (map= (λ f → f T) (f.hom-m∘ c-ty τ σwkn))) tvar)
+          (f.hom c-tm (τ , sym (map= (λ f → f T) (f.hom-m∘' c-ty τ σwkn))) tvar)
         })
 
   --simpler names
@@ -259,7 +267,7 @@ record CwF' (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   _T[_] = Tsub
 
   T[][] : {Θ Δ Γ : c.Obj cCtx} {T : Ty Γ} {σ : Sub Δ Γ} {τ : Sub Θ Δ} → T T[ σ σ∘ τ ] == (T T[ σ ]) T[ τ ]
-  T[][] {T = T}{σ}{τ} = map= (λ h → h T) (f.hom-m∘ c-ty τ σ)
+  T[][] {T = T}{σ}{τ} = map= (λ h → h T) (f.hom-m∘' c-ty τ σ)
 
   Tm : (Γ : Ctx) (T : Ty Γ) → Set ℓtm
   Tm Γ T = f.obj c-tm (Γ , T)
@@ -299,9 +307,9 @@ record CwF' (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
         q : (Tσ T[ σwkn ]) == (T T[ σ σ∘ σwkn ])
         q = map= (λ S → S T[ σwkn ]) (sym p) • sym T[][]
     in  (σ σ∘ σwkn) “ (tra Tm (Δ „ Tσ) / q of tvar)
-  f.hom-id c-compr Γ,T =
+  f.hom-id' c-compr Γ,T =
     let Γ = prl Γ,T
         T = prr Γ,T
     in  {!!}
-  f.hom-m∘ c-compr ψ φ = {!!}
+  f.hom-m∘' c-compr ψ φ = {!!}
 -}

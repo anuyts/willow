@@ -22,14 +22,14 @@ c-pshtm : (cOp (cOp∫ {cA = cOp cPsh} c-dpsh) ++> cSet (ℓtm ⊔ (ℓhW ⊔ �
 f.obj c-pshtm (pA , dpT) = Lim dpT
 f.hom c-pshtm {pB , dpT} {pA , dpTf} (pf , dpTf=) = --seems I swapped names dpT and dpTf
   mapLim (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpTf=)) ∘ restrLim (c∫-hom pf)
-f.hom-id c-pshtm (pA , dpT) = (f.hom c-pshtm (c.id (cOp (cOp∫ c-dpsh)) (pA , dpT))) == idf ∋ (
+f.hom-id' c-pshtm (pA , dpT) = (f.hom c-pshtm (c.id (cOp (cOp∫ c-dpsh)) (pA , dpT))) == idf ∋ (
     let pf : c.Hom cPsh pA pA
         pf = c.id cPsh pA
         --dpTf= : f.hom c-dpsh (c.id cPsh pA) dpT == dpT
         dpT∘f : c∫ pA ++> cSet ℓtm
         dpT∘f = dpT c∘ c∫-hom pf
         dpTf= : dpT c∘ c∫-hom pf == dpT
-        dpTf= = map= (λ f → f dpT) (f.hom-id c-dpsh pA)
+        dpTf= = map= (λ f → f dpT) (f.hom-id' c-dpsh pA)
         nt-tra-dpTf= : dpT∘f nt→ dpT
         nt-tra-dpTf= = (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpTf=))
     in mapLim nt-tra-dpTf= ∘ restrLim (c∫-hom pf) == idf ∋ (
@@ -46,7 +46,7 @@ f.hom-id c-pshtm (pA , dpT) = (f.hom c-pshtm (c.id (cOp (cOp∫ c-dpsh)) (pA , d
       })
     )
   )
-f.hom-m∘ c-pshtm {pC , dpC} {pB , dpB} {pA , dpA} (pf , dpBf=A) (pg , dpCg=B) =
+f.hom-m∘' c-pshtm {pC , dpC} {pB , dpB} {pA , dpA} (pf , dpBf=A) (pg , dpCg=B) =
   let pgf : c.Hom cPsh pA pC
       pgf = cPsh $ pg m∘ pf
       dpB∘f : c∫ pA ++> cSet ℓtm

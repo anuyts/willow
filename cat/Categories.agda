@@ -11,15 +11,15 @@ Cat.Obj (cCat ℓo ℓh) = Cat ℓo ℓh
 Cat.Hom (cCat ℓo ℓh) cA cB = cA ++> cB
 Cat.id (cCat ℓo ℓh) = c-id
 Cat.comp (cCat ℓo ℓh) = _c∘_
-Cat.m∘assoc (cCat ℓo ℓh) = functorext refl
-Cat.m∘lunit (cCat ℓo ℓh) = functorext refl
-Cat.m∘runit (cCat ℓo ℓh) = functorext refl
+Cat.m∘assoc' (cCat ℓo ℓh) = functorext refl
+Cat.m∘lunit' (cCat ℓo ℓh) = functorext refl
+Cat.m∘runit' (cCat ℓo ℓh) = functorext refl
 
 cCat× : ∀{ℓo ℓh} → cCat ℓo ℓh c× cCat ℓo ℓh ++> cCat ℓo ℓh
 f.obj cCat× cs = prl cs c× prr cs
 f.hom cCat× {cAs}{cBs} cfs = c×intro (prl cBs) (prr cBs) (prl cfs c∘ (c-prl (prl cAs) (prr cAs))) (prr cfs c∘ (c-prr (prl cAs) (prr cAs)))
-f.hom-id cCat× x = functorext refl
-f.hom-m∘ cCat× {cAs} {cBs} {cCs} cfs cgs = functorext (pair-ext refl refl)
+f.hom-id' cCat× x = functorext refl
+f.hom-m∘' cCat× {cAs} {cBs} {cCs} cfs cgs = functorext (pair-ext refl refl)
 
 {-
 mcCat : (α β : Level) → MCat (lsuc (α ⊔ β)) (α ⊔ β)

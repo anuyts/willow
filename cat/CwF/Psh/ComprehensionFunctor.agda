@@ -21,7 +21,7 @@ c-pshcompr : cOp∫ c-dpsh ++> cPsh
 f.obj c-pshcompr (pA , dpT) = p∫ dpT
 nt.obj (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) w (a , ta) =
   (nt.obj pf w a) , (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) ta)
-nt.hom (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) {w}{v} ρ = funext
+nt.hom' (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) {w}{v} ρ = funext
   {A = f.obj (p∫ dpA) w}
   {B = λ _ → f.obj (p∫ dpB) v}
   {f = λ a,t → (
@@ -43,7 +43,7 @@ nt.hom (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) {w}{v} ρ = funext
           {A = f.obj pB v}{B = λ a₁ → f.obj dpB (v , a₁)}
           {f.hom pB ρ (nt.obj pf w a)}
           {nt.obj pf v (f.hom pA ρ a)}
-            (happly (nt.hom pf ρ) a)
+            (happly (nt.hom' pf ρ) a)
           {f.hom dpB (ρ , refl) (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) (prr a,t))}
           {tra! (map= (λ dpX → f.obj dpX (v , f.hom pA ρ a)) (sym dpBf=A)) (f.hom dpA (ρ , refl) t)}
             (
@@ -53,7 +53,7 @@ nt.hom (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) {w}{v} ρ = funext
               via f.hom dpB {w , _}{v , nt.obj pf v (f.hom pA ρ a)} (ρ , _)
                 (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t) $
                 (hdmap= (λ b → λ p → f.hom dpB {w , _} {v , b} (ρ , p)
-                  (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t)) (happly (nt.hom pf ρ) a)) =aph=
+                  (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t)) (happly (nt.hom' pf ρ) a)) =aph=
                 huip hrefl h•
               via f.hom (dpB c∘ c∫-hom pf) {w , _}{v , f.hom pA ρ a} (ρ , refl)
                 (tra! (map= (λ dpX → f.obj dpX (w , a)) (sym dpBf=A)) t) $
@@ -68,7 +68,7 @@ nt.hom (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) {w}{v} ρ = funext
               hrefl
             )
   )
-f.hom-id c-pshcompr (pA , dpT) = nt-ext (λ= w => funext λ{(a , t) → pair-hext refl
+f.hom-id' c-pshcompr (pA , dpT) = nt-ext (λ= w => funext λ{(a , t) → pair-hext refl
     (hhapply (htra! (map= (λ (dpX : c∫ pA ++> cSet ℓtm) → f.obj dpX (w , a))
        (sym
         (map= (λ f → f dpT)
@@ -82,7 +82,7 @@ f.hom-id c-pshcompr (pA , dpT) = nt-ext (λ= w => funext λ{(a , t) → pair-hex
                   (λ w',a' →
                      funext (λ ρ,p → map= (f.hom dpT₁) (pair-ext refl uip)))))))))))) t)
   })
-f.hom-m∘ c-pshcompr {pA , dpA}{pB , dpB}{pC , dpC} (pg , dpCg=B) (pf , dpBf=A) =
+f.hom-m∘' c-pshcompr {pA , dpA}{pB , dpB}{pC , dpC} (pg , dpCg=B) (pf , dpBf=A) =
   nt-ext (λ= w => funext
     {A = f.obj (p∫ dpA) w}
     {B = λ _ → f.obj (p∫ dpC) w}
@@ -120,4 +120,4 @@ f.hom-m∘ c-pshcompr {pA , dpA}{pB , dpB}{pC , dpC} (pg , dpCg=B) (pf , dpBf=A)
 
 nt-pshwkn : c-pshcompr nt→ c-co-pr
 nt.obj nt-pshwkn (pA , dpT) = p-pr
-nt.hom nt-pshwkn {pA , dpA}{pB , dpB} (pf , dpBf=A) = nt-ext refl
+nt.hom' nt-pshwkn {pA , dpA}{pB , dpB} (pf , dpBf=A) = nt-ext refl

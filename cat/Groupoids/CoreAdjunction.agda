@@ -12,22 +12,22 @@ coreAdjunction : ∀{ℓo ℓh} → cforgetGrpd{ℓo}{ℓh} ⊣ ccore{ℓo}{ℓh
     { obj = λ gL,cR cf → record
           { obj = f.obj cf
           ; hom = λ φ → mapIso cf (g.asIso (prl gL,cR) φ)
-          ; hom-id = λ x → ≅ext (f.hom-id cf x)
-          ; hom-m∘ = λ ψ φ → ≅ext (f.hom-m∘ cf ψ φ)
+          ; hom-id' = λ x → ≅ext (f.hom-id' cf x)
+          ; hom-m∘' = λ ψ φ → ≅ext (f.hom-m∘' cf ψ φ)
           }
     -- cg : L' → L , ch : R → R' ; now show that (core ch) ∘ cf> ∘ cg = (ch ∘ cf ∘ cg)>
-    ; hom = λ cg,ch → λ= cf => functorext (pair-ext refl (λi= x => λi= y => λ= φ => ≅ext refl))
+    ; hom' = λ cg,ch → λ= cf => functorext (pair-ext refl (λi= x => λi= y => λ= φ => ≅ext refl))
     }
 ≅.bck coreAdjunction = record
     -- cf : L → core R ; now create a functor cf< : L → R
     { obj = λ gL,cR cf → record
           { obj = f.obj cf
           ; hom = λ φ → ≅.fwd (f.hom cf φ)
-          ; hom-id = λ x → map= ≅.fwd (f.hom-id cf x)
-          ; hom-m∘ = λ ψ φ → map= ≅.fwd (f.hom-m∘ cf ψ φ)
+          ; hom-id' = λ x → map= ≅.fwd (f.hom-id' cf x)
+          ; hom-m∘' = λ ψ φ → map= ≅.fwd (f.hom-m∘' cf ψ φ)
           }
     -- cg : L' → L , ch : R → R' ; now show that ch ∘ cf< ∘ cg = ((core ch) ∘ cf ∘ cg)<
-    ; hom = λ cg,ch → λ= cf => functorext (pair-ext refl refl)
+    ; hom' = λ cg,ch → λ= cf => functorext (pair-ext refl refl)
     }
 ≅.src-id coreAdjunction = nt-ext (λ= gL,cR => λ= cf => functorext (pair-ext refl refl))
     {-nt-ext (λ= gL,cR => λ= cf => functorext (pair-ext refl (

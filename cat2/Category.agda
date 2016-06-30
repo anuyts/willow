@@ -20,9 +20,9 @@ record CatStr {ℓo ℓh} (Obj : Set ℓo) (Mph : Set ℓh) : Set (ℓo ⊔ ℓh
   field
     id : (x : Obj) → Hom x x
     comp : {x y z : Obj} → (ψ : Hom y z) → (φ : Hom x y) → Hom x z
-    m∘lunit : {x y : Obj} → {φ : Hom x y} → comp (id y) φ == φ
-    m∘runit : {x y : Obj} → {φ : Hom x y} → comp φ (id x) == φ
-    m∘assoc : {w x y z : Obj} → {ψ : Hom y z} → {ξ : Hom x y} → {φ : Hom w x} → comp (comp ψ ξ) φ == comp ψ (comp ξ φ)
+    m∘lunit' : {x y : Obj} → {φ : Hom x y} → comp (id y) φ == φ
+    m∘runit' : {x y : Obj} → {φ : Hom x y} → comp φ (id x) == φ
+    m∘assoc' : {w x y z : Obj} → {ψ : Hom y z} → {ξ : Hom x y} → {φ : Hom w x} → comp (comp ψ ξ) φ == comp ψ (comp ξ φ)
 
   m-id : Obj → Mph
   m-id = λ x → out! (id x)

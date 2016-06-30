@@ -8,12 +8,12 @@ f.obj ccore cA = gCore cA
 
 f.obj (f.hom ccore cf) = f.obj cf
 f.hom (f.hom ccore cf) {x}{y} η = mapIso cf η
-f.hom-id (f.hom ccore cf) x = ≅ext (f.hom-id cf x)
-f.hom-m∘ (f.hom ccore cf) ψ φ = ≅ext (f.hom-m∘ cf (≅.fwd ψ) (≅.fwd φ))
+f.hom-id' (f.hom ccore cf) x = ≅ext (f.hom-id' cf x)
+f.hom-m∘' (f.hom ccore cf) ψ φ = ≅ext (f.hom-m∘' cf (≅.fwd ψ) (≅.fwd φ))
 
-f.hom-id ccore cA = functorext (pair-ext refl (λi= x => λi= y => λ= η => ≅ext refl))
+f.hom-id' ccore cA = functorext (pair-ext refl (λi= x => λi= y => λ= η => ≅ext refl))
 
-f.hom-m∘ ccore {cA}{cB}{cC} cg cf = functorext (pair-ext refl (λi= x => λi= y => λ= η => ≅ext refl))
+f.hom-m∘' ccore {cA}{cB}{cC} cg cf = functorext (pair-ext refl (λi= x => λi= y => λ= η => ≅ext refl))
 
 {-
 coreAdjunction : ∀{ℓo ℓh} → cforgetGrpd{ℓo}{ℓh} ⊣ ccore{ℓo}{ℓh}
@@ -23,8 +23,8 @@ coreAdjunction = record
     { obj = λ gL,cR cf → record
           { obj = f.obj cf
           ; hom = λ φ → mapIso cf (g.asIso (prl gL,cR) φ)
-          ; hom-id = λ x → ≅ext (f.hom-id cf x)
-          ; hom-m∘ = λ ψ φ → ≅ext (f.hom-m∘ cf ψ φ)
+          ; hom-id = λ x → ≅ext (f.hom-id' cf x)
+          ; hom-m∘ = λ ψ φ → ≅ext (f.hom-m∘' cf ψ φ)
           }
     -- cg : L' → L , ch : R → R' ; now show that (core ch) ∘ cf> ∘ cg = (ch ∘ cf ∘ cg)>
     ; hom = λ cg,ch → λ= cf => functorext (pair-ext refl {!!})
@@ -34,8 +34,8 @@ coreAdjunction = record
     { obj = λ gL,cR cf → record
           { obj = f.obj cf
           ; hom = λ φ → ≅.fwd (f.hom cf φ)
-          ; hom-id = λ x → map= ≅.fwd (f.hom-id cf x)
-          ; hom-m∘ = λ ψ φ → map= ≅.fwd (f.hom-m∘ cf ψ φ)
+          ; hom-id = λ x → map= ≅.fwd (f.hom-id' cf x)
+          ; hom-m∘ = λ ψ φ → map= ≅.fwd (f.hom-m∘' cf ψ φ)
           }
     -- cg : L' → L , ch : R → R' ; now show that ch ∘ cf< ∘ cg = ((core ch) ∘ cf ∘ cg)<
     ; hom = {!λ cg,ch → λ= cf => ?!}
@@ -63,14 +63,14 @@ cforgetGrpd⊣ccore = record
     { fwd = λ cf → record
       { obj = λ x → f.obj cf x
       ; hom = λ φ → ≅.fwd (f.hom cf φ)
-      ; hom-id = λ x → map= ≅.fwd (f.hom-id cf x)
-      ; hom-m∘ = λ ψ φ → map= ≅.fwd (f.hom-m∘ cf ψ φ)
+      ; hom-id = λ x → map= ≅.fwd (f.hom-id' cf x)
+      ; hom-m∘ = λ ψ φ → map= ≅.fwd (f.hom-m∘' cf ψ φ)
       }
     ; bck = λ cg → record
       { obj = λ x → f.obj cg x
       ; hom = λ φ → mapIso cg (g.asIso gL φ)
-      ; hom-id = λ x → ≅ext (f.hom-id cg x)
-      ; hom-m∘ = λ ψ φ → ≅ext (f.hom-m∘ cg ψ φ)
+      ; hom-id = λ x → ≅ext (f.hom-id' cg x)
+      ; hom-m∘ = λ ψ φ → ≅ext (f.hom-m∘' cg ψ φ)
       }
     ; src-id = λ= cf => functorext (pair-ext refl
         (λi= x => λi= y => λ= φ => ≅ext refl)

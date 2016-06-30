@@ -30,12 +30,12 @@ prl (cSetHasLimits {ℓ} {cI} cd) = Lim cd
 Lim.obj (lower (nt.obj (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) X q) x) i = Cone.obj q i x
 Lim.hom (lower (nt.obj (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) X q) x) {i}{j} η =
   map= (λ h → h x) (Cone.hom q η)
-nt.hom (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= q => map= lift (λ= x => lim-ext refl)
+nt.hom' (≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= q => map= lift (λ= x => lim-ext refl)
 
 --≅.bck is a NT that maps maps (X → Lim cd) to cones from X
 Cone.obj (nt.obj (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) X (lift g)) i x = Lim.obj (g x) i
 Cone.hom (nt.obj (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) X (lift g)) {i}{j} η = λ= x => Lim.hom (g x) η
-nt.hom (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= liftg => cone-ext refl
+nt.hom' (≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f = λ= liftg => cone-ext refl
 
 ≅.src-id (prr (cSetHasLimits {ℓ} {cI} cd)) = nt-ext (λ= X => λ= q => cone-ext (λ= i => λ= x => refl))
 
@@ -47,7 +47,7 @@ mapLim : ∀{ℓoI ℓhI ℓ} {cI : Cat ℓoI ℓhI} {cf cg : cI ++> cSet ℓ} (
 Lim.obj (mapLim nta l) i = nt.obj nta i (Lim.obj l i)
 Lim.hom (mapLim {cI = cI} {cf} {cg} nta l) {i}{j} η =
   via (f.hom cg η ∘ nt.obj nta i) (Lim.obj l i) $ refl •
-  via (nt.obj nta j ∘ f.hom cf η) (Lim.obj l i) $ happly (nt.hom nta η) (Lim.obj l i) •
+  via (nt.obj nta j ∘ f.hom cf η) (Lim.obj l i) $ happly (nt.hom' nta η) (Lim.obj l i) •
   via (nt.obj nta j) (Lim.obj l j) $ map= (nt.obj nta j) (Lim.hom l η) •
   refl
 
@@ -70,7 +70,7 @@ Cone.obj (lower(nt.obj(≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) X q) x) i = 
 Cone.hom (lower(nt.obj(≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) X q) x) {i}{j} η =
   map= (λ h → h ∘ (λ _ → x)) (Cone.hom q η)
 --show that it doesn't matter whether you first extend the cone and then make a morphism, or vice versa
-nt.hom(≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f =
+nt.hom'(≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f =
   λ= q => map= lift (λ= x => cone-ext
     --now we just show that the (Cone ⊤ cd)s are equal.
     refl
@@ -82,7 +82,7 @@ nt.hom(≅.fwd (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} f =
 Cone.obj (nt.obj(≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) X (lift f)) i x = Cone.obj (f x) i (lift unit)
 Cone.hom (nt.obj(≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) X (lift f)) {i}{j} η =
   λ= x => map= (λ h → (h (lift unit))) (Cone.hom (f x) η)
-nt.hom(≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} g = λ= liftf => cone-ext refl
+nt.hom'(≅.bck (prr (cSetHasLimits {ℓ} {cI} cd))) {Y}{X} g = λ= liftf => cone-ext refl
 
 ≅.src-id (prr (cSetHasLimits {ℓ} {cI} cd)) = nt-ext (λ= X => λ= q => cone-ext (λ= i => λ= x => refl))
 ≅.tgt-id (prr (cSetHasLimits {ℓ} {cI} cd)) =

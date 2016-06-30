@@ -27,7 +27,7 @@ nt.obj (p-pshpair {pΔ}{pΓ}{dpT} pf t) w δ =
   let γ : f.obj pΓ w
       γ = nt.obj pf w δ
   in  γ , Lim.obj t (w , δ)
-nt.hom (p-pshpair {pΔ}{pΓ}{dpT} pf t) {w}{v} ρ = λ= δ => pair-hext (happly (nt.hom pf ρ) δ) (
+nt.hom' (p-pshpair {pΔ}{pΓ}{dpT} pf t) {w}{v} ρ = λ= δ => pair-hext (happly (nt.hom' pf ρ) δ) (
     let q : f.hom (f.hom c-dpsh pf dpT) (ρ , refl) (Lim.obj t (w , δ)) == Lim.obj t (v , f.hom pΔ ρ δ)
         q = Lim.hom t (ρ , refl {a = f.hom pΔ ρ δ})
         γ : f.obj pΓ w
@@ -35,8 +35,8 @@ nt.hom (p-pshpair {pΔ}{pΓ}{dpT} pf t) {w}{v} ρ = λ= δ => pair-hext (happly 
     in  via f.hom dpT {w , γ}{v , f.hom pΓ ρ (nt.obj pf w δ)}
             (ρ , refl) (Lim.obj t (w , δ)) $ hrefl h•
         via f.hom dpT {w , γ}{v , nt.obj pf v (f.hom pΔ ρ δ)}
-            (ρ , (via nt.obj pf v (f.hom pΔ ρ δ) $ happly (_nt→_.hom pf ρ) δ • refl)) (Lim.obj t (w , δ)) $
-          (hdmap= (λ γ' → λ p → f.hom dpT {w , γ}{v , γ'}(ρ , p)(Lim.obj t (w , δ))) (happly (nt.hom pf ρ) δ))
+            (ρ , (via nt.obj pf v (f.hom pΔ ρ δ) $ happly (nt.hom' pf ρ) δ • refl)) (Lim.obj t (w , δ)) $
+          (hdmap= (λ γ' → λ p → f.hom dpT {w , γ}{v , γ'}(ρ , p)(Lim.obj t (w , δ))) (happly (nt.hom' pf ρ) δ))
             =aph= huip hrefl h•
         to-heter q
   )
@@ -49,7 +49,7 @@ psh-wkn-pair {pΔ}{pΓ}{dpT} pf t = nt-ext (λ= w => λ= δ => refl)
 psh-var-pair : {pΔ pΓ : Psh} → {dpT : DPsh pΓ} → (pf : pΔ nt→ pΓ) → (t : Lim (dpT c∘ c∫-hom pf)) →
   f.hom c-pshtm (p-pshpair pf t , refl) (lim-pshvar-obj (pΓ , dpT)) === t
 psh-var-pair {pΔ}{pΓ}{dpT} pf t = h-lim-ext (
-    via f.hom c-dpsh (cPsh $ p-pr m∘ p-pshpair pf t) dpT $ happly (sym (f.hom-m∘ c-dpsh (p-pshpair pf t) p-pr)) dpT •
+    via f.hom c-dpsh (cPsh $ p-pr m∘ p-pshpair pf t) dpT $ happly (sym (f.hom-m∘' c-dpsh (p-pshpair pf t) p-pr)) dpT •
     via f.hom c-dpsh pf dpT $ map= (λ pg → f.hom c-dpsh pg dpT) (psh-wkn-pair pf t) •
     refl
   ) (to-heter (funext λ{(w , δ) → refl}))

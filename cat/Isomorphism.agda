@@ -26,34 +26,34 @@ _$_i∘_ : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y z : c.Obj c} → (ψ 
 ≅.fwd (c $ ψ i∘ φ) = c $ ≅.fwd ψ m∘ ≅.fwd φ
 ≅.bck (c $ ψ i∘ φ) = c $ ≅.bck φ m∘ ≅.bck ψ
 ≅.src-id (c $ ψ i∘ φ) =
-    c.m∘assoc c •
-    map= (λ ξ → c $ ≅.bck φ m∘ ξ) (sym (c.m∘assoc c)) •
+    c.m∘assoc' c •
+    map= (λ ξ → c $ ≅.bck φ m∘ ξ) (sym (c.m∘assoc' c)) •
     map= (λ ξ → c $ ≅.bck φ m∘ (c $ ξ m∘ ≅.fwd φ)) (≅.src-id ψ) •
-    map= (λ ξ → c $ ≅.bck φ m∘ ξ) (c.m∘lunit c) •
+    map= (λ ξ → c $ ≅.bck φ m∘ ξ) (c.m∘lunit' c) •
     ≅.src-id φ
 ≅.tgt-id (c $ ψ i∘ φ) =
-    c.m∘assoc c •
-    map= (λ ξ → c $ ≅.fwd ψ m∘ ξ) (sym (c.m∘assoc c)) •
+    c.m∘assoc' c •
+    map= (λ ξ → c $ ≅.fwd ψ m∘ ξ) (sym (c.m∘assoc' c)) •
     map= (λ ξ → c $ ≅.fwd ψ m∘ (c $ ξ m∘ ≅.bck ψ)) (≅.tgt-id φ) •
-    map= (λ ξ → c $ ≅.fwd ψ m∘ ξ) (c.m∘lunit c) •
+    map= (λ ξ → c $ ≅.fwd ψ m∘ ξ) (c.m∘lunit' c) •
     ≅.tgt-id ψ
 
 i-id : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → (x : c.Obj c) → Iso c x x
 ≅.fwd (i-id c x) = c.id c x
 ≅.bck (i-id c x) = c.id c x
-≅.src-id (i-id c x) = c.m∘lunit c
-≅.tgt-id (i-id c x) = c.m∘lunit c
+≅.src-id (i-id c x) = c.m∘lunit' c
+≅.tgt-id (i-id c x) = c.m∘lunit' c
 
 ≅ext : ∀{ℓo ℓh} → {c : Cat ℓo ℓh} → {x y : c.Obj c} → {φ ψ : Iso c x y} → (≅.fwd φ == ≅.fwd ψ) → φ == ψ
 ≅ext {_}{_} {c} {x}{y} {mk≅ φfwd φbck φsrc-id φtgt-id}{mk≅ .φfwd ψbck ψsrc-id ψtgt-id} refl =
   let eq-bck : φbck == ψbck
       --φbck = φbck ∘ id = φbck ∘ (φ ∘ ψbck) = (φbck ∘ φ) ∘ ψbck = id ∘ ψbck = ψbck
       eq-bck =
-        sym (c.m∘runit c) •
+        sym (c.m∘runit' c) •
         map= (λ ξ → c $ φbck m∘ ξ) (sym ψtgt-id) •
-        sym (c.m∘assoc c) •
+        sym (c.m∘assoc' c) •
         map= (λ ξ → c $ ξ m∘ ψbck) φsrc-id •
-        c.m∘lunit c
+        c.m∘lunit' c
       weak≅ext : {α β : Iso c x y} → (≅.fwd α == ≅.fwd β) → (≅.bck α == ≅.bck β) → α == β
       weak≅ext = λ { {mk≅ fwd bck _ _} {mk≅ .fwd .bck _ _} refl refl → (map= (mk≅ fwd bck) uip) =ap= uip }
   in weak≅ext refl eq-bck
@@ -73,13 +73,13 @@ i-inv : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y : c.Obj c} → (φ : Iso
 mapIso : ∀{ℓoA ℓhA ℓoB ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → (cf : cA ++> cB) → {x y : c.Obj cA} → (η : Iso cA x y) → Iso cB (f.obj cf x) (f.obj cf y)
 ≅.fwd (mapIso cf η) = f.hom cf (≅.fwd η)
 ≅.bck (mapIso cf η) = f.hom cf (≅.bck η)
-≅.src-id (mapIso cf {x}{y} η) = sym (f.hom-m∘ cf (≅.bck η) (≅.fwd η)) • map= (f.hom cf) (≅.src-id η) • f.hom-id cf x
-≅.tgt-id (mapIso cf {x}{y} η) = sym (f.hom-m∘ cf (≅.fwd η) (≅.bck η)) • map= (f.hom cf) (≅.tgt-id η) • f.hom-id cf y
+≅.src-id (mapIso cf {x}{y} η) = sym (f.hom-m∘' cf (≅.bck η) (≅.fwd η)) • map= (f.hom cf) (≅.src-id η) • f.hom-id' cf x
+≅.tgt-id (mapIso cf {x}{y} η) = sym (f.hom-m∘' cf (≅.fwd η) (≅.bck η)) • map= (f.hom cf) (≅.tgt-id η) • f.hom-id' cf y
 
 map≅ = mapIso
 
 inv-id : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → (x : c.Obj c) → (η : Iso c x x) → (≅.fwd η == c.id c x) → (≅.bck η == c.id c x)
-inv-id c x (mk≅ .(c.id c x) bck src-id tgt-id) refl = sym (c.m∘runit c) • src-id
+inv-id c x (mk≅ .(c.id c x) bck src-id tgt-id) refl = sym (c.m∘runit' c) • src-id
 
 inv-m∘ : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → {x y z : c.Obj c}
   → (ψ : Iso c y z) → (φ : Iso c x y) → (η : Iso c x z)

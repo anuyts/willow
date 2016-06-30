@@ -1,5 +1,6 @@
 module willow.basic.UIP.HeteroIdentity where
 
+open import willow.basic.UIP public
 open import willow.basic.Propositional
 open import willow.basic.Identity
 open import willow.basic.Sum
@@ -95,3 +96,9 @@ uhip : ∀{ℓ} {A B : Set ℓ} {a : A} {b : B} {p q : a === b} → p == q
 uhip {p = hrefl}{hrefl} = refl
 huip : ∀{ℓ} {A B : Set ℓ} {a a' : A} {b b' : B} {p : a == a'} {q : b == b'} → (a === b) → p === q
 huip {p = refl}{refl} hrefl = hrefl
+
+express-homog : ∀{ℓ} → {A B : Set ℓ} → {a : A} → {b : B} → (a === b) → (Sum idf $ (A , a) == (B , b))
+express-homog hrefl = refl
+
+htrust : ∀{ℓ} → {A B : Set ℓ} → {a : A} → {b : B} → (a === b) → (a === b)
+htrust p = hdmap= prr (trust (express-homog p))

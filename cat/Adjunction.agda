@@ -57,8 +57,8 @@ record _⊣_ {ℓo ℓh} {cL cR : Cat ℓo ℓh} (fl : cL ++> cR) (fr : cR ++> c
       via ≅.fwd iso (cL $ f.hom fr φ m∘ ≅.bck iso (≅.fwd iso (c.id cL (f.obj fr r)))) $ map= (≅.fwd iso) (bck-m∘ _ _) •
       via ≅.fwd iso (cL $ f.hom fr φ m∘ c.id cL (f.obj fr r)) $
         map= (λ ξ → ≅.fwd iso (cL $ f.hom fr φ m∘ ξ)) (happly (≅.src-id iso) _) •
-      via ≅.fwd iso (f.hom fr φ) $ map= (≅.fwd iso) (c.m∘runit cL) •
-      via ≅.fwd iso (cL $ c.id cL (f.obj fr r') m∘ f.hom fr φ) $ map= (≅.fwd iso) (sym (c.m∘lunit cL)) • 
+      via ≅.fwd iso (f.hom fr φ) $ map= (≅.fwd iso) (c.m∘runit' cL) •
+      via ≅.fwd iso (cL $ c.id cL (f.obj fr r') m∘ f.hom fr φ) $ map= (≅.fwd iso) (sym (c.m∘lunit' cL)) • 
       via (cR $ ≅.fwd iso (c.id cL (f.obj fr r')) m∘ f.hom fl (f.hom fr φ)) $ fwd-m∘ _ _ •
       refl
     }
@@ -77,8 +77,8 @@ record _⊣_ {ℓo ℓh} {cL cR : Cat ℓo ℓh} (fl : cL ++> cR) (fr : cR ++> c
           -}
       via (cL $ f.hom fr (f.hom fl φ) m∘ ≅.bck iso (c.id cR (f.obj fl l'))) $ refl •
       via ≅.bck iso (cR $ f.hom fl φ m∘ c.id cR (f.obj fl l')) $ sym (bck-m∘ _ _) •
-      via ≅.bck iso (f.hom fl φ) $ map= (≅.bck iso) (c.m∘runit cR) •
-      via ≅.bck iso (cR $ c.id cR _ m∘ f.hom fl φ) $ map= (≅.bck iso) (sym (c.m∘lunit cR)) •
+      via ≅.bck iso (f.hom fl φ) $ map= (≅.bck iso) (c.m∘runit' cR) •
+      via ≅.bck iso (cR $ c.id cR _ m∘ f.hom fl φ) $ map= (≅.bck iso) (sym (c.m∘lunit' cR)) •
       via ≅.bck iso (cR $ ≅.fwd iso (≅.bck iso (c.id cR _)) m∘ f.hom fl φ) $
         map= (λ ξ → ≅.bck iso (cR $ ξ m∘ f.hom fl φ)) (sym (happly (≅.tgt-id iso) _)) •
       via ≅.bck iso (≅.fwd iso (cL $ ≅.bck iso (c.id cR _) m∘ φ)) $ map= (≅.bck iso) (sym (fwd-m∘ _ _)) •

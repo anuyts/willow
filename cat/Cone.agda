@@ -32,17 +32,17 @@ Cone.hom (f.hom (cCone {cA = cA} cI) {a,cd}{a',cd'} φ,nta q) {i}{j} η =
       nta = prr φ,nta
   in
     via cA $ f.hom cd' η m∘ (cA $ nt.obj nta i m∘ (cA $ Cone.obj q i m∘ φ)) $ refl •
-    via cA $ (cA $ f.hom cd' η m∘ nt.obj nta i) m∘ (cA $ Cone.obj q i m∘ φ) $ sym (c.m∘assoc cA) •
+    via cA $ (cA $ f.hom cd' η m∘ nt.obj nta i) m∘ (cA $ Cone.obj q i m∘ φ) $ sym (c.m∘assoc' cA) •
     via cA $ (cA $ nt.obj nta j m∘ f.hom cd η) m∘ (cA $ Cone.obj q i m∘ φ)
-      $ map= (λ ξ → cA $ ξ m∘ (cA $ Cone.obj q i m∘ prl φ,nta)) (nt.hom nta η) •
-    via cA $ nt.obj nta j m∘ (cA $ f.hom cd η m∘ (cA $ Cone.obj q i m∘ φ)) $ c.m∘assoc cA •
+      $ map= (λ ξ → cA $ ξ m∘ (cA $ Cone.obj q i m∘ prl φ,nta)) (nt.hom' nta η) •
+    via cA $ nt.obj nta j m∘ (cA $ f.hom cd η m∘ (cA $ Cone.obj q i m∘ φ)) $ c.m∘assoc' cA •
     via cA $ nt.obj nta j m∘ (cA $ (cA $ f.hom cd η m∘ Cone.obj q i) m∘ φ)
-      $ map= (λ ξ → cA $ nt.obj nta j m∘ ξ) (sym (c.m∘assoc cA)) •
+      $ map= (λ ξ → cA $ nt.obj nta j m∘ ξ) (sym (c.m∘assoc' cA)) •
     via cA $ nt.obj nta j m∘ (cA $ Cone.obj q j m∘ φ)
       $ map= (λ ξ → cA $ nt.obj nta j m∘ (cA $ ξ m∘ φ)) (Cone.hom q η) •
     refl
-f.hom-id (cCone {cA = cA} cI) (a,cd) = λ= q => cone-ext (λ= i => (c.m∘lunit cA • c.m∘runit cA))
-f.hom-m∘ (cCone {cA = cA} cI) {x,cd}{y,cd'}{z,cd''} ψ,ntb φ,nta = λ= q => cone-ext (λ= i =>
+f.hom-id' (cCone {cA = cA} cI) (a,cd) = λ= q => cone-ext (λ= i => (c.m∘lunit' cA • c.m∘runit' cA))
+f.hom-m∘' (cCone {cA = cA} cI) {x,cd}{y,cd'}{z,cd''} ψ,ntb φ,nta = λ= q => cone-ext (λ= i =>
   let x = prl x,cd
       y = prl y,cd'
       z = prl z,cd''
@@ -55,7 +55,7 @@ f.hom-m∘ (cCone {cA = cA} cI) {x,cd}{y,cd'}{z,cd''} ψ,ntb φ,nta = λ= q => c
       ntb = prr ψ,ntb
   in
     refl •
-    map= (λ ξ → cA $ (cA $ nt.obj ntb i m∘ nt.obj nta i) m∘ ξ) (sym (c.m∘assoc cA)) •
-    c.m∘assoc cA •
-    map= (λ ξ → cA $ nt.obj ntb i m∘ ξ) (sym (c.m∘assoc cA))
+    map= (λ ξ → cA $ (cA $ nt.obj ntb i m∘ nt.obj nta i) m∘ ξ) (sym (c.m∘assoc' cA)) •
+    c.m∘assoc' cA •
+    map= (λ ξ → cA $ nt.obj ntb i m∘ ξ) (sym (c.m∘assoc' cA))
   )

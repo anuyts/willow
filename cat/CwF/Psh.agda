@@ -26,7 +26,7 @@ psh-pair-unpair {pΔ}{pΓ}{dpT} pf p = nt-ext (λ= w => λ= δ => pair-hext refl
     via Lim.obj {cd = dpT c∘ c∫-hom (p-pr nt∘ pf)} (tra! p (f.hom c-pshtm (pf , refl) (lim-pshvar-obj (pΓ , dpT)))) (w , δ) $
       hrefl h•
     via Lim.obj {cd = f.hom c-dpsh pf (f.hom c-dpsh p-pr dpT)} (f.hom c-pshtm (pf , refl) (lim-pshvar-obj (pΓ , dpT))) (w , δ) $
-      (hdmap= (λ cd → λ t → Lim.obj {cd = cd} t (w , δ)) (happly (f.hom-m∘ c-dpsh pf p-pr) dpT))
+      (hdmap= (λ cd → λ t → Lim.obj {cd = cd} t (w , δ)) (happly (f.hom-m∘' c-dpsh pf p-pr) dpT))
         =aph= hhapply (htra! p) (f.hom c-pshtm (pf , refl) (lim-pshvar-obj (pΓ , dpT))) h•
     hrefl
   ))
@@ -41,6 +41,8 @@ CwF.c-compr cwfPsh = c-pshcompr
 CwF.nt-wkn cwfPsh = nt-pshwkn
 CwF.lim-var cwfPsh = lim-pshvar
 CwF.pair cwfPsh = p-pshpair
-CwF.wkn-pair cwfPsh = psh-wkn-pair
-CwF.var-pair cwfPsh = psh-var-pair
-CwF.pair-unpair cwfPsh {pΔ}{pΓ}{dpT} pf = psh-pair-unpair pf (map= (CwF.Tm cwfPsh pΔ) (sym (CwF.T[][] cwfPsh)))
+CwF.wkn-pair' cwfPsh = psh-wkn-pair
+CwF.var-pair' cwfPsh = psh-var-pair
+CwF.pair-unpair' cwfPsh {pΔ}{pΓ}{dpT} pf = psh-pair-unpair pf (trust
+    (map= Lim (sym (happly (f.hom-m∘' c-dpsh pf p-pr) dpT)))
+  )

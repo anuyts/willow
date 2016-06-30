@@ -55,8 +55,8 @@ Cat.Hom (cIdxSet ℓ A) ℑX ℑY = ℑX ℑ↠ ℑY
 ℑ↠.val (Cat.id (cIdxSet ℓ A) ℑX) = refl
 ℑ↠.idx (Cat.comp (cIdxSet ℓ A) ψ φ) = ℑ↠.idx ψ ∘ ℑ↠.idx φ
 ℑ↠.val (Cat.comp (cIdxSet ℓ A) ψ φ) = ℑ↠.val φ • ℑ↠.val ψ
-Cat.m∘assoc (cIdxSet ℓ A) {w} {x} {y} {z} {φ} {ξ} {ψ} = ℑ↠ext _ _ (∘assoc (ℑ↠.idx ψ) (ℑ↠.idx ξ) (ℑ↠.idx φ))
-Cat.m∘lunit (cIdxSet ℓ A) = ℑ↠ext _ _ refl
-Cat.m∘runit (cIdxSet ℓ A) = ℑ↠ext _ _ refl
+Cat.m∘assoc' (cIdxSet ℓ A) {w} {x} {y} {z} {φ} {ξ} {ψ} = ℑ↠ext _ _ (∘assoc (ℑ↠.idx ψ) (ℑ↠.idx ξ) (ℑ↠.idx φ))
+Cat.m∘lunit' (cIdxSet ℓ A) = ℑ↠ext _ _ refl
+Cat.m∘runit' (cIdxSet ℓ A) = ℑ↠ext _ _ refl
 
 infix 2 _ℑ↠_

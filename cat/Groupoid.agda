@@ -46,8 +46,8 @@ record Groupoid (ℓo ℓh : Level) : Set (lsuc (ℓo ⊔ ℓh)) where
   c-inv : cOp cat ++> cat
   f.obj c-inv = idf
   f.hom c-inv = inv
-  f.hom-id c-inv x = inv-id cat x (asIso (c.id cat x)) refl
-  f.hom-m∘ c-inv φ ψ = inv-m∘ cat (asIso ψ) (asIso φ) (asIso (cat $ ψ m∘ φ)) refl
+  f.hom-id' c-inv x = inv-id cat x (asIso (c.id cat x)) refl
+  f.hom-m∘' c-inv φ ψ = inv-m∘ cat (asIso ψ) (asIso φ) (asIso (cat $ ψ m∘ φ)) refl
 module g = Groupoid
 
 cCore : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → Cat ℓo ℓh
@@ -55,9 +55,9 @@ c.Obj (cCore c) = c.Obj c
 c.Hom (cCore c) x y = Iso c x y
 c.id (cCore c) x = i-id c x
 c.comp (cCore c) ψ φ = c $ ψ i∘ φ
-c.m∘assoc (cCore c) = ≅ext (c.m∘assoc c)
-c.m∘lunit (cCore c) = ≅ext (c.m∘lunit c)
-c.m∘runit (cCore c) = ≅ext (c.m∘runit c)
+c.m∘assoc' (cCore c) = ≅ext (c.m∘assoc' c)
+c.m∘lunit' (cCore c) = ≅ext (c.m∘lunit' c)
+c.m∘runit' (cCore c) = ≅ext (c.m∘runit' c)
 
 coreIsGrpd : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → IsGrpd (cCore c)
 ≅.fwd (prl (coreIsGrpd c φ)) = φ
@@ -79,9 +79,9 @@ c.Obj (cLoc c) = c.Obj c
 c.Hom (cLoc c) x y = Locpath c x y
 c.id (cLoc c) x = mk-lp rz-refl
 c.comp (cLoc c) lpb lpa = lpa lp• lpb
-c.m∘assoc (cLoc c) {ψ = lpc}{lpb}{lpa} = sym (lp•assoc lpa lpb lpc)
-c.m∘lunit (cLoc c) = lp•runit _
-c.m∘runit (cLoc c) = lp•lunit _
+c.m∘assoc' (cLoc c) {ψ = lpc}{lpb}{lpa} = sym (lp•assoc lpa lpb lpc)
+c.m∘lunit' (cLoc c) = lp•runit _
+c.m∘runit' (cLoc c) = lp•lunit _
 
 locIsGrpd : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → IsGrpd (cLoc c)
 ≅.fwd (prl (locIsGrpd c φ)) = φ

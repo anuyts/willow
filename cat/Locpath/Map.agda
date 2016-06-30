@@ -11,23 +11,23 @@ mapEqLocpath : ∀{ℓoA ℓhA ℓoB ℓhB} → {cA : Cat ℓoA ℓhA} → {cB :
   → (EqLocpath cA rza rzb) → EqLocpath cB (mapRawZigzag cf rza) (mapRawZigzag cf rzb)
 mapEqLocpath {_}{_}{_}{_} {cA}{cB} cf {x}{y} rzb .rzb lp-refl = lp-refl
 mapEqLocpath {_}{_}{_}{_} {cA}{cB} cf {x}{y} .(rzb rz> c.id cA y) rzb lp-id-fwd =
-  tra (λ φ → EqLocpath cB ((mapRawZigzag cf rzb) rz> φ) (mapRawZigzag cf rzb)) / sym (f.hom-id cf _) of lp-id-fwd
+  tra (λ φ → EqLocpath cB ((mapRawZigzag cf rzb) rz> φ) (mapRawZigzag cf rzb)) / sym (f.hom-id' cf _) of lp-id-fwd
 mapEqLocpath {_}{_}{_}{_} {cA}{cB} cf {x}{y} .(rzb rz< c.id cA y) rzb lp-id-bck = 
-  tra (λ φ → EqLocpath cB ((mapRawZigzag cf rzb) rz< φ) (mapRawZigzag cf rzb)) / sym (f.hom-id cf _) of lp-id-bck
+  tra (λ φ → EqLocpath cB ((mapRawZigzag cf rzb) rz< φ) (mapRawZigzag cf rzb)) / sym (f.hom-id' cf _) of lp-id-bck
 mapEqLocpath {_}{_}{_}{_} {cA}{cB} cf {x}{y} (rzb rz> φ rz> ψ) .(rzb rz> cA $ ψ m∘ φ) lp-comp-fwd =
   tra
     (λ ξ → EqLocpath cB
       ((mapRawZigzag cf rzb) rz> (f.hom cf φ) rz> (f.hom cf ψ))
       ((mapRawZigzag cf rzb) rz> ξ)
     )
-    / sym (f.hom-m∘ cf _ _) of lp-comp-fwd
+    / sym (f.hom-m∘' cf _ _) of lp-comp-fwd
 mapEqLocpath {_}{_}{_}{_} {cA}{cB} cf {x}{y} (rzb rz< φ rz< ψ) .(rzb rz< cA $ φ m∘ ψ) lp-comp-bck = 
   tra
     (λ ξ → EqLocpath cB
       ((mapRawZigzag cf rzb) rz< (f.hom cf φ) rz< (f.hom cf ψ))
       ((mapRawZigzag cf rzb) rz< ξ)
     )
-    / sym (f.hom-m∘ cf _ _) of lp-comp-bck
+    / sym (f.hom-m∘' cf _ _) of lp-comp-bck
 mapEqLocpath {_}{_}{_}{_} {cA}{cB} cf {x}{y} (rzb rz> φ rz< .φ) .rzb lp-cancel-up = lp-cancel-up
 mapEqLocpath {_}{_}{_}{_} {cA}{cB} cf {x}{y} (rzb rz< φ rz> .φ) .rzb lp-cancel-dn = lp-cancel-dn
 mapEqLocpath {_}{_}{_}{_} {cA}{cB} cf {x}{y} _ _ (lp-cong-fwd p) = lp-cong-fwd (mapEqLocpath cf _ _ p)

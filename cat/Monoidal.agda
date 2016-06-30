@@ -74,9 +74,9 @@ record MCat (α β : Level) : Set (lsuc (α ⊔ β)) where
   mc:m-id = m-id mc:cat
   mc:m-cat = m-cat mc:cat
   mc:_$_m∘_ = mc:m-cat
-  mc:m∘assoc = m∘assoc mc:cat
-  mc:m∘lunit = m∘lunit mc:cat
-  mc:m∘runit = m∘runit mc:cat
+  mc:m∘assoc' = m∘assoc' mc:cat
+  mc:m∘lunit' = m∘lunit' mc:cat
+  mc:m∘runit' = m∘runit' mc:cat
   mc:1 = monoid:1 mc:ops
   mc:⊗ = monoid:⊗ mc:ops
   mc:assoc = monoid:assoc mc:laws

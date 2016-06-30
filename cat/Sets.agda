@@ -9,21 +9,21 @@ c.Obj (cSet α) = Set α
 c.Hom (cSet α) X Y = X → Y
 c.id (cSet α) X = idf
 c.comp (cSet α) g f = g ∘ f
-c.m∘assoc (cSet α) {W} {X} {Y} {Z} {h} {g} {f} = ∘assoc f g h
-c.m∘lunit (cSet α) {X} {Y} {f} = λ= x => refl
-c.m∘runit (cSet α) {X} {Y} {f} = λ= x => refl
+c.m∘assoc' (cSet α) {W} {X} {Y} {Z} {h} {g} {f} = ∘assoc f g h
+c.m∘lunit' (cSet α) {X} {Y} {f} = λ= x => refl
+c.m∘runit' (cSet α) {X} {Y} {f} = λ= x => refl
 
 cSet× : ∀ {α} → cSet α c× cSet α ++> cSet α
 _++>_.obj cSet× Xs = prl Xs × prr Xs
 _++>_.hom cSet× fs xs = (prl fs) (prl xs) , (prr fs) (prr xs)
-_++>_.hom-id cSet× Xs = refl
-_++>_.hom-m∘ cSet× gs fs = refl
+_++>_.hom-id' cSet× Xs = refl
+_++>_.hom-m∘' cSet× gs fs = refl
 
 c-setlift : ∀(ℓ ℓ' : Level) → cSet ℓ ++> cSet (ℓ ⊔ ℓ')
 f.obj (c-setlift ℓ ℓ') X = Lift {ℓ}{ℓ'} X
 f.hom (c-setlift ℓ ℓ') f x = lift (f (lower x))
-f.hom-id (c-setlift ℓ ℓ') X = refl
-f.hom-m∘ (c-setlift ℓ ℓ') g f = refl
+f.hom-id' (c-setlift ℓ ℓ') X = refl
+f.hom-m∘' (c-setlift ℓ ℓ') g f = refl
 
 {-
 mcSet : (α : Level) → MCat (lsuc α) α

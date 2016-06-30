@@ -15,8 +15,8 @@ record IsDCat {ℓo ℓh : Level} (c : Cat ℓo ℓh) : Set (ℓo ⊔ ℓh) wher
   c† : c ++> cOp c
   _++>_.obj c† = idf
   _++>_.hom c† φ = † φ
-  _++>_.hom-id c† x = †-id x
-  _++>_.hom-m∘ c† ψ φ = †-m∘ ψ φ
+  _++>_.hom-id' c† x = †-id x
+  _++>_.hom-m∘' c† ψ φ = †-m∘ ψ φ
 
   c††-eq : (c-op c†) c∘ c† == ≅.fwd (≅OpOp c)
   c††-eq = functorext (pair-ext refl (λi= x => λi= y => λ= φ => ††-eq φ))
@@ -69,9 +69,9 @@ c.Obj (cBidir c) = c.Obj c
 c.Hom (cBidir c) x y = c.Hom c x y × c.Hom c y x
 c.id (cBidir c) x = (Cat.id c x) , (Cat.id c x)
 c.comp (cBidir c) ψ φ = (c $ prl ψ m∘ prl φ) , (c $ prr φ m∘ prr ψ)
-c.m∘assoc (cBidir c) = ×ext (c.m∘assoc c) (sym (c.m∘assoc c))
-c.m∘lunit (cBidir c) = ×ext (c.m∘lunit c) (c.m∘runit c)
-c.m∘runit (cBidir c) = ×ext (c.m∘runit c) (c.m∘lunit c)
+c.m∘assoc' (cBidir c) = ×ext (c.m∘assoc' c) (sym (c.m∘assoc' c))
+c.m∘lunit' (cBidir c) = ×ext (c.m∘lunit' c) (c.m∘runit' c)
+c.m∘runit' (cBidir c) = ×ext (c.m∘runit' c) (c.m∘lunit' c)
 
 bidirIsDCat : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → IsDCat (cBidir c)
 IsDCat.† (bidirIsDCat c) φ = prr φ , prl φ
@@ -88,9 +88,9 @@ Cat.Obj (cZigzags c) = c.Obj c
 Cat.Hom (cZigzags c) x y = Zigzag c x y
 Cat.id (cZigzags c) x = zz-nil
 Cat.comp (cZigzags c) η ζ = ζ zz• η
-Cat.m∘assoc (cZigzags c) = λ {w x y z θ η ζ} → sym (zz•assoc ζ η θ)
-Cat.m∘lunit (cZigzags c) = zz•runit _
-Cat.m∘runit (cZigzags c) = zz•lunit _
+Cat.m∘assoc' (cZigzags c) = λ {w x y z θ η ζ} → sym (zz•assoc ζ η θ)
+Cat.m∘lunit' (cZigzags c) = zz•runit _
+Cat.m∘runit' (cZigzags c) = zz•lunit _
 
 zigzagsIsDCat : ∀{ℓo ℓh} → (c : Cat ℓo ℓh) → IsDCat (cZigzags c)
 IsDCat.† (zigzagsIsDCat c) ζ = zz-inv ζ

@@ -9,12 +9,12 @@ open import willow.cat.DaggerCategory public
 dfuseEqZigzag : ∀{ℓo ℓh} → (dc : DCat ℓo ℓh) → {x y : dc.Obj dc}
   → (rza rzb : RawZigzag (dc.cat dc) x y) → (p : EqZigzag (dc.cat dc) rza rzb) → (dfuseRawZigzag dc rza == dfuseRawZigzag dc rzb)
 dfuseEqZigzag dc rzb .rzb zz-refl = refl
-dfuseEqZigzag dc _ rzb zz-id-fwd = dc.m∘lunit dc
-dfuseEqZigzag dc _ rzb zz-id-bck = map= (λ φ → dc.cat dc $ φ m∘ dfuseRawZigzag dc rzb) (f.hom-id (dc.c† dc) _) • dc.m∘lunit dc
-dfuseEqZigzag dc _ _ zz-comp-fwd = sym (dc.m∘assoc dc)
+dfuseEqZigzag dc _ rzb zz-id-fwd = dc.m∘lunit' dc
+dfuseEqZigzag dc _ rzb zz-id-bck = map= (λ φ → dc.cat dc $ φ m∘ dfuseRawZigzag dc rzb) (f.hom-id' (dc.c† dc) _) • dc.m∘lunit' dc
+dfuseEqZigzag dc _ _ zz-comp-fwd = sym (dc.m∘assoc' dc)
 dfuseEqZigzag dc (rz rz< φ rz< ψ) .(rz rz< (dc.cat dc $ φ m∘ ψ)) zz-comp-bck =
   dc.cat dc $ dc.† dc ψ m∘ (dc.cat dc $ dc.† dc φ m∘ dfuseRawZigzag dc rz) == dc.cat dc $ dc.† dc (dc.cat dc $ φ m∘ ψ) m∘ dfuseRawZigzag dc rz
-  ∋ sym (dc.m∘assoc dc) • map= (λ ξ → dc.cat dc $ ξ m∘ dfuseRawZigzag dc rz) (sym (f.hom-m∘ (dc.c† dc) φ ψ))
+  ∋ sym (dc.m∘assoc' dc) • map= (λ ξ → dc.cat dc $ ξ m∘ dfuseRawZigzag dc rz) (sym (f.hom-m∘' (dc.c† dc) φ ψ))
   -- ψ-1 ∘ (φ-1 ∘ rz) = (ψ-1 ∘ φ-1) ∘ rz = (φ ∘ ψ)-1 ∘ rz
 dfuseEqZigzag dc (rza rz> φ) (rzb rz> .φ) (zz-cong-fwd p) = map= (λ ξ → dc.cat dc $ φ m∘ ξ) (dfuseEqZigzag dc rza rzb p)
 dfuseEqZigzag dc (rza rz< φ) (rzb rz< .φ) (zz-cong-bck p) = map= (λ ξ → dc.cat dc $ (dc.† dc φ) m∘ ξ) (dfuseEqZigzag dc rza rzb p)

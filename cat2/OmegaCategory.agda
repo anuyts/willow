@@ -36,9 +36,9 @@ record 2CatStr {ℓi ℓo ℓh}
     ; id = λ x → {!!} --cs.traHom (csHomOM i j) ? ? ?
       --{!cs.traHom csIM ? ? {!(in! (cs.id csOM (out! x)))!}!}
     ; comp = {!!}
-    ; m∘lunit = {!!}
-    ; m∘runit = {!!}
-    ; m∘assoc = {!!}
+    ; m∘lunit' = {!!}
+    ; m∘runit' = {!!}
+    ; m∘assoc' = {!!}
     }
 
     {-

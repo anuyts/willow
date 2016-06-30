@@ -17,7 +17,7 @@ nt-tra-set-lemma refl x = refl
 nt-transport : ∀{ℓoA ℓhA ℓoB ℓhB ℓE} {cA : Cat ℓoA ℓhA} {cB : Cat ℓoB ℓhB} {E : Set ℓE} {e e' : E}
   (f : E → cA ++> cB) → (e == e') → (f e nt→ f e')
 nt.obj (nt-transport {cB = cB} cf (refl {e})) x = c.id cB (f.obj (cf e) x)
-nt.hom (nt-transport {cB = cB} cf (refl {e})) φ = c.m∘runit cB • sym (c.m∘lunit cB)
+nt.hom' (nt-transport {cB = cB} cf (refl {e})) φ = c.m∘runit' cB • sym (c.m∘lunit' cB)
 
 nt-tra_/_ : ∀{ℓoA ℓhA ℓoB ℓhB ℓE} {cA : Cat ℓoA ℓhA} {cB : Cat ℓoB ℓhB} {E : Set ℓE} {e e' : E}
   (f : E → cA ++> cB) → (e == e') → (f e nt→ f e')
