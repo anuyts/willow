@@ -103,10 +103,46 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   σcompr σ T = f.hom c-compr (σ , refl)
 
   σeval : {Γ : Ctx} → {A : Ty Γ} → (a : Tm Γ A) → Sub Γ (Γ „ A)
-  σeval {Γ}{A} a = σ-id Γ “ tra! (map= (Tm Γ) (sym T[id])) a
+  σeval {Γ}{A} a = σ-id Γ “ tra! (trust (map= (Tm Γ) (sym T[id]))) a
 
-  --σeval[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → (a : Tm Γ A) → (σeval a σ∘ σ) == (σcompr σ A σ∘ σeval (a t[ σ ]))
-  --σeval[] {Δ}{Γ}{σ}{A} a = {!!}
+  σeval[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → (a : Tm Γ A) → (σeval a σ∘ σ) == (σcompr σ A σ∘ σeval (a t[ σ ]))
+  σeval[] {Δ}{Γ}{σ}{A} a =
+    via σeval a σ∘ σ $ refl •
+    via (σwkn σ∘ (σeval a σ∘ σ)) “ tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar t[ σeval a σ∘ σ ]) $
+      sym (pair-unpair _) •
+    via (σwkn σ∘ (σcompr σ A σ∘ σeval (a t[ σ ]))) “
+        tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar t[ σcompr σ A σ∘ σeval (a t[ σ ]) ]) $
+      to-homog ((hdmap= _“_
+      (
+        via σwkn σ∘ (σeval a σ∘ σ) $ refl •
+        via (σwkn σ∘ σeval a) σ∘ σ $ sym (c.m∘assoc cCtx) •
+        via σ-id Γ σ∘ σ $ map= (λ τ → τ σ∘ σ) (wkn-pair _ _) •
+        via σ $ c.m∘lunit cCtx •
+        sym (
+          via σwkn σ∘ (σcompr σ A σ∘ σeval (a t[ σ ])) $ refl •
+          via (σwkn σ∘ σcompr σ A) σ∘ σeval (a t[ σ ]) $ sym (c.m∘assoc cCtx) •
+          via (σ σ∘ σwkn) σ∘ σeval (a t[ σ ]) $ map= (λ τ → τ σ∘ σeval (a t[ σ ])) (sym (nt.hom nt-wkn (σ , refl))) •
+          via σ σ∘ (σwkn σ∘ σeval (a t[ σ ])) $ c.m∘assoc cCtx •
+          via σ σ∘ σ-id Δ $ map= (λ τ → σ σ∘ τ) (wkn-pair _ _) •
+          c.m∘runit cCtx
+        )
+      )) =aph= (
+        via tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar t[ σeval a σ∘ σ ]) $ hrefl h•
+        via (tvar t[ σeval a σ∘ σ ]) $ hhapply (htra! (trust (map= (Tm Δ) (sym T[][])))) _ h•
+        via (tvar t[ σeval a ]) t[ σ ] $ {!!} h•
+        via a t[ σ ] $ {!!} h•
+        hsym (
+          via tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar t[ σcompr σ A σ∘ σeval (a t[ σ ]) ]) $ hrefl h•
+          via (tvar t[ σcompr σ A σ∘ σeval (a t[ σ ]) ]) $
+            hhapply (htra! (trust (map= (Tm Δ) (sym T[][])))) (tvar t[ σcompr σ A σ∘ σeval (a t[ σ ]) ]) h•
+          via (tvar t[ σcompr σ A ]) t[ σeval (a t[ σ ]) ] $ {!!} h•
+          via tvar t[ σeval (a t[ σ ]) ] $ {!!} h•
+          via a t[ σ ] $ {!var-pair ? ?!} h•
+          hrefl
+        )
+      )) •
+    via σcompr σ A σ∘ σeval (a t[ σ ]) $ pair-unpair _ •
+    refl
 
   infix 10 _T[_] _t[_]
 
