@@ -1,9 +1,16 @@
-open import willow.cat.CwF public
 open import willow.basic.TransportLemmas public
 open import willow.cat.Isomorphism public
 open import willow.cat.NaturalTransformation
 open import willow.basic.UIP.HeteroIdentity
+open import willow.cat.Opposite public
+open import willow.cat.Limits public
+open import willow.cat.Isomorphism public
+open import willow.cat.OfElements.DeptPairFunctor public
+open import willow.cat.Sets.Limits public
+open import willow.cat.HomFunctor
+open import willow.basic.TransportLemmas
 import willow.cat.Presheaf
+import willow.cat.CwF
 import willow.cat.CwF.Psh.TermFunctor
 import willow.cat.CwF.Psh.ComprehensionFunctor
 import willow.cat.CwF.Psh.Variable
@@ -11,6 +18,7 @@ import willow.cat.CwF.Psh.Variable
 module willow.cat.CwF.Psh.Pair {ℓoW ℓhW : Level} (ℓtm : Level) (cW : Cat ℓoW ℓhW) where
 
 open willow.cat.Presheaf ℓtm cW
+open willow.cat.CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) (ℓtm ⊔ (ℓhW ⊔ ℓoW))
 open willow.cat.CwF.Psh.TermFunctor ℓtm cW
 open willow.cat.CwF.Psh.ComprehensionFunctor ℓtm cW
 open willow.cat.CwF.Psh.Variable ℓtm cW

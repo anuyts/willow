@@ -4,6 +4,7 @@ open import willow.cat.Adjunction public
 open import willow.cat.Categories public
 open import willow.cat.Category public
 open import willow.cat.Cone public
+open import willow.cat.Currying public
 open import willow.cat.CwF public
 open import willow.cat.CwF.Psh public
 open import willow.cat.DaggerCategories public
@@ -24,6 +25,7 @@ open import willow.cat.OfElements public
 open import willow.cat.OfElements.DeptPairFunctor public
 open import willow.cat.Opposite public
 open import willow.cat.Presheaf public
+open import willow.cat.Presheaf.Yoneda public
 open import willow.cat.Product public
 open import willow.cat.RawZigzag public
 open import willow.cat.Sets public

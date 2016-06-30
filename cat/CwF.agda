@@ -1,5 +1,3 @@
-module willow.cat.CwF where
-
 open import willow.cat.OfElements public
 open import willow.cat.Opposite public
 open import willow.cat.Limits public
@@ -10,13 +8,15 @@ open import willow.cat.HomFunctor
 open import willow.basic.TransportLemmas
 open import willow.basic.UIP.HeteroIdentity
 
+module willow.cat.CwF (ℓctx ℓsub ℓty ℓtm : Level) where
+
 {-
   -You get a natural transformation on Ctx^op × ∫ Ty ++> Set, from
     Δ Γ T ↦ Sub Δ Γ.T    to
     Δ Γ T ↦ Sum (σ : Sub Δ Γ) Tm Δ T[σ]
    Define both functors and the NT and require it to be an isomorphism.
 -}
-record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm)) where
+record CwF : Set (lsuc (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm)) where
   no-eta-equality
   field
     cCtx : Cat ℓctx ℓsub
