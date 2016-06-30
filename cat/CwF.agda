@@ -8,7 +8,7 @@ open import willow.cat.HomFunctor
 open import willow.basic.TransportLemmas
 open import willow.basic.UIP.HeteroIdentity
 
-module willow.cat.CwF (ℓctx ℓsub ℓty ℓtm : Level) where
+module willow.cat.CwF where
 
 {-
   -You get a natural transformation on Ctx^op × ∫ Ty ++> Set, from
@@ -16,7 +16,7 @@ module willow.cat.CwF (ℓctx ℓsub ℓty ℓtm : Level) where
     Δ Γ T ↦ Sum (σ : Sub Δ Γ) Tm Δ T[σ]
    Define both functors and the NT and require it to be an isomorphism.
 -}
-record CwF : Set (lsuc (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm)) where
+record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm)) where
   no-eta-equality
   field
     cCtx : Cat ℓctx ℓsub
@@ -88,6 +88,11 @@ record CwF : Set (lsuc (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm)) where
   field
     wkn-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → σwkn σ∘ (σ “ t) == σ
     var-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → tvar{Γ}{T} t[ σ “ t ] === t
+
+  σcompr : {Δ Γ : Ctx} → (σ : Sub Δ Γ) → (T : Ty Γ) → Sub (Δ „ (T T[ σ ])) (Γ „ T)
+  σcompr σ T = f.hom c-compr (σ , refl)
+
+  infix 10 _T[_] _t[_]
 
   {-
   unpair : {Δ Γ : c.Obj cCtx} → {T : f.obj c-ty Γ} →

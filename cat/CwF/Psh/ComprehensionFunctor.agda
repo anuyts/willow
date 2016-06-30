@@ -10,13 +10,12 @@ open import willow.cat.Sets.Limits public
 open import willow.cat.HomFunctor
 open import willow.basic.TransportLemmas
 open import willow.basic.UIP.HeteroIdentity
-import willow.cat.CwF
+open import willow.cat.CwF public
 import willow.cat.Presheaf
 
 module willow.cat.CwF.Psh.ComprehensionFunctor {ℓoW ℓhW : Level} (ℓtm : Level) (cW : Cat ℓoW ℓhW) where
 
 open willow.cat.Presheaf ℓtm cW
-open willow.cat.CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) (ℓtm ⊔ (ℓhW ⊔ ℓoW))
 
 c-pshcompr : cOp∫ c-dpsh ++> cPsh
 f.obj c-pshcompr (pA , dpT) = p∫ dpT

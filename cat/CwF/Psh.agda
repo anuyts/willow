@@ -12,14 +12,14 @@ import willow.cat.CwF.Psh.Pair
 
 module willow.cat.CwF.Psh {ℓoW ℓhW : Level} (ℓtm : Level) (cW : Cat ℓoW ℓhW) where
 
-open willow.cat.CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) (ℓtm ⊔ (ℓhW ⊔ ℓoW))
+open willow.cat.CwF
 open willow.cat.Presheaf ℓtm cW
 open willow.cat.CwF.Psh.TermFunctor ℓtm cW
 open willow.cat.CwF.Psh.ComprehensionFunctor ℓtm cW
 open willow.cat.CwF.Psh.Variable ℓtm cW
 open willow.cat.CwF.Psh.Pair ℓtm cW
 
-cwfPsh : CwF
+cwfPsh : CwF (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (ℓoW ⊔ ℓhW ⊔ lsuc ℓtm) (lsuc ℓtm ⊔ (ℓhW ⊔ ℓoW)) (ℓtm ⊔ (ℓhW ⊔ ℓoW))
 CwF.cCtx cwfPsh = cPsh
 CwF.∙ cwfPsh = p⊤
 CwF.∙isterminal cwfPsh = isterminal-p⊤
