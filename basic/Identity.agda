@@ -42,5 +42,8 @@ data _≡_ {a} {A : Set a} (x : A) : A → Set a where
 {-# BUILTIN EQUALITY _≡_ #-}
 {-# BUILTIN REFL arefl #-}
 
-toAgdaEq : ∀{ℓ} {A : Set ℓ} → {a b : A} → (a == b) → a ≡ b
-toAgdaEq refl = arefl
+to≡ : ∀{ℓ} {A : Set ℓ} → {a b : A} → (a == b) → a ≡ b
+to≡ refl = arefl
+
+from≡ : ∀{ℓ} {A : Set ℓ} → {a b : A} → (a ≡ b) → a == b
+from≡ arefl = refl
