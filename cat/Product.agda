@@ -50,3 +50,9 @@ f.obj (cmap× cf cg) = map× (f.obj cf) (f.obj cg)
 f.hom (cmap× cf cg) = map× (f.hom cf) (f.hom cg)
 f.hom-id (cmap× cf cg) x = ×ext (f.hom-id cf (prl x)) (f.hom-id cg (prr x))
 f.hom-m∘ (cmap× cf cg) ψ φ = ×ext (f.hom-m∘ cf (prl ψ) (prl φ)) (f.hom-m∘ cg (prr ψ) (prr φ))
+
+c-swap : ∀{ℓoA ℓhA ℓoB ℓhB} {cA : Cat ℓoA ℓhA} {cB : Cat ℓoB ℓhB} → cA c× cB ++> cB c× cA
+f.obj c-swap (a , b) = b , a
+f.hom c-swap (α , β) = β , α
+f.hom-id c-swap (a , b) = refl
+f.hom-m∘ c-swap (α' , β') (α , β) = refl
