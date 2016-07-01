@@ -83,15 +83,17 @@ f.hom (cConst {cB = cB} b) φ = c.id cB b
 f.hom-id' (cConst b) x = refl
 f.hom-m∘' (cConst {cB = cB} b) ψ φ = sym (c.m∘lunit' cB)
 
-functorext : ∀{ℓoA}{ℓhA}{ℓoB}{ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cf cg : cA ++> cB}
+functorext' functorext : ∀{ℓoA}{ℓhA}{ℓoB}{ℓhB} → {cA : Cat ℓoA ℓhA} → {cB : Cat ℓoB ℓhB} → {cf cg : cA ++> cB}
   → (Candid-objhom cA cB $ (f.obj cf , f.hom cf) == (f.obj cg , f.hom cg))
   → cf == cg
-functorext {ℓoA}{ℓoB}{ℓhA}{ℓhB} {cA}{cB} {mk-f obj hom hom-id hom-m∘}{mk-f .obj .hom ghom-id ghom-m∘} refl =
+abstract
+ functorext' {ℓoA}{ℓoB}{ℓhA}{ℓhB} {cA}{cB} {mk-f obj hom hom-id hom-m∘}{mk-f .obj .hom ghom-id ghom-m∘} refl =
   let eq-hom-id : hom-id == ghom-id
       eq-hom-id = trust (λ¶ a => uip)
       eq-hom-m∘ : Candid-hom-m∘ cA cB obj hom $ hom-m∘ == ghom-m∘
       eq-hom-m∘ = trust (λ¶i x => λ¶i y => λ¶i z => λ¶ ψ => λ¶ φ => uip)
   in (map= (mk-f obj hom) eq-hom-id) =ap= eq-hom-m∘
+functorext p = trust (functorext' p)
   
 {-
 functorext {α}{β}{γ}{δ} {cA}{cB} {cf}{cg} p =
@@ -135,18 +137,22 @@ record _nt→_ {α β γ δ} {cA : Cat α β} {cB : Cat γ δ} (cf cg : cA ++> c
       --{x : Obj cA} → Hom cB (obj cf x) (obj cg x)
     hom' : Candid-nthom cf cg obj
       --{x y : Obj cA} → {φ : Hom cA x y} → (cB $ (hom cg φ) m∘ ntobj) == (cB $ ntobj m∘ (hom cf φ))
+  hom* : Candid-nthom cf cg obj
+  abstract hom* = hom'
   hom : Candid-nthom cf cg obj
-  hom φ = trust (hom' φ)
+  hom φ = trust (hom* φ)
 infix 1 _nt→_
 module nt = _nt→_
 
-nt-ext : ∀{α β γ δ}
+nt-ext' nt-ext : ∀{α β γ δ}
   → {cA : Cat α β} → {cB : Cat γ δ}
   → {cf cg : cA ++> cB} → {nta ntb : cf nt→ cg}
   → (p : (Candid-ntobj cf cg $ nt.obj nta == nt.obj ntb))
   → (nta == ntb)
-nt-ext {ℓoA}{ℓhA}{ℓoB}{ℓhB} {cA}{cB} {cf}{cg} {mk-nt obj ahom}{mk-nt .obj bhom} refl =
-  map= (mk-nt obj) (trust (λ¶i x => λ¶i y => λ¶ φ => uip))
+abstract
+  nt-ext' {ℓoA}{ℓhA}{ℓoB}{ℓhB} {cA}{cB} {cf}{cg} {mk-nt obj ahom}{mk-nt .obj bhom} refl =
+    map= (mk-nt obj) (trust (λ¶i x => λ¶i y => λ¶ φ => uip))
+nt-ext p = trust (nt-ext' p)
 
 {-
 nt-ext {α} {β} {γ} {δ} {cA} {cB} {cf} {cg} {nta} {ntb} p =

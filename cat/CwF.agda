@@ -112,13 +112,17 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
     pair-unpair' : {Δ Γ : Ctx} → {T : Ty Γ} → (τ : Sub Δ (Γ „ T)) →
       (σwkn σ∘ τ) “ tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar{Γ}{T} t[ τ ]) == τ
 
-  wkn-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → σwkn σ∘ (σ “ t) == σ
-  wkn-pair σ t = trust (wkn-pair' σ t)
-  var-pair : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → tvar{Γ}{T} t[ σ “ t ] === t
-  var-pair σ t = htrust (var-pair' σ t)
-  pair-unpair : {Δ Γ : Ctx} → {T : Ty Γ} → (τ : Sub Δ (Γ „ T)) →
+  wkn-pair wkn-pair* : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → σwkn σ∘ (σ “ t) == σ
+  abstract wkn-pair* = wkn-pair'
+  wkn-pair σ t = trust (wkn-pair* σ t)
+  
+  var-pair var-pair* : {Δ Γ : Ctx} → {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T T[ σ ])) → tvar{Γ}{T} t[ σ “ t ] === t
+  abstract var-pair* = var-pair'
+  var-pair σ t = htrust (var-pair* σ t)
+  pair-unpair pair-unpair* : {Δ Γ : Ctx} → {T : Ty Γ} → (τ : Sub Δ (Γ „ T)) →
     (σwkn σ∘ τ) “ tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar{Γ}{T} t[ τ ]) == τ
-  pair-unpair τ = trust (pair-unpair' τ)
+  abstract pair-unpair* = pair-unpair'
+  pair-unpair τ = trust (pair-unpair* τ)
 
   σcompr : {Δ Γ : Ctx} → (σ : Sub Δ Γ) → (T : Ty Γ) → Sub (Δ „ (T T[ σ ])) (Γ „ T)
   σcompr σ T = f.hom c-compr (σ , refl)
