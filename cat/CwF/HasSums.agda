@@ -25,8 +25,10 @@ record HasProducts : Set (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm) where
       → tpair (tprl ab) (tprr ab) == ab
 
     tpair[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → {B : Ty (Γ „ A)} → (a : Tm Γ A) → (b : Tm Γ (B T[ σeval a ]))
-      → (tpair a b) t[ σ ] === tpair (a t[ σ ]) (tra! (map= (Tm Δ) {!!}) (b t[ σ ]))
+      → (tpair a b) t[ σ ] === tpair (a t[ σ ]) (tra! (trust (map= (Tm Δ) (
+        sym T[][] • map= (λ σ' → B T[ σ' ]) σeval[] • T[][]
+      ))) (b t[ σ ]))
     tprl[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → {B : Ty (Γ „ A)} → (ab : Tm Γ (TΣ A B))
-      → (tprl ab) t[ σ ] == tprl (tra! (map= (Tm Δ) (TΣ[] A B)) (ab t[ σ ]))
+      → (tprl ab) t[ σ ] == tprl (tra! (trust (map= (Tm Δ) (TΣ[] A B))) (ab t[ σ ]))
     tprr[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → {B : Ty (Γ „ A)} → (ab : Tm Γ (TΣ A B))
-      → (tprr ab) t[ σ ] === tprr (tra! (map= (Tm Δ) (TΣ[] A B)) (ab t[ σ ]))
+      → (tprr ab) t[ σ ] === tprr (tra! (trust (map= (Tm Δ) (TΣ[] A B))) (ab t[ σ ]))

@@ -69,6 +69,27 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   tsub t σ = f.hom c-tm (σ , refl) t
   _t[_] = tsub
 
+  t[id]' : {Γ : Ctx} {T : Ty Γ} {t : Tm Γ T} → t t[ σ-id Γ ] === t
+  abstract
+    t[id]' {Γ}{T}{t} =
+      via f.hom c-tm {Γ , T}{Γ , (T T[ σ-id Γ ])} (c.id cCtx Γ , refl) t $ hrefl h•
+      via f.hom c-tm {Γ , T}{Γ , T} (c.id (cOp∫ c-ty) (Γ , T)) t $
+        (hdmap= (λ T' → λ p → f.hom c-tm {Γ , T}{Γ , T'} (c.id cCtx Γ , p) t) T[id])
+        =aph= huip hrefl h•
+      to-heter (happly (f.hom-id c-tm (Γ , T)) t)
+  t[id] : {Γ : Ctx} {T : Ty Γ} {t : Tm Γ T} → t t[ σ-id Γ ] === t
+  t[id] {Γ}{T}{t} = htrust t[id]'
+
+  t[][]' : {Θ Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {τ : Sub Θ Δ} {t : Tm Γ T} → t t[ σ σ∘ τ ] === t t[ σ ] t[ τ ]
+  abstract
+    t[][]' {Θ}{Δ}{Γ}{T}{σ}{τ}{t} =
+      via f.hom c-tm {Γ , T}{Θ , T T[ σ σ∘ τ ]} (cCtx $ σ m∘ τ , refl) t $ hrefl h•
+      via f.hom c-tm {Γ , T}{Θ , T T[ σ ] T[ τ ]} (cOp∫ c-ty $ (σ , refl) m∘ (τ , refl)) t $
+        (hdmap= (λ T' → λ p → f.hom c-tm {Γ , T}{Θ , T'} (cCtx $ σ m∘ τ , p) t) T[][]) =aph= huip hrefl h•
+      to-heter (happly (f.hom-m∘ c-tm (τ , refl) (σ , refl)) t)
+  t[][] : {Θ Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {τ : Sub Θ Δ} {t : Tm Γ T} → t t[ σ σ∘ τ ] === t t[ σ ] t[ τ ]
+  t[][] {Θ}{Δ}{Γ}{T}{σ}{τ}{t} = htrust t[][]'
+
   -- this is the functor (Γ, T) ↦ (Γ.T, T[wkn])
   c-aux-compr : cOp∫ c-ty ++> cOp∫ c-ty
   c-aux-compr = cOpDeptPair {cA = cCtx} {cCtx} {c-ty} {c-ty} c-compr (c-ty c∘nt nt-op nt-wkn)
@@ -102,11 +123,34 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   σcompr : {Δ Γ : Ctx} → (σ : Sub Δ Γ) → (T : Ty Γ) → Sub (Δ „ (T T[ σ ])) (Γ „ T)
   σcompr σ T = f.hom c-compr (σ , refl)
 
+  tvar[]' : {Δ Γ : Ctx} {σ : Sub Δ Γ} {T : Ty Γ} → (tvar {Γ}{T}) t[ σcompr σ T ] === tvar {Δ}{T T[ σ ]}
+  abstract
+    tvar[]' {Δ}{Γ}{σ}{T} =
+      via f.hom c-tm {_}{(Δ „ T T[ σ ]) , T T[ σwkn ] T[ σcompr σ T ]}
+          (f.hom c-compr (σ , refl) , refl) (tvar{Γ}{T}) $ hrefl h•
+      via f.hom c-tm {_}{(Δ „ T T[ σ ]) , T T[ σ ] T[ σwkn ] }
+          (f.hom (c-op (cOpDeptPair c-compr (c-ty c∘nt nt-op nt-wkn))) (σ , refl)) (tvar{Γ}{T}) $
+        (hdmap= (λ T' → λ p → f.hom c-tm {_}{_ , T'} (f.hom c-compr (σ , refl) , p) (tvar{Γ}{T})) (
+          sym T[][] • map= (λ σ' → T T[ σ' ]) (sym (nt.hom nt-wkn (σ , refl))) • T[][]
+        )) =aph= huip hrefl h•
+      via tvar {Δ}{T T[ σ ]} $ to-heter (Lim.hom lim-var (σ , refl)) h•
+      hrefl
+  tvar[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} {T : Ty Γ} → (tvar {Γ}{T}) t[ σcompr σ T ] === tvar {Δ}{T T[ σ ]}
+  tvar[] = htrust tvar[]'
+
   σeval : {Γ : Ctx} → {A : Ty Γ} → (a : Tm Γ A) → Sub Γ (Γ „ A)
   σeval {Γ}{A} a = σ-id Γ “ tra! (trust (map= (Tm Γ) (sym T[id]))) a
 
-  σeval[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → (a : Tm Γ A) → (σeval a σ∘ σ) == (σcompr σ A σ∘ σeval (a t[ σ ]))
-  σeval[] {Δ}{Γ}{σ}{A} a =
+  abstract
+    tvar[σeval]' : {Γ : Ctx} → {A : Ty Γ} → {a : Tm Γ A} → tvar t[ σeval a ] === a
+    tvar[σeval]' {Γ}{A}{a} = var-pair (σ-id Γ) (tra! (trust (map= (Tm Γ) (sym T[id]))) a) h•
+      hhapply (htra! (trust (map= (Tm Γ) (sym T[id])))) a
+  tvar[σeval] : {Γ : Ctx} → {A : Ty Γ} → {a : Tm Γ A} → tvar t[ σeval a ] === a
+  tvar[σeval] = htrust tvar[σeval]'
+
+  abstract
+   σeval[]' : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → {a : Tm Γ A} → (σeval a σ∘ σ) == (σcompr σ A σ∘ σeval (a t[ σ ]))
+   σeval[]' {Δ}{Γ}{σ}{A}{a} =
     via σeval a σ∘ σ $ refl •
     via (σwkn σ∘ (σeval a σ∘ σ)) “ tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar t[ σeval a σ∘ σ ]) $
       sym (pair-unpair _) •
@@ -129,21 +173,31 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
       )) =aph= (
         via tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar t[ σeval a σ∘ σ ]) $ hrefl h•
         via (tvar t[ σeval a σ∘ σ ]) $ hhapply (htra! (trust (map= (Tm Δ) (sym T[][])))) _ h•
-        via (tvar t[ σeval a ]) t[ σ ] $ {!!} h•
-        via a t[ σ ] $ {!!} h•
+        via tsub {T = A T[ σwkn ] T[ σeval a ]} (tvar t[ σeval a ]) σ $ t[][] h•
+        via tsub {T = A} a σ $
+          (hdmap=
+            (λ A' → λ a' → tsub {T = A'} a' σ)
+            (sym T[][] • map= (λ σ' → A T[ σ' ]) (wkn-pair _ _) • T[id])
+          ) =aph= tvar[σeval] h•
         hsym (
           via tra! (trust (map= (Tm Δ) (sym T[][]))) (tvar t[ σcompr σ A σ∘ σeval (a t[ σ ]) ]) $ hrefl h•
-          via (tvar t[ σcompr σ A σ∘ σeval (a t[ σ ]) ]) $
+          via tsub {T = A T[ σwkn ]} tvar ( σcompr σ A σ∘ σeval (a t[ σ ]) ) $
             hhapply (htra! (trust (map= (Tm Δ) (sym T[][])))) (tvar t[ σcompr σ A σ∘ σeval (a t[ σ ]) ]) h•
-          via (tvar t[ σcompr σ A ]) t[ σeval (a t[ σ ]) ] $ {!!} h•
-          via tvar t[ σeval (a t[ σ ]) ] $ {!!} h•
-          via a t[ σ ] $ {!var-pair ? ?!} h•
-          hrefl
+          via tsub {T = A T[ σwkn ] T[ σcompr σ A ]} (tsub {T = A T[ σwkn ]} tvar ( σcompr σ A )) (σeval (a t[ σ ])) $
+            t[][] h•
+          via tsub {T = A T[ σ ] T[ σwkn ]} tvar (σeval (a t[ σ ])) $
+            (hdmap= (λ A' → λ t → tsub {T = A'} t (σeval (a t[ σ ]))) (
+              (sym T[][] • map= (λ τ → A T[ τ ]) (sym (nt.hom nt-wkn (σ , refl))) • T[][])
+            )) =aph= tvar[] h•
+          via a t[ σ ] $ tvar[σeval] h• hrefl
         )
       )) •
     via σcompr σ A σ∘ σeval (a t[ σ ]) $ pair-unpair _ •
     refl
+  σeval[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → {A : Ty Γ} → {a : Tm Γ A} → (σeval a σ∘ σ) == (σcompr σ A σ∘ σeval (a t[ σ ]))
+  σeval[] = trust σeval[]'
 
+  infix 5 _„_ _“_
   infix 10 _T[_] _t[_]
 
 

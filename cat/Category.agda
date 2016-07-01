@@ -15,12 +15,18 @@ record Cat (α β : Level) : Set (lsuc (α ⊔ β)) where
     m∘assoc' : {w x y z : Obj} → {ψ : Hom y z} → {ξ : Hom x y} → {φ : Hom w x} → comp (comp ψ ξ) φ == comp ψ (comp ξ φ)
     m∘lunit' : {x y : Obj} → {φ : Hom x y} → comp (id y) φ == φ
     m∘runit' : {x y : Obj} → {φ : Hom x y} → comp φ (id x) == φ
-  m∘assoc : {w x y z : Obj} → {ψ : Hom y z} → {ξ : Hom x y} → {φ : Hom w x} → comp (comp ψ ξ) φ == comp ψ (comp ξ φ)
-  m∘assoc = trust m∘assoc'
-  m∘lunit : {x y : Obj} → {φ : Hom x y} → comp (id y) φ == φ
-  m∘lunit = trust m∘lunit'
-  m∘runit : {x y : Obj} → {φ : Hom x y} → comp φ (id x) == φ
-  m∘runit = trust m∘runit'
+    
+  m∘assoc m∘assoc* : {w x y z : Obj} → {ψ : Hom y z} → {ξ : Hom x y} → {φ : Hom w x} → comp (comp ψ ξ) φ == comp ψ (comp ξ φ)
+  abstract m∘assoc* = m∘assoc'
+  m∘assoc = trust m∘assoc*
+  
+  m∘lunit m∘lunit* : {x y : Obj} → {φ : Hom x y} → comp (id y) φ == φ
+  abstract m∘lunit* = m∘lunit'
+  m∘lunit = trust m∘lunit*
+  
+  m∘runit m∘runit* : {x y : Obj} → {φ : Hom x y} → comp φ (id x) == φ
+  abstract m∘runit* = m∘runit'
+  m∘runit = trust m∘runit*
 module c = Cat
 
 _$_m∘_ : ∀{α β} → (c : Cat α β) → {x y z : c.Obj c} → c.Hom c y z → c.Hom c x y → c.Hom c x z
@@ -45,10 +51,14 @@ record _++>_ {α β γ δ} (cA : Cat α β) (cB : Cat γ δ) : Set (α ⊔ β �
     hom : Candid-hom cA cB obj
     hom-id' : Candid-hom-id cA cB obj hom
     hom-m∘' : Candid-hom-m∘ cA cB obj hom
-  hom-id : Candid-hom-id cA cB obj hom
-  hom-id x = trust (hom-id' x)
-  hom-m∘ : Candid-hom-m∘ cA cB obj hom
-  hom-m∘ ψ φ = trust (hom-m∘' ψ φ)
+    
+  hom-id hom-id* : Candid-hom-id cA cB obj hom
+  abstract hom-id* = hom-id'
+  hom-id x = trust (hom-id* x)
+  
+  hom-m∘ hom-m∘* : Candid-hom-m∘ cA cB obj hom
+  abstract hom-m∘* = hom-m∘'
+  hom-m∘ ψ φ = trust (hom-m∘* ψ φ)
 infix 1 _++>_
 module f = _++>_
 
