@@ -29,10 +29,10 @@ f.hom-id' c-pshtm (pA , dpT) = (f.hom c-pshtm (c.id (cOp (cOp∫ c-dpsh)) (pA , 
         dpT∘f : c∫ pA ++> cSet ℓtm
         dpT∘f = dpT c∘ c∫-hom pf
         dpTf= : dpT c∘ c∫-hom pf == dpT
-        dpTf= = map= (λ f → f dpT) (f.hom-id' c-dpsh pA)
+        dpTf= = map= (λ f → f dpT) (trust (f.hom-id' c-dpsh pA))
         nt-tra-dpTf= : dpT∘f nt→ dpT
         nt-tra-dpTf= = (≅.fwd (i-tra (cExp (c∫ pA) (cSet ℓtm)) dpTf=))
-    in mapLim nt-tra-dpTf= ∘ restrLim (c∫-hom pf) == idf ∋ (
+    in (mapLim nt-tra-dpTf= ∘ restrLim (c∫-hom pf)) == idf ∋ (
       λ= l => lim-ext (funext λ{(w , a) →
         via Lim.obj ((mapLim nt-tra-dpTf= ∘ restrLim (c∫-hom pf)) l) (w , a) $ refl •
         via nt.obj nt-tra-dpTf= (w , a) (Lim.obj (restrLim (c∫-hom pf) l) (w , a)) $ refl •

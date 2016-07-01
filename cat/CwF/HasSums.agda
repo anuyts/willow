@@ -6,7 +6,7 @@ module willow.cat.CwF.HasSums {ℓctx ℓsub ℓty ℓtm : Level} (cwf : willow.
 
 open willow.cat.CwF.CwF cwf public
 
-record HasProducts : Set (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm) where
+record HasSums : Set (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm) where
   no-eta-equality
   field
     TΣ : {Γ : Ctx} → (A : Ty Γ) → (B : Ty (Γ „ A)) → Ty Γ

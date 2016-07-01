@@ -71,16 +71,7 @@ nt.hom' (f.hom c-pshcompr {pA , dpA} {pB , dpB} (pf , dpBf=A)) {w}{v} ρ = funex
 f.hom-id' c-pshcompr (pA , dpT) = nt-ext (λ= w => funext λ{(a , t) → pair-hext refl
     (hhapply (htra! (map= (λ (dpX : c∫ pA ++> cSet ℓtm) → f.obj dpX (w , a))
        (sym
-        (map= (λ f → f dpT)
-         (funext
-          (λ dpT₁ →
-             functorext
-             (pair-ext refl
-              (funexti
-               (λ w,a →
-                  funexti
-                  (λ w',a' →
-                     funext (λ ρ,p → map= (f.hom dpT₁) (pair-ext refl uip)))))))))))) t)
+        (map= (λ f → f dpT) trustMe)))) t)
   })
 f.hom-m∘' c-pshcompr {pA , dpA}{pB , dpB}{pC , dpC} (pg , dpCg=B) (pf , dpBf=A) =
   nt-ext (λ= w => funext
