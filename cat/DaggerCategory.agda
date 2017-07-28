@@ -88,7 +88,7 @@ Cat.Obj (cZigzags c) = c.Obj c
 Cat.Hom (cZigzags c) x y = Zigzag c x y
 Cat.id (cZigzags c) x = zz-nil
 Cat.comp (cZigzags c) η ζ = ζ zz• η
-Cat.m∘assoc' (cZigzags c) = λ {w x y z θ η ζ} → sym (zz•assoc ζ η θ)
+Cat.m∘assoc' (cZigzags c) {w} {x} {y} {z} {θ} {η} {ζ} = sym (zz•assoc ζ η θ)
 Cat.m∘lunit' (cZigzags c) = zz•runit _
 Cat.m∘runit' (cZigzags c) = zz•lunit _
 

@@ -70,8 +70,8 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   _t[_] = tsub
 
   t[id]' : {Γ : Ctx} {T : Ty Γ} {t : Tm Γ T} → t t[ σ-id Γ ] === t
-  abstract
-    t[id]' {Γ}{T}{t} =
+  --abstract
+  t[id]' {Γ}{T}{t} =
       via f.hom c-tm {Γ , T}{Γ , (T T[ σ-id Γ ])} (c.id cCtx Γ , refl) t $ hrefl h•
       via f.hom c-tm {Γ , T}{Γ , T} (c.id (cOp∫ c-ty) (Γ , T)) t $
         (hdmap= (λ T' → λ p → f.hom c-tm {Γ , T}{Γ , T'} (c.id cCtx Γ , p) t) T[id])
@@ -81,8 +81,8 @@ record CwF (ℓctx ℓsub ℓty ℓtm : Level) : Set (lsuc (ℓctx ⊔ ℓsub �
   t[id] {Γ}{T}{t} = htrust t[id]'
 
   t[][]' : {Θ Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {τ : Sub Θ Δ} {t : Tm Γ T} → t t[ σ σ∘ τ ] === t t[ σ ] t[ τ ]
-  abstract
-    t[][]' {Θ}{Δ}{Γ}{T}{σ}{τ}{t} =
+  --abstract
+  t[][]' {Θ}{Δ}{Γ}{T}{σ}{τ}{t} =
       via f.hom c-tm {Γ , T}{Θ , T T[ σ σ∘ τ ]} (cCtx $ σ m∘ τ , refl) t $ hrefl h•
       via f.hom c-tm {Γ , T}{Θ , T T[ σ ] T[ τ ]} (cOp∫ c-ty $ (σ , refl) m∘ (τ , refl)) t $
         (hdmap= (λ T' → λ p → f.hom c-tm {Γ , T}{Θ , T'} (cCtx $ σ m∘ τ , p) t) T[][]) =aph= huip hrefl h•

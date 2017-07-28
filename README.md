@@ -1,6 +1,9 @@
 # willow
 Personal agda library. It is called willow because it needed a name.
 
+## willow
+This is the old version.
+
 basic contains basic type theory stuff.
 
 cat contains category theory.

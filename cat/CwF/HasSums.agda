@@ -15,7 +15,7 @@ record HasSums : Set (ℓctx ⊔ ℓsub ⊔ ℓty ⊔ ℓtm) where
 
   TΣ[]* : {Δ Γ : Ctx} {σ : Sub Δ Γ} → (A : Ty Γ) → (B : Ty (Γ „ A))
       → (TΣ A B) T[ σ ] == TΣ (A T[ σ ]) (B T[ σcompr σ A ])
-  abstract TΣ[]* = TΣ[]'
+  TΣ[]* = TΣ[]'
   TΣ[] : {Δ Γ : Ctx} {σ : Sub Δ Γ} → (A : Ty Γ) → (B : Ty (Γ „ A))
       → (TΣ A B) T[ σ ] == TΣ (A T[ σ ]) (B T[ σcompr σ A ])
   TΣ[] A B = trust (TΣ[]* A B)

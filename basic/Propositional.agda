@@ -35,7 +35,7 @@ map¶ {α}{β}{A}{B} f = elim¶ (` ∘ f) (¶¶ B)
 postulate β¶ : ∀ {α β} → {A : Set α} → {B : Set β} → (f : A → B) → (f= : Is¶ B) → (a a' : A) → map= (elim¶ f f=) (¶¶ A {` a} {` a'}) == f= {f a}{f a'}
 
 prod¶ : ∀{α β} → {A : Set α} → {B : Set β} → Is¶ B → Is¶ (A → B)
-prod¶ {α}{β}{A}{B} is¶B = λ {f} {g} → funext (λ a → is¶B)
+prod¶ {α} {β} {A} {B} is¶B {f} {g} = funext (λ a → is¶B)
 
 --appl¶ : ∀{α β} → {A : Set α} → {B : Set β} → ¶(A → B) → (¶ A → ¶ B)
 --appl¶ {α}{β}{A}{B} pf pa = {!!}

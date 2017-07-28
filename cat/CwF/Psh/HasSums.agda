@@ -23,10 +23,11 @@ f.hom-id' (TΣ {Γ} A B) (w , γ) = funext λ{(a , b) → pair-hext (happly (f.h
       (hdmap= (λ a' p → f.hom B {_}{w , (γ , a')} (c.id cW w , p) b) (happly (f.hom-id A (w , γ)) a)) =aph= huip hrefl h•
     to-heter (happly (f.hom-id B (w , (γ , a))) b)
   )}
-f.hom-m∘' (TΣ {Γ} A B) {w₃ , γ₃}{w₂ , γ₂}{w₁ , γ₁} (ρ , γ₂ρ=γ₁)(σ , γ₃σ=γ₂) = {!funext λ{(a , b) → pair-hext
+f.hom-m∘' (TΣ {Γ} A B) {w₃ , γ₃}{w₂ , γ₂}{w₁ , γ₁} (ρ , γ₂ρ=γ₁)(σ , γ₃σ=γ₂) = funext (λ {(a , b) → {!!} })
+{-{!funext λ{(a , b) → pair-hext
     {!!}
     {!!}
-  }!}
+  }!}-}
 
 pshHasSums : HasSums
 HasSums.TΣ pshHasSums A B = {!!}
