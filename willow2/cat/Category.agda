@@ -31,11 +31,14 @@ record IsCat {ℓoA ℓhA} {A : Set ℓoA} (Hom : A → A → Set ℓhA) : Set (
 open IsCat {{...}}
 
 record IsFtr {ℓoA ℓhA ℓoB ℓhB} {A : Set ℓoA} {HomA : A → A → Set ℓhA} {B : Set ℓoB} {HomB : B → B → Set ℓhB}
-  {{catA : IsCat HomA}} {{catB : IsCat HomB}} {f : A → B} (homf : ∀{x y} → HomA x y → HomB (f x) (f y)) : Set {!!} where
+  {{catA : IsCat HomA}} {{catB : IsCat HomB}} {f : A → B} (homf : ∀{x y} → HomA x y → HomB (f x) (f y))
+  : Set (ℓoA ⊔ ℓhA ⊔ ℓoB ⊔ ℓhB) where
   constructor mkFtr
   field
     .hom-id : ∀{x} → homf (id-at x) ≡ id
     .hom-comp : ∀{x y z} {ψ : HomA y z} {φ : HomA x y} → homf (ψ ∘ φ) ≡ homf ψ ∘ homf φ
+
+--_c∘_ : 
 
 {-
 record IsCat {ℓA} (A : Set ℓA) (ℓhA : Level) : Set (suc ℓhA ⊔ ℓA) where
