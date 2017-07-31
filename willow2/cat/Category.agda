@@ -46,7 +46,7 @@ record IsCat {ℓo ℓh} {Obj : Set ℓo} (Hom : Obj → Obj → Set ℓh) : Set
       → (ψ ∘ ξ) ∘ φ ≡ ψ ∘ (ξ ∘ φ)
     .lunit : {x y : Obj} → (φ : Hom x y) → id ∘ φ ≡ φ
     .runit : {x y : Obj} → (φ : Hom x y) → φ ∘ id ≡ φ
-open IsCat {{...}}
+open IsCat {{...}} public
 
 record Cat : Setω where
   constructor cat
@@ -55,7 +55,7 @@ record Cat : Setω where
     {Obj} : Set ℓo
     Hom : Obj → Obj → Set ℓh
     {{isCat}} : IsCat Hom
-open Cat
+open Cat public
 
 {-
 record IsFtr
@@ -81,7 +81,7 @@ record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) whe
     --{{isFtr}} : IsFtr cA cB hom
     .{{hom-id}} : ∀{x} → hom (id-at x) ≡ id
     .{{hom-comp}} : ∀{x y z} (ψ : Hom cA y z) (φ : Hom cA x y) → hom (ψ ∘ φ) ≡ hom ψ ∘ hom φ
-open Ftr
+open Ftr public
 _c→_ = Ftr
 infix 1 _c→_
 
@@ -125,7 +125,7 @@ record NT {cA cB : Cat} (cf cg : cA c→ cB) : Set ℓ? where
     obj : (a : Obj cA) → Hom cB (obj cf a) (obj cg a)
     --{{isNT}} : IsNT cf cg obj
     .{{nat}} : ∀{x y} → (φ : Hom cA x y) → hom cg φ ∘ obj x ≡ obj y ∘ hom cf φ
-open NT
+open NT public
 _nt→_ = NT
 infix 1 _nt→_
 
