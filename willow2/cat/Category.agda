@@ -35,11 +35,11 @@ record IsCat {ℓoA ℓhA} ()
 
 record IsCat {ℓo ℓh} {Obj : Set ℓo} (Hom : Obj → Obj → Set ℓh) : Set (ℓo ⊔ ℓh) where
   field
-    id-at : (x : Obj) → Hom x x
+    id⟨_⟩ : (x : Obj) → Hom x x
     _∘_ : ∀{x y z} → Hom y z → Hom x y → Hom x z
 
   id : ∀{x} → Hom x x
-  id {x} = id-at x
+  id {x} = id⟨ x ⟩
 
   field
     .assoc : ∀{w x y z : Obj} → (ψ : Hom y z) → (ξ : Hom x y) → (φ : Hom w x)
@@ -79,7 +79,7 @@ record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) whe
     {obj} : (x : Obj cA) → Obj cB
     hom : ∀{x y} → (φ : Hom cA x y) → Hom cB (obj x) (obj y)
     --{{isFtr}} : IsFtr cA cB hom
-    .{{hom-id}} : ∀{x} → hom (id-at x) ≡ id
+    .{{hom-id}} : ∀{x} → hom (id⟨ x ⟩) ≡ id
     .{{hom-comp}} : ∀{x y z} (ψ : Hom cA y z) (φ : Hom cA x y) → hom (ψ ∘ φ) ≡ hom ψ ∘ hom φ
 open Ftr public
 _c→_ = Ftr
@@ -141,6 +141,9 @@ nat (nt-id {cA} {cB} {cf}) φ = begin
             ≡⟨ sym (lunit _) ⟩
           id ∘ hom cf φ ∎
 
+nt-id⟨_⟩ : ∀{cA cB} (cf : cA c→ cB) → (cf nt→ cf)
+nt-id⟨ _ ⟩ = nt-id
+
 _nt∘_ : ∀{cA cB} {cf cg ch : cA c→ cB} (ntb : cg nt→ ch) (nta : cf nt→ cg) → (cf nt→ ch)
 obj (_nt∘_ {cA} {cB} {cf} {cg} {ch} ntb nta) a = obj ntb a ∘ obj nta a
 nat (_nt∘_ {cA} {cB} {cf} {cg} {ch} ntb nta) {x}{y} φ = begin
@@ -155,3 +158,33 @@ nat (_nt∘_ {cA} {cB} {cf} {cg} {ch} ntb nta) {x}{y} φ = begin
           obj ntb y ∘ (obj nta y ∘ hom cf φ)
             ≡⟨ sym (assoc _ _ _) ⟩
           (obj ntb y ∘ obj nta y) ∘ hom cf φ ∎
+
+_nt⊚_ : ∀{cA cB cC} {cf cg : cA c→ cB} {ch ck : cB c→ cC} (ntb : ch nt→ ck) (nta : cf nt→ cg) → (ch c∘ cf nt→ ck c∘ cg)
+obj (_nt⊚_ {cA} {cB} {cC} {cf} {cg} {ch} {ck} ntb nta) a =
+  {-  h f a  →[h nta a]→  h g a  →[ntb g a]→  k g a  -}
+  obj ntb (obj cg a) ∘ hom ch (obj nta a)
+nat (_nt⊚_ {cA} {cB} {cC} {cf} {cg} {ch} {ck} ntb nta) {a}{b} φ = begin
+  {-  h f a  →[h nta a]→  h g a  →[ntb g a]→  k g a  -}
+  {-    ↓                     ↓                     ↓     -}
+  {- [h f φ]               [h g φ]               [k g φ] -}
+  {-    ↓                     ↓                     ↓     -}
+  {-  h f b  →[h nta b]→  h g b  →[ntb g b]→  k g b  -}
+  hom ck (hom cg φ) ∘ (obj ntb (obj cg a) ∘ hom ch (obj nta a))
+    ≡⟨ sym (assoc _ _ _) ⟩
+  (hom ck (hom cg φ) ∘ obj ntb (obj cg a)) ∘ hom ch (obj nta a)
+    ≡⟨ cong (λ ψ → ψ ∘ _) (nat ntb (hom cg φ)) ⟩
+  (obj ntb (obj cg b) ∘ hom ch (hom cg φ)) ∘ hom ch (obj nta a)
+    ≡⟨ assoc _ _ _ ⟩
+  obj ntb (obj cg b) ∘ (hom ch (hom cg φ) ∘ hom ch (obj nta a))
+    ≡⟨ cong (λ ψ → _ ∘ ψ) (begin
+       hom ch (hom cg φ) ∘ hom ch (obj nta a)
+         ≡⟨ sym (hom-comp ch _ _) ⟩
+       hom ch (hom cg φ ∘ obj nta a)
+         ≡⟨ cong (hom ch) (nat nta φ) ⟩
+       hom ch (obj nta b ∘ hom cf φ)
+         ≡⟨ hom-comp ch _ _ ⟩
+       hom ch (obj nta b) ∘ hom ch (hom cf φ)
+         ∎) ⟩
+  obj ntb (obj cg b) ∘ (hom ch (obj nta b) ∘ hom ch (hom cf φ))
+    ≡⟨ sym (assoc _ _ _) ⟩
+  (obj ntb (obj cg b) ∘ hom ch (obj nta b)) ∘ hom ch (hom cf φ) ∎
