@@ -13,12 +13,12 @@
 
 module willow2.cat.Category where
 
-open import Relation.Binary.PropositionalEquality
-open import Level
+open import Relation.Binary.PropositionalEquality public
+open import Level public
 open import Data.Product
 open import Function renaming (_∘_ to _f∘_ ; id to f-id)
-open import willow2.basic.Funext
-open import willow2.basic.Superbasic
+open import willow2.basic.Funext public
+open import willow2.basic.Superbasic public
 
 open ≡-Reasoning
 
@@ -53,7 +53,7 @@ record Cat : Setω where
   field
     {ℓo ℓh} : Level
     {Obj} : Set ℓo
-    Hom : Obj → Obj → Set ℓh
+    Hom : (x y : Obj) → Set ℓh
     {{isCat}} : IsCat Hom
 open Cat public
 
@@ -129,8 +129,8 @@ open NT public
 _nt→_ = NT
 infix 1 _nt→_
 
-nt-ext : ∀{cA cB : Cat} {cf cg : cA c→ cB} {nta ntb : cf nt→ cg} → (obj nta ≡ obj ntb) → nta ≡ ntb
-nt-ext {cA} {cB} {cf} {cg} {nt .(obj ntb)} {ntb} refl = refl
+ext-nt : ∀{cA cB : Cat} {cf cg : cA c→ cB} {nta ntb : cf nt→ cg} → (obj nta ≡ obj ntb) → nta ≡ ntb
+ext-nt {cA} {cB} {cf} {cg} {nt .(obj ntb)} {ntb} refl = refl
 
 nt-id : ∀{cA cB} {cf : cA c→ cB} → (cf nt→ cf)
 obj (nt-id {cA} {cB} {cf}) a = id
