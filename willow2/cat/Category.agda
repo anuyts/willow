@@ -16,11 +16,11 @@ module willow2.cat.Category where
 open import Relation.Binary.PropositionalEquality public
 open import Level public
 open import Data.Product
-open import Function renaming (_∘_ to _f∘_ ; id to f-id)
+open import Function renaming (_∘_ to _f∘_ ; id to f-id) public
 open import willow2.basic.Funext public
 open import willow2.basic.Superbasic public
 
-open ≡-Reasoning
+open ≡-Reasoning public
 
 Setω = Set
 ℓ? : Level
