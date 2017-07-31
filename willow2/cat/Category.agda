@@ -1,5 +1,16 @@
 {-# OPTIONS --type-in-type #-}
 
+{- INTENDED IMPROVEMENTS OF willow2 OVER willow:
+
+  * Use of the standard library
+  * Use of instance arguments (but are they useful here?)
+    * For structure on types: yes
+    * For structure on functions: less so
+  * Use of irrelevance
+  * Level in the record
+
+-}
+
 module willow2.cat.Category where
 
 open import Relation.Binary.PropositionalEquality
@@ -31,7 +42,7 @@ record IsCat {ℓo ℓh} {Obj : Set ℓo} (Hom : Obj → Obj → Set ℓh) : Set
   id {x} = id-at x
 
   field
-    .assoc : ∀{w x y z : Obj} → {ψ : Hom y z} → {ξ : Hom x y} → {φ : Hom w x}
+    .assoc : ∀{w x y z : Obj} → (ψ : Hom y z) → (ξ : Hom x y) → (φ : Hom w x)
       → (ψ ∘ ξ) ∘ φ ≡ ψ ∘ (ξ ∘ φ)
     .lunit : {x y : Obj} → (φ : Hom x y) → id ∘ φ ≡ φ
     .runit : {x y : Obj} → (φ : Hom x y) → φ ∘ id ≡ φ
@@ -46,6 +57,7 @@ record Cat : Setω where
     {{isCat}} : IsCat Hom
 open Cat
 
+{-
 record IsFtr
   --{A : Set ℓoA} {HomA : A → A → Set ℓhA} {{catA : IsCat HomA}}
   --{B : Set ℓoB} {HomB : B → B → Set ℓhB} {{catB : IsCat HomB}}
@@ -59,62 +71,70 @@ record IsFtr
     .hom-id : ∀{x} → homf (id-at x) ≡ id
     .hom-comp : ∀{x y z} (ψ : Hom cA y z) (φ : Hom cA x y) → homf (ψ ∘ φ) ≡ homf ψ ∘ homf φ
 open IsFtr {{...}}
+-}
 
 record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) where
   constructor ftr
   field
-    {obj} : Obj cA → Obj cB
-    hom : ∀{x y} → Hom cA x y → Hom cB (obj x) (obj y)
-    {{isFtr}} : IsFtr cA cB hom
+    {obj} : (x : Obj cA) → Obj cB
+    hom : ∀{x y} → (φ : Hom cA x y) → Hom cB (obj x) (obj y)
+    --{{isFtr}} : IsFtr cA cB hom
+    .{{hom-id}} : ∀{x} → hom (id-at x) ≡ id
+    .{{hom-comp}} : ∀{x y z} (ψ : Hom cA y z) (φ : Hom cA x y) → hom (ψ ∘ φ) ≡ hom ψ ∘ hom φ
 open Ftr
 _c→_ = Ftr
 infix 1 _c→_
 
-_c∘_ : ∀ {cA cB cC : Cat} → (cB c→ cC) → (cA c→ cB) → (cA c→ cC)
-cg c∘ cf = ftr (hom cg f∘ hom cf) {{proof}}
-  where proof : IsFtr _ _ _
-        IsFtr.hom-id proof {x} = begin
-          hom cg (hom cf id)
-            ≡⟨ cong (hom cg) hom-id ⟩
-          hom cg id
-            ≡⟨ hom-id ⟩
-          id ∎
-        IsFtr.hom-comp proof ψ φ = begin
-          hom cg (hom cf (ψ ∘ φ))
-            ≡⟨ cong (hom cg) (hom-comp ψ φ) ⟩
-          hom cg (hom cf ψ ∘ hom cf φ)
-            ≡⟨ hom-comp (hom cf ψ) (hom cf φ) ⟩
-          hom cg (hom cf ψ) ∘ hom cg (hom cf φ) ∎
-
 c-id : ∀{cA} → (cA c→ cA)
 c-id = ftr f-id
 
-cConst : ∀{cA cB} → Obj cB → (cA c→ cB)
-cConst b = ftr (λ φ → id-at b) {{proof}}
-  where proof : IsFtr _ _ _
-        IsFtr.hom-id proof = refl
-        IsFtr.hom-comp proof ψ φ = sym (lunit id)
+_c∘_ : ∀ {cA cB cC : Cat} → (cB c→ cC) → (cA c→ cB) → (cA c→ cC)
+obj (cg c∘ cf) = obj cg f∘ obj cf
+hom (cg c∘ cf) = hom cg f∘ hom cf
+hom-id (cg c∘ cf) = begin
+          hom cg (hom cf id)
+            ≡⟨ cong (hom cg) (hom-id cf) ⟩
+          hom cg id
+            ≡⟨ hom-id cg ⟩
+          id ∎
+hom-comp (cg c∘ cf) ψ φ = begin
+          hom cg (hom cf (ψ ∘ φ))
+            ≡⟨ cong (hom cg) (hom-comp cf ψ φ) ⟩
+          hom cg (hom cf ψ ∘ hom cf φ)
+            ≡⟨ hom-comp cg (hom cf ψ) (hom cf φ) ⟩
+          hom cg (hom cf ψ) ∘ hom cg (hom cf φ) ∎
 
+cConst : ∀{cA cB} → Obj cB → (cA c→ cB)
+obj (cConst b) x = b
+hom (cConst b) φ = id
+hom-id (cConst b) = refl
+hom-comp (cConst b) ψ φ = sym (lunit id)
+
+{-
 record IsNT {cA cB : Cat} (cf cg : cA c→ cB) (ν : (a : Obj cA) → Hom cB (obj cf a) (obj cg a)) : Set ℓ? where
   instance
     constructor pvNT
   field
     .nat : ∀{x y} → (φ : Hom cA x y) → hom cg φ ∘ ν x ≡ ν y ∘ hom cf φ
 open IsNT
+-}
 
 record NT {cA cB : Cat} (cf cg : cA c→ cB) : Set ℓ? where
   constructor nt
   field
     obj : (a : Obj cA) → Hom cB (obj cf a) (obj cg a)
-    {{isNT}} : IsNT cf cg obj
+    --{{isNT}} : IsNT cf cg obj
+    .{{nat}} : ∀{x y} → (φ : Hom cA x y) → hom cg φ ∘ obj x ≡ obj y ∘ hom cf φ
 open NT
 _nt→_ = NT
 infix 1 _nt→_
 
+nt-ext : ∀{cA cB : Cat} {cf cg : cA c→ cB} {nta ntb : cf nt→ cg} → (obj nta ≡ obj ntb) → nta ≡ ntb
+nt-ext {cA} {cB} {cf} {cg} {nt .(obj ntb)} {ntb} refl = refl
+
 nt-id : ∀{cA cB} {cf : cA c→ cB} → (cf nt→ cf)
-nt-id {cA}{cB}{cf} = nt (λ a → id-at (obj cf a)) {{proof}}
-  where proof : IsNT _ _ _
-        IsNT.nat proof φ = begin
+obj (nt-id {cA} {cB} {cf}) a = id
+nat (nt-id {cA} {cB} {cf}) φ = begin
           hom cf φ ∘ id
             ≡⟨ runit _ ⟩
           hom cf φ
@@ -122,17 +142,16 @@ nt-id {cA}{cB}{cf} = nt (λ a → id-at (obj cf a)) {{proof}}
           id ∘ hom cf φ ∎
 
 _nt∘_ : ∀{cA cB} {cf cg ch : cA c→ cB} (ntb : cg nt→ ch) (nta : cf nt→ cg) → (cf nt→ ch)
-_nt∘_ {cA}{cB}{cf}{cg}{ch} ntb nta = nt (λ a → obj ntb a ∘ obj nta a) {{proof}}
-  where proof : IsNT _ _ _ 
-        IsNT.nat proof {x}{y} φ = begin
+obj (_nt∘_ {cA} {cB} {cf} {cg} {ch} ntb nta) a = obj ntb a ∘ obj nta a
+nat (_nt∘_ {cA} {cB} {cf} {cg} {ch} ntb nta) {x}{y} φ = begin
           hom ch φ ∘ (obj ntb x ∘ obj nta x)
-            ≡⟨ sym assoc ⟩
+            ≡⟨ sym (assoc _ _ _) ⟩
           (hom ch φ ∘ obj ntb x) ∘ obj nta x
-            ≡⟨ cong (λ ψ → ψ ∘ (obj nta x)) (nat (isNT ntb) φ) ⟩
+            ≡⟨ cong (λ ψ → ψ ∘ (obj nta x)) (nat ntb φ) ⟩
           (obj ntb y ∘ hom cg φ) ∘ obj nta x
-            ≡⟨ assoc ⟩
+            ≡⟨ assoc _ _ _ ⟩
           obj ntb y ∘ (hom cg φ ∘ obj nta x)
-            ≡⟨ cong (λ ψ → obj ntb y ∘ ψ) (nat (isNT nta) φ) ⟩
+            ≡⟨ cong (λ ψ → obj ntb y ∘ ψ) (nat nta φ) ⟩
           obj ntb y ∘ (obj nta y ∘ hom cf φ)
-            ≡⟨ sym assoc ⟩
+            ≡⟨ sym (assoc _ _ _) ⟩
           (obj ntb y ∘ obj nta y) ∘ hom cf φ ∎
