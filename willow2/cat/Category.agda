@@ -1,3 +1,5 @@
+--{-# OPTIONS --type-in-type #-}
+
 module willow2.cat.Category where
 
 open import Relation.Binary.PropositionalEquality
@@ -13,32 +15,50 @@ Graph ℓnA ℓeA = Σ[ A ∈ Set ℓnA ] (A → A → Set ℓeA)
 record IsCat {ℓoA ℓhA} ()
   -}
 
-record IsCat {ℓoA ℓhA} {A : Set ℓoA} (Hom : A → A → Set ℓhA) : Set (ℓoA ⊔ ℓhA) where
-  constructor mkCat
+record IsCat {ℓo ℓh} {Obj : Set ℓo} (Hom : Obj → Obj → Set ℓh) : Set (ℓo ⊔ ℓh) where
   field
-    id-at : (x : A) → Hom x x
+    id-at : (x : Obj) → Hom x x
     _∘_ : ∀{x y z} → Hom y z → Hom x y → Hom x z
 
   id : ∀{x} → Hom x x
   id {x} = id-at x
 
   field
-    .assoc : ∀{w x y z : A} → {ψ : Hom y z} → {ξ : Hom x y} → {φ : Hom w x}
+    .assoc : ∀{w x y z : Obj} → {ψ : Hom y z} → {ξ : Hom x y} → {φ : Hom w x}
       → (ψ ∘ ξ) ∘ φ ≡ ψ ∘ (ξ ∘ φ)
-    .lunit : {x y : A} → {φ : Hom x y} → id ∘ φ ≡ φ
-    .runit : {x y : A} → {φ : Hom x y} → φ ∘ id ≡ φ
-
+    .lunit : {x y : Obj} → {φ : Hom x y} → id ∘ φ ≡ φ
+    .runit : {x y : Obj} → {φ : Hom x y} → φ ∘ id ≡ φ
 open IsCat {{...}}
 
-record IsFtr {ℓoA ℓhA ℓoB ℓhB} {A : Set ℓoA} {HomA : A → A → Set ℓhA} {B : Set ℓoB} {HomB : B → B → Set ℓhB}
-  {{catA : IsCat HomA}} {{catB : IsCat HomB}} {f : A → B} (homf : ∀{x y} → HomA x y → HomB (f x) (f y))
+record Cat (ℓo ℓh : Level) : Set (suc (ℓo ⊔ ℓh)) where
+  constructor cat
+  field
+    {Obj} : Set ℓo
+    Hom : Obj → Obj → Set ℓh
+    {{isCat}} : IsCat Hom
+open Cat
+
+record IsFtr {ℓoA ℓhA ℓoB ℓhB}
+  --{A : Set ℓoA} {HomA : A → A → Set ℓhA} {{catA : IsCat HomA}}
+  --{B : Set ℓoB} {HomB : B → B → Set ℓhB} {{catB : IsCat HomB}}
+  --{f : A → B} (homf : ∀{x y} → HomA x y → HomB (f x) (f y))
+  (cA : Cat ℓoA ℓhA) (cB : Cat ℓoB ℓhB)
+  {f : Obj cA → Obj cB} (homf : ∀{x y} → Hom cA x y → Hom cB (f x) (f y))
   : Set (ℓoA ⊔ ℓhA ⊔ ℓoB ⊔ ℓhB) where
-  constructor mkFtr
+  --constructor mkFtr
   field
     .hom-id : ∀{x} → homf (id-at x) ≡ id
-    .hom-comp : ∀{x y z} {ψ : HomA y z} {φ : HomA x y} → homf (ψ ∘ φ) ≡ homf ψ ∘ homf φ
+    .hom-comp : ∀{x y z} {ψ : Hom cA y z} {φ : Hom cA x y} → homf (ψ ∘ φ) ≡ homf ψ ∘ homf φ
+open IsFtr {{...}}
 
---_c∘_ : 
+record Ftr {ℓoA ℓhA ℓoB ℓhB} {cA : Cat ℓoA ℓhA} {cB : Cat ℓoB ℓhB} : Set (ℓoA ⊔ ℓhA ⊔ ℓoB ⊔ ℓhB) where
+  constructor ftr
+  field
+    {obj} : Obj cA → Obj cB
+    hom : ∀{x y} → Hom cA x y → Hom cB (obj x) (obj y)
+    {{isFtr}} : IsFtr cA cB hom
+
+--_c∘_ : ∀ {ℓoA ℓhA ℓoB ℓhB ℓoC ℓhC} {cA : Cat ℓoA ℓhA}
 
 {-
 record IsCat {ℓA} (A : Set ℓA) (ℓhA : Level) : Set (suc ℓhA ⊔ ℓA) where
