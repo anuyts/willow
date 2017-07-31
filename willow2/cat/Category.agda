@@ -12,6 +12,8 @@ open import willow2.basic.Superbasic
 open ≡-Reasoning
 
 Setω = Set
+ℓ? : Level
+ℓ? = zero
 
 {-
 Graph : ∀ (ℓnA ℓeA : Level) → Set (suc (ℓnA ⊔ ℓeA))
@@ -93,3 +95,44 @@ cConst b = ftr (λ φ → id-at b) {{proof}}
         IsFtr.hom-id proof = refl
         IsFtr.hom-comp proof ψ φ = sym (lunit id)
 
+record IsNT {cA cB : Cat} (cf cg : cA c→ cB) (ν : (a : Obj cA) → Hom cB (obj cf a) (obj cg a)) : Set ℓ? where
+  instance
+    constructor pvNT
+  field
+    .nat : ∀{x y} → (φ : Hom cA x y) → hom cg φ ∘ ν x ≡ ν y ∘ hom cf φ
+open IsNT
+
+record NT {cA cB : Cat} (cf cg : cA c→ cB) : Set ℓ? where
+  constructor nt
+  field
+    obj : (a : Obj cA) → Hom cB (obj cf a) (obj cg a)
+    {{isNT}} : IsNT cf cg obj
+open NT
+_nt→_ = NT
+infix 1 _nt→_
+
+nt-id : ∀{cA cB} {cf : cA c→ cB} → (cf nt→ cf)
+nt-id {cA}{cB}{cf} = nt (λ a → id-at (obj cf a)) {{proof}}
+  where proof : IsNT _ _ _
+        IsNT.nat proof φ = begin
+          hom cf φ ∘ id
+            ≡⟨ runit _ ⟩
+          hom cf φ
+            ≡⟨ sym (lunit _) ⟩
+          id ∘ hom cf φ ∎
+
+_nt∘_ : ∀{cA cB} {cf cg ch : cA c→ cB} (ntb : cg nt→ ch) (nta : cf nt→ cg) → (cf nt→ ch)
+_nt∘_ {cA}{cB}{cf}{cg}{ch} ntb nta = nt (λ a → obj ntb a ∘ obj nta a) {{proof}}
+  where proof : IsNT _ _ _ 
+        IsNT.nat proof {x}{y} φ = begin
+          hom ch φ ∘ (obj ntb x ∘ obj nta x)
+            ≡⟨ sym assoc ⟩
+          (hom ch φ ∘ obj ntb x) ∘ obj nta x
+            ≡⟨ cong (λ ψ → ψ ∘ (obj nta x)) (nat (isNT ntb) φ) ⟩
+          (obj ntb y ∘ hom cg φ) ∘ obj nta x
+            ≡⟨ assoc ⟩
+          obj ntb y ∘ (hom cg φ ∘ obj nta x)
+            ≡⟨ cong (λ ψ → obj ntb y ∘ ψ) (nat (isNT nta) φ) ⟩
+          obj ntb y ∘ (obj nta y ∘ hom cf φ)
+            ≡⟨ sym assoc ⟩
+          (obj ntb y ∘ obj nta y) ∘ hom cf φ ∎
