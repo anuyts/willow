@@ -116,6 +116,9 @@ hom (c-const b) φ = id
 hom-id (c-const b) = refl
 hom-comp (c-const b) ψ φ = sym (lunit id)
 
+c-const⟨_⟩⟨_⟩ : (cA cB : Cat) → Obj cB → (cA c→ cB)
+c-const⟨ _ ⟩⟨ _ ⟩ = c-const
+
 {-
 record IsNT {cA cB : Cat} (cf cg : cA c→ cB) (ν : (a : Obj cA) → Hom cB (obj cf a) (obj cg a)) : Set ℓ? where
   instance
