@@ -48,6 +48,9 @@ record IsCat {ℓo ℓh} {Obj : Set ℓo} (Hom : Obj → Obj → Set ℓh) : Set
     .runit : {x y : Obj} → (φ : Hom x y) → φ ∘ id ≡ φ
 open IsCat {{...}} public
 
+{-# DISPLAY IsCat.id⟨_⟩ _ _ = id #-}
+{-# DISPLAY IsCat._∘_ _ ψ φ = ψ ∘ φ #-}
+
 record Cat : Setω where
   constructor cat
   field
@@ -88,6 +91,9 @@ infix 1 _c→_
 c-id : ∀{cA} → (cA c→ cA)
 c-id = ftr f-id
 
+c-id⟨_⟩ : (cA : Cat) → (cA c→ cA)
+c-id⟨ cA ⟩ = c-id
+
 _c∘_ : ∀ {cA cB cC : Cat} → (cB c→ cC) → (cA c→ cB) → (cA c→ cC)
 obj (cg c∘ cf) = obj cg f∘ obj cf
 hom (cg c∘ cf) = hom cg f∘ hom cf
@@ -104,11 +110,11 @@ hom-comp (cg c∘ cf) ψ φ = begin
             ≡⟨ hom-comp cg (hom cf ψ) (hom cf φ) ⟩
           hom cg (hom cf ψ) ∘ hom cg (hom cf φ) ∎
 
-cConst : ∀{cA cB} → Obj cB → (cA c→ cB)
-obj (cConst b) x = b
-hom (cConst b) φ = id
-hom-id (cConst b) = refl
-hom-comp (cConst b) ψ φ = sym (lunit id)
+c-const : ∀{cA cB} → Obj cB → (cA c→ cB)
+obj (c-const b) x = b
+hom (c-const b) φ = id
+hom-id (c-const b) = refl
+hom-comp (c-const b) ψ φ = sym (lunit id)
 
 {-
 record IsNT {cA cB : Cat} (cf cg : cA c→ cB) (ν : (a : Obj cA) → Hom cB (obj cf a) (obj cg a)) : Set ℓ? where
