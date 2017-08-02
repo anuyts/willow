@@ -6,3 +6,8 @@ record Squash {ℓ} (A : Set ℓ) : Set ℓ where
   field
     .unsquash : A
 open Squash public
+
+record Choice {ℓ} (A : Set ℓ) : Set ℓ where
+  field
+    choose : .A → A
+open Choice {{...}} public
