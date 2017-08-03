@@ -26,14 +26,14 @@ IsCat.assoc (isCat (c∫ {ℓf} cA cf)) (ψ , eψ) (χ , eχ) (φ , eφ) = ext-S
 IsCat.lunit (isCat (c∫ {ℓf} cA cf)) (φ , e) = ext-Subset (lunit φ)
 IsCat.runit (isCat (c∫ {ℓf} cA cf)) (φ , e) = ext-Subset (runit φ)
 
-c-proj : ∀{ℓf cA} {cf : cA c→ cSet ℓf} → (c∫ cA cf c→ cA)
-obj (c-proj {ℓf} {cA} {cf}) (a , t) = a
-hom (c-proj {ℓf} {cA} {cf}) (φ , e) = φ
-hom-id (c-proj {ℓf} {cA} {cf}) = refl
-hom-comp (c-proj {ℓf} {cA} {cf}) ψ φ = refl
+c-proj : ∀{ℓf cA} (cf : cA c→ cSet ℓf) → (c∫ cA cf c→ cA)
+obj (c-proj {ℓf} {cA} cf) (a , t) = a
+hom (c-proj {ℓf} {cA} cf) (φ , e) = φ
+hom-id (c-proj {ℓf} {cA} cf) = refl
+hom-comp (c-proj {ℓf} {cA} cf) ψ φ = refl
 
 c∫⁻ : ∀{ℓf} (cA : Cat) → (cf : cOp cA c→ cSet ℓf) → Cat
 c∫⁻ cA cf = cOp (c∫ (cOp cA) cf)
 
-c-proj⁻ : ∀{ℓf cA} {cf : cOp cA c→ cSet ℓf} → (c∫⁻ cA cf c→ cA)
-c-proj⁻ {ℓf}{cA}{cf} = c-op (c-proj {cf = cf})
+c-proj⁻ : ∀{ℓf cA} (cf : cOp cA c→ cSet ℓf) → (c∫⁻ cA cf c→ cA)
+c-proj⁻ {ℓf}{cA} cf = c-op (c-proj cf)

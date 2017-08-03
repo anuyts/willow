@@ -9,8 +9,63 @@ open import willow2.basic.HeterogeneousEquality public
 open Terminal public
 
 --TODO: split up into CwF and IsCwF
-{-# BUILTIN REWRITE _≡_ #-}
+--{-# BUILTIN REWRITE _≡_ #-}
 
+record IsCwF (cCtx : Cat)(c-ty : cOp cCtx c→ cSet _)(c-tm : cOp (c∫⁻ cCtx c-ty) c→ cSet _) : Set where
+  field
+    ∙ : Obj cCtx
+    ∙isterminal : IsTerminal cCtx ∙
+    
+    --c-compr : c∫⁻ cCtx c-ty c→ cCtx
+    --nt-π : c-compr nt→ c-proj⁻ c-ty
+
+    _„_ : (Γ : Obj cCtx) → (T : obj c-ty Γ) → Obj cCtx
+
+    π : ∀{Γ T} → Hom cCtx (Γ „ T) Γ
+    ξ : ∀{Γ T} → obj c-tm ((Γ „ T) , hom c-ty π T)
+    _“_ : ∀{Δ Γ T} → (σ : Hom cCtx Δ Γ) → (t : obj c-tm (Δ , hom c-ty σ T)) → Hom cCtx Δ (Γ „ T)
+
+    .π“ : ∀{Δ Γ T} {σ : Hom cCtx Δ Γ} {t : obj c-tm (Δ , hom c-ty σ T)} → π ∘ (σ “ t) ≡ σ
+    .ξ“ : ∀{Δ Γ T} {σ : Hom cCtx Δ Γ} {t : obj c-tm (Δ , hom c-ty σ T)} →
+      hom c-tm ((σ “ t) , (begin
+        hom c-ty (σ “ t) (hom c-ty π T)
+          ≡⟨ cong-app (sym (hom-comp c-ty _ _)) T ⟩
+        hom c-ty (π ∘ (σ “ t)) T
+          ≡⟨ cong (λ τ → hom c-ty τ T) π“ ⟩
+        hom c-ty σ T ∎
+        )) ξ ≡ t
+    .π“ξ : ∀{Γ T} → (π “ ξ) ≡ id⟨ Γ „ T ⟩
+open IsCwF {{...}} public
+
+record CwF : Set where
+  constructor cwf
+  field
+    cCtx : Cat
+    c-ty : cOp cCtx c→ cSet _
+    c-tm : cOp (c∫⁻ cCtx c-ty) c→ cSet _
+    {{isCwF}} : IsCwF cCtx c-ty c-tm
+
+  Ctx = Obj cCtx
+  Sub = Hom* cCtx
+
+  --infix 4 _σ→_
+
+  Ty : (Γ : Ctx) → Set _
+  Ty Γ = obj c-ty Γ
+open CwF public
+
+module IsCwF*
+  {cCtxA : Cat}
+  {c-tyA : cOp cCtxA c→ cSet _}
+  {c-tmA : cOp (c∫⁻ cCtxA c-tyA) c→ cSet _}
+  {{isCwF : IsCwF cCtxA c-tyA c-tmA}} where
+  cwfA = cwf cCtxA c-tyA c-tmA
+
+  postulate
+    π* : ∀{Γ : Ctx cwfA} {T : Ty cwfA Γ} → Sub cwfA (Γ „ T) Γ
+
+open IsCwF* public
+{-
 record CwF : Setω where
   field
     cCtx : Cat
@@ -38,7 +93,6 @@ record CwF : Setω where
         )) ξ ≡ t
     .π“ξ : ∀{Γ T} → (π “ ξ) ≡ id⟨ Γ „ T ⟩
 
-
   Ctx = Obj cCtx
   _σ→_ = Hom cCtx
 
@@ -59,7 +113,6 @@ record CwF : Setω where
 
   .tysub-id' : ∀{Γ} {T : Ty Γ} → hom c-ty id T ≡ T
   tysub-id' = tysub-id
-  {-# REWRITE tysub-id' #-}
 
   _[_] : ∀{Δ Γ} {T : Ty Γ} (t : Tm Γ T) (σ : Δ σ→ Γ) → Tm Δ (T ⟦ σ ⟧)
   t [ σ ] = hom c-tm (σ , refl) t
@@ -133,3 +186,4 @@ record CwF : Setω where
         aux2 | T' | e | e' = {!!}
     -}
   hom-comp c-compr = {!!}
+-}
