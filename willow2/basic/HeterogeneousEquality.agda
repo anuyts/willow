@@ -30,10 +30,12 @@ hap refl refl | refl = refl
 
 _-hap-_ = hap
 
+{-
 hap-irr : ∀{ℓA ℓB} {A A' : Set ℓA} {B : A → Set ℓB} {B' : A' → Set ℓB}
            {f : .(x : A) → B x} {f' : .(x' : A') → B' x'}
            {a : A} {a' : A'}
            → (f ≅ f') → (B ≅ B') → (f a ≅ f' a')
+-}
 
 !>≅ : ∀{ℓ} {A B : Set ℓ} {a : A} .{e : A ≡ B} → a !> e ≅ a
 !>≅ {ℓ}{A}{B}{a}{e} with choose e

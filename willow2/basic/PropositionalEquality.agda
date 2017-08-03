@@ -1,7 +1,11 @@
+{-# OPTIONS --rewriting #-}
+
 module willow2.basic.PropositionalEquality where
 
 open import Relation.Binary.PropositionalEquality hiding ([_]) public
 open import willow2.basic.Squash public
+
+{-# BUILTIN REWRITE _≡_ #-}
 
 open ≡-Reasoning hiding (_≅⟨_⟩_) public
 

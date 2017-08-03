@@ -1,4 +1,4 @@
-{-# OPTIONS --type-in-type #-}
+{-# OPTIONS --type-in-type --rewriting #-}
 
 {- INTENDED IMPROVEMENTS OF willow2 OVER willow:
 
@@ -56,7 +56,37 @@ record Cat : Setω where
     {Obj} : Set ℓo
     Hom : (x y : Obj) → Set ℓh
     {{isCat}} : IsCat Hom
+
+  postulate
+    Hom* : (x y : Obj) → Set ℓh
 open Cat public
+
+module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} {{isCat : IsCat HomA}} where
+  cA = cat HomA
+  postulate
+    id* : {x : Obj cA} → Hom* cA x x
+    _*_ : ∀{x y z} → Hom* cA y z → Hom* cA x y → Hom* cA x z
+    ⌜_⌝ : ∀{x y} → Hom cA x y → Hom* cA x y
+    assoc* : ∀{w x y z : Obj cA} → (ψ : Hom* cA y z) → (ξ : Hom* cA x y) → (φ : Hom* cA w x)
+      → (ψ * ξ) * φ ≡ ψ * (ξ * φ)
+    lunit* : {x y : Obj cA} → (φ : Hom* cA x y) → id* * φ ≡ φ
+    runit* : {x y : Obj cA} → (φ : Hom* cA x y) → φ * id* ≡ φ
+    quote-id : ∀{x} → ⌜ id⟨ x ⟩ ⌝ ≡ id*
+    quote-comp : ∀{x y z} → {ψ : Hom cA y z} → {φ : Hom cA x y} → ⌜ ψ ∘ φ ⌝ ≡ ⌜ ψ ⌝ * ⌜ φ ⌝
+  id*⟨_⟩ : (x : Obj cA) → Hom* cA x x
+  id*⟨ x ⟩ = id*
+
+  {-# REWRITE assoc* lunit* runit* #-}
+
+  postulate
+    digest : {x y : Obj cA} → Hom* cA x y → Hom cA x y
+    digest-id : ∀{x} → digest id* ≡ id⟨ x ⟩
+    digest-comp : ∀{x y z} → {ψ : Hom* cA y z} → {φ : Hom* cA x y} → digest (ψ * φ) ≡ digest ψ ∘ digest φ
+    digest-quote : ∀{x y} → {φ : Hom cA x y} → digest ⌜ φ ⌝ ≡ φ
+    quote-digest : ∀{x y} → (φ : Hom* cA x y) → ⌜ digest φ ⌝ ≡ φ
+
+  {-# REWRITE digest-id digest-comp digest-quote #-}
+open IsCat* public
 
 {-
 record IsFtr
@@ -82,6 +112,41 @@ record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) whe
     --{{isFtr}} : IsFtr cA cB hom
     .{{hom-id}} : ∀{x} → hom (id⟨ x ⟩) ≡ id
     .{{hom-comp}} : ∀{x y z} (ψ : Hom cA y z) (φ : Hom cA x y) → hom (ψ ∘ φ) ≡ hom ψ ∘ hom φ
+
+  postulate
+    --hom* is a definable function on the QIT
+    hom* : ∀{x y} → (φ : Hom* cA x y) → Hom* cB (obj x) (obj y)
+    hom*-id : ∀{x} → hom* (id*⟨ x ⟩) ≡ id*
+    hom*-comp : ∀{x y z} (ψ : Hom* cA y z) (φ : Hom* cA x y) → hom* (ψ * φ) ≡ hom* ψ * hom* φ
+    hom*-quote : ∀{x y} {φ : Hom cA x y} → hom* ⌜ φ ⌝ ≡ ⌜ hom φ ⌝
+    --digest-hom* and hom*-quote together break confluence, since hom digest ψ ∘ hom digest φ ≠ hom (digest ψ ∘ digest φ)
+  {-# REWRITE hom*-id hom*-comp hom*-quote #-}
+
+  postulate
+    --hom⌜_⌝ is a constructor (with computation) of the QIT
+    hom⌜_⌝ : ∀{x y} → (φ : Hom* cA x y) → Hom* cB (obj x) (obj y)
+    hom⌜_⌝-id : ∀{x} → hom⌜_⌝ (id*⟨ x ⟩) ≡ id*
+    hom⌜_⌝-comp : ∀{x y z} (ψ : Hom* cA y z) (φ : Hom* cA x y) → hom⌜_⌝ (ψ * φ) ≡ hom⌜_⌝ ψ * hom⌜_⌝ φ
+    digest-hom⌜_⌝ : ∀{x y} {φ : Hom* cA x y} → digest (hom⌜_⌝ φ) ≡ hom (digest φ)
+  {-# REWRITE hom⌜_⌝-id hom⌜_⌝-comp digest-hom⌜_⌝ #-}
+
+  hom⌜_⌝=hom* : ∀{x y} (φ : Hom* cA x y) → hom⌜_⌝ φ ≡ hom* φ
+  hom⌜_⌝=hom* {x}{y} φ = begin
+    hom⌜_⌝ φ
+      ≡⟨ sym (quote-digest _) ⟩
+    ⌜ digest (hom⌜_⌝ φ) ⌝
+      ≡⟨ refl ⟩
+    ⌜ hom (digest φ) ⌝
+      ≡⟨ refl ⟩
+    hom* ⌜ digest φ ⌝
+      ≡⟨ cong hom* (quote-digest φ) ⟩
+    hom* φ ∎
+    
+  digest-hom* : ∀{x y} (φ : Hom* cA x y) → digest (hom* φ) ≡ hom (digest φ)
+  digest-hom* {x}{y} φ = cong digest (sym (hom⌜_⌝=hom* φ))
+
+  hom⌜_⌝-quote : ∀{x y} (φ : Hom cA x y) → hom⌜_⌝ ⌜ φ ⌝ ≡ ⌜ hom φ ⌝
+  hom⌜_⌝-quote {x}{y} φ = hom⌜_⌝=hom* ⌜ φ ⌝
 open Ftr public
 _c→_ = Ftr
 infix 1 _c→_
