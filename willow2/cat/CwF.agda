@@ -18,38 +18,72 @@ IsCat.assoc (isCat cFam) ψ ξ φ = refl
 IsCat.lunit (isCat cFam) φ = refl
 IsCat.runit (isCat cFam) φ = refl
 
-record IsCwF {Ctx : Set} (Sub : Ctx → Ctx → Set) {Ty : Ctx → Set} (Tm : (Γ : Ctx) → Ty Γ → Set) : Set where
-  field
-    {{isCat}} : IsCat Sub
-    _⟦_⟧ : ∀ {Δ Γ} → Ty Γ → (σ : Sub Δ Γ) → Ty Δ
-    .{{tysub-id}} : ∀{Γ} {T : Ty Γ} → T ⟦ id ⟧ ≡ T
-    .{{tysub-comp}} : ∀{Θ Δ Γ} {T : Ty Γ} (σ : Sub Δ Γ) (τ : Sub Θ Δ) → T ⟦ σ ∘ τ ⟧ ≡ T ⟦ σ ⟧ ⟦ τ ⟧
-    _[_] : ∀ {Δ Γ} {T : Ty Γ} (t : Tm Γ T) → (σ : Sub Δ Γ) → Tm Δ (T ⟦ σ ⟧)
-    .{{tmsub-id}} : ∀{Γ} {T : Ty Γ} {t : Tm Γ T} → t [ id ] ≅ t
-    .{{tmsub-comp}} : ∀{Θ Δ Γ} {T : Ty Γ} {t : Tm Γ T} (σ : Sub Δ Γ) (τ : Sub Θ Δ) → t [ σ ∘ τ ] ≅ t [ σ ] [ τ ]
-    
-  cCtx : Cat
-  cCtx = cat Sub
-
+record OpsCtx (Ctx : Set) : Set where
   field
     ‚ : Ctx
+open OpsCtx {{...}} public
+
+record OpsSub {Ctx : Set} {{opsCtx : OpsCtx Ctx}} (Sub : Ctx → Ctx → Set) : Set where
+  field
+    {{isCat}} : IsCat Sub
     ‘ : ∀{Γ} → Sub Γ ‚
-    .{{ext-‚}} : ∀{Γ} {σ : Sub Γ ‚} → σ ≡ ‘
+    .ext-‚ : ∀{Γ} {σ : Sub Γ ‚} → σ ≡ ‘
+open OpsSub {{...}} public
+
+record OpsTy {Ctx : Set} {{opsCtx : OpsCtx Ctx}} (Ty : Ctx → Set) : Set where
+  field
     _„_ : (Γ : Ctx) → Ty Γ → Ctx
-    _“_ : ∀{Δ Γ} {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T ⟦ σ ⟧)) → Sub Δ (Γ „ T)
+
+  infix 10 _„_
+
+open OpsTy {{...}} public
+
+record OpsSubTy {Ctx : Set} {{opsCtx : OpsCtx Ctx}}
+                (Sub : Ctx → Ctx → Set) {{opsSub : OpsSub Sub}}
+                (Ty : Ctx → Set) {{opsTy : OpsTy Ty}} : Set where
+  field
+    _⊢_⟦_⟧ : ∀ (Δ : Ctx) {Γ} → Ty Γ → (σ : Sub Δ Γ) → Ty Δ
+    .tysub-id : ∀{Γ} {T : Ty Γ} → Γ ⊢ T ⟦ id ⟧ ≡ T
+    .tysub-comp : ∀{Θ Δ Γ} {T : Ty Γ} (σ : Sub Δ Γ) (τ : Sub Θ Δ) → Θ ⊢ T ⟦ σ ∘ τ ⟧ ≡ Θ ⊢ (Δ ⊢ T ⟦ σ ⟧) ⟦ τ ⟧
     π : ∀{Γ} {T : Ty Γ} → Sub (Γ „ T) Γ
-    ξ : ∀{Γ} {T : Ty Γ} → Tm (Γ „ T) (T ⟦ π ⟧)
-    .{{π∘“}} : ∀{Δ Γ} {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T ⟦ σ ⟧)) → π ∘ (σ “ t) ≡ σ
-    .{{ξ[“]}} : ∀{Δ Γ} {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (T ⟦ σ ⟧)) → ξ [ σ “ t ] ≅ t
-    .{{ext-„}} : ∀{Δ Γ} {T : Ty Γ} → {σ τ : Sub Δ (Γ „ T)} → π ∘ σ ≡ π ∘ τ → ξ [ σ ] ≅ ξ [ τ ] → σ ≡ τ
+    
+  _⟦_⟧ : ∀ {Δ Γ} → Ty Γ → (σ : Sub Δ Γ) → Ty Δ
+  T ⟦ σ ⟧ = _ ⊢ T ⟦ σ ⟧
 
-  c-fam : cOp cCtx c→ cFam
-  obj c-fam Γ = (Ty Γ) , (Tm Γ)
-  hom c-fam σ = (λ T → T ⟦ σ ⟧) , (λ T t → t [ σ ])
-  hom-id c-fam = ext-Σ (λ= T , tysub-id) (λ≅ T , λ≅ t , tmsub-id)
-  hom-comp c-fam σ τ = ext-Σ (λ= T , tysub-comp _ _) (λ≅ T , λ≅ t , tmsub-comp _ _)
+  π⟨_⟩⟨_⟩ : ∀(Γ : Ctx) (T : Ty Γ) → Sub (Γ „ T) Γ
+  π⟨ _ ⟩⟨ _ ⟩ = π
 
-open IsCwF {{...}} public
+  infix 20 _⟦_⟧
+  infix 5 _⊢_⟦_⟧
+open OpsSubTy {{...}} public
+
+record OpsTm {Ctx : Set} {{opsCtx : OpsCtx Ctx}}
+                (Sub : Ctx → Ctx → Set) {{opsSub : OpsSub Sub}}
+                (Ty : Ctx → Set) {{opsTy : OpsTy Ty}}
+                {{opsSubTy : OpsSubTy Sub Ty}}
+                (Tm : (Γ : Ctx) → Ty Γ → Set) : Set where
+  field
+    _⊢_[_] : ∀ (Δ : Ctx) {Γ} {T : Ty Γ} (t : Tm Γ T) → (σ : Sub Δ Γ) → Tm Δ (Δ ⊢ T ⟦ σ ⟧)
+    .tmsub-id : ∀{Γ} {T : Ty Γ} {t : Tm Γ T} → Γ ⊢ t [ id ] ≅ t
+    .tmsub-comp : ∀{Θ Δ Γ} {T : Ty Γ} {t : Tm Γ T} (σ : Sub Δ Γ) (τ : Sub Θ Δ) → Θ ⊢ t [ σ ∘ τ ] ≅ Θ ⊢ (Δ ⊢ t [ σ ]) [ τ ]
+    _“_ : ∀{Δ Γ} {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (Δ ⊢ T ⟦ σ ⟧)) → Sub Δ (Γ „ T)
+    ξ : ∀{Γ : Ctx} {T : Ty Γ} → Tm (Γ „ T) (Γ „ T ⊢ T ⟦ Sub _ Γ ∋ π{Γ = Γ}{T} ⟧)
+    .{{π∘“}} : ∀{Δ Γ} {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (Δ ⊢ T ⟦ σ ⟧)) → π⟨ Γ ⟩⟨ T ⟩ ∘ (σ “ t) ≡ σ
+    .{{ξ[“]}} : ∀{Δ Γ} {T : Ty Γ} → (σ : Sub Δ Γ) → (t : Tm Δ (Δ ⊢ T ⟦ σ ⟧)) → Δ ⊢ ξ [ σ “ t ] ≅ t
+    .{{ext-„}} : ∀{Δ Γ} {T : Ty Γ} → {σ τ : Sub Δ (Γ „ T)}
+      → π⟨ Γ ⟩⟨ T ⟩ ∘ σ ≡ π⟨ Γ ⟩⟨ T ⟩ ∘ τ → (Δ ⊢ ξ [ σ ]) ≅ (Δ ⊢ ξ [ τ ]) → σ ≡ τ
+    
+  _[_] : ∀ {Δ Γ} {T : Ty Γ} (t : Tm Γ T) → (σ : Sub Δ Γ) → Tm Δ (Δ ⊢ T ⟦ σ ⟧)
+  t [ σ ] = _ ⊢ t [ σ ]
+  _∋:_[_] : ∀ {Δ Γ} (T : Ty Γ) (t : Tm Γ T) → (σ : Sub Δ Γ) → Tm Δ (Δ ⊢ T ⟦ σ ⟧)
+  T ∋: t [ σ ] = t [ σ ]
+  _⊢_∋:_[_] : ∀ (Δ : Ctx) {Γ} (T : Ty Γ) (t : Tm Γ T) → (σ : Sub Δ Γ) → Tm Δ (Δ ⊢ T ⟦ σ ⟧)
+  Δ ⊢ T ∋: t [ σ ] = t [ σ ]
+  
+  infix 20 _[_]
+  infix 10 _“_
+  infix 5 _⊢_[_]
+open OpsTm {{...}} public
 
 record CwF : Set where
   constructor cwf
@@ -58,5 +92,29 @@ record CwF : Set where
     Sub : Ctx → Ctx → Set
     Ty : Ctx → Set
     Tm : (Γ : Ctx) → Ty Γ → Set
-    {{isCwF}} : IsCwF Sub Tm
+    {{opsCtx}} : OpsCtx Ctx
+    {{opsSub}} : OpsSub Sub
+    {{opsTy}} : OpsTy Ty
+    {{opsSubTy}} : OpsSubTy Sub Ty
+    {{opsTm}} : OpsTm Sub Ty Tm
+    
+  cCtx : Cat
+  cCtx = cat Sub
+
+  c-fam : cOp cCtx c→ cFam
+  obj c-fam Γ = (Ty Γ) , (Tm Γ)
+  hom c-fam {Γ}{Δ} σ = (λ T → Δ ⊢ T ⟦ σ ⟧) , (λ T t → Δ ⊢ T ∋: t [ σ ])
+  hom-id c-fam = ext-Σ (λ= T , tysub-id) (λ≅ T , λ≅ t , tmsub-id)
+  hom-comp c-fam σ τ = {!ext-Σ (λ= T , tysub-comp _ _) (λ≅ T , λ≅ t , tmsub-comp _ _)!}
+
+{-
+
+    
 open CwF public
+
+record CwFmorphism (çA çB : CwF) : Set where
+  --field
+    --ctx : Ctx çA → Ctx çB
+    --sub : ∀{Δ Γ : Ctx çA} → Sub çA Δ Γ → Sub çB (ctx Δ) (ctx Γ)
+    --ctx : cCtx c→ cCtx
+-}
