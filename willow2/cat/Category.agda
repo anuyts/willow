@@ -65,6 +65,7 @@ record Cat : Setω where
     --MotHom* : ∀{ℓ} → (T : ∀{x y : Obj} (φs : Hom* x y) → Set ℓ) → Set ℓ
 open Cat public
 
+{-
 module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} {{isCat : IsCat HomA}} where
 
   cA = cat HomA
@@ -108,10 +109,15 @@ module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} 
           _∷'_ {{e}} χ ψs* φs = χ ∷ ψs* φs
           ∷comp' e = ≡-to-≅ (λ= _ , ∷comp)
           ∷id' e = ≡-to-≅ (λ= _ , ∷id)
+  ⌜_⌝ : ∀{x y} → Hom cA x y → Hom* cA x y
+  ⌜ φ ⌝ = φ ∷ id*
+  assoc* : ∀{w x y z : Obj cA} → (ψ : Hom* cA y z) → (ξ : Hom* cA x y) → (φ : Hom* cA w x)
+      → (ψ * ξ) * φ ≡ ψ * (ξ * φ)
+  assoc* ψ ξ φ = {!!}
 
 open IsCat* public
+-}
 
-{-
 --module IsCat* {cA : Cat} where
 module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} {{isCat : IsCat HomA}} where
   cA = cat HomA
@@ -139,7 +145,6 @@ module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} 
 
   {-# REWRITE digest-id digest-comp digest-quote #-}
 open IsCat* public
--}
 
 {-
 record IsFtr
@@ -166,7 +171,6 @@ record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) whe
     .{{hom-id}} : ∀{x} → hom (id⟨ x ⟩) ≡ id
     .{{hom-comp}} : ∀{x y z} (ψ : Hom cA y z) (φ : Hom cA x y) → hom (ψ ∘ φ) ≡ hom ψ ∘ hom φ
 
-{-
   postulate
     --hom* is a definable function on the QIT
     hom* : ∀{x y} → (φ : Hom* cA x y) → Hom* cB (obj x) (obj y)
@@ -201,7 +205,6 @@ record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) whe
 
   hom⌜_⌝-quote : ∀{x y} (φ : Hom cA x y) → hom⌜_⌝ ⌜ φ ⌝ ≡ ⌜ hom φ ⌝
   hom⌜_⌝-quote {x}{y} φ = hom⌜_⌝=hom* ⌜ φ ⌝
--}
 open Ftr public
 _c→_ = Ftr
 infix 1 _c→_
