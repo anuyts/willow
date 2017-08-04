@@ -11,3 +11,5 @@ record Choice {ℓ} (A : Set ℓ) : Set ℓ where
   field
     choose : .A → A
 open Choice {{...}} public
+
+{-# DISPLAY Choice.choose c x = choose {{c}} x #-}

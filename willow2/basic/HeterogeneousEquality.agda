@@ -12,6 +12,9 @@ open ≅.≅-Reasoning renaming (begin_ to hbegin_ ; _∎ to _h∎) using (_≅�
 {-# DISPLAY _≅_ {_} {A} a {B} b = [ A ∋ a ]≅[ B ∋ b ] #-}
 
 postulate
+  instance ≅choice : ∀{ℓ}{A B : Set ℓ}{a : A}{b : B} → Choice (a ≅ b)
+
+postulate
   injΠ-cod : ∀{ℓA ℓB} {A A' : Set ℓA} {B : A → Set ℓB} {B' : A' → Set ℓB}
     → ((x : A) → B x) ≡ ((x' : A') → B' x') → B ≅ B'
 
@@ -49,3 +52,5 @@ open import Data.Product
 hext-× : ∀{ℓA ℓB} {A A' : Set ℓA} {B B' : Set ℓB} {p : A × B} {q : A' × B'} → proj₁ p ≅ proj₁ q → proj₂ p ≅ proj₂ q → p ≅ q
 hext-× refl refl = refl
 
+ext-Σ : ∀{ℓA ℓB} {A : Set ℓA} {B : A → Set ℓB} {p q : Σ[ a ∈ A ] B a} → proj₁ p ≡ proj₁ q → proj₂ p ≅ proj₂ q → p ≡ q
+ext-Σ refl refl = refl
