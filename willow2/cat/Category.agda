@@ -26,13 +26,6 @@ Setω = Set
 ℓ? : Level
 ℓ? = zero
 
-{-
-Graph : ∀ (ℓnA ℓeA : Level) → Set (suc (ℓnA ⊔ ℓeA))
-Graph ℓnA ℓeA = Σ[ A ∈ Set ℓnA ] (A → A → Set ℓeA)
-
-record IsCat {ℓoA ℓhA} ()
-  -}
-
 record IsCat {ℓo ℓh} {Obj : Set ℓo} (Hom : Obj → Obj → Set ℓh) : Set (ℓo ⊔ ℓh) where
   field
     id⟨_⟩ : (x : Obj) → Hom x x
@@ -65,59 +58,6 @@ record Cat : Setω where
     --MotHom* : ∀{ℓ} → (T : ∀{x y : Obj} (φs : Hom* x y) → Set ℓ) → Set ℓ
 open Cat public
 
-{-
-module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} {{isCat : IsCat HomA}} where
-
-  cA = cat HomA
-  
-  postulate
-    id* : {x : Obj cA} → Hom* cA x x
-    _∷_ : ∀{x y z} → Hom cA y z → Hom* cA x y → Hom* cA x z
-    ∷comp : ∀{w x y z} {ψ : Hom cA y z} {φ : Hom cA x y} {χs : Hom* cA w x} → ψ ∷ φ ∷ χs ≡ ψ ∘ φ ∷ χs
-    ∷id : ∀{x y} {φs : Hom* cA x y} → φs ≡ id ∷ φs
-  id*⟨_⟩ : (x : Obj cA) → Hom* cA x x
-  id*⟨ x ⟩ = id*
-
-  infixr 9 _∷_
-
-  MotHom* : Set ℓ?
-  MotHom* = ∀{x y : Obj cA} (φs : Hom* cA x y) → Set
-  record ElimHom* (T : MotHom*) : Set ℓ? where
-    field
-      id*' : {x : Obj cA} → T id*⟨ x ⟩
-      _∷'_ : ∀{x y z} (ψ : Hom cA y z) {φs : Hom* cA x y} (φs' : T φs) → T (ψ ∷ φs)
-      ∷comp' : ∀{w x y z} {ψ : Hom cA y z} {φ : Hom cA x y} {χs : Hom* cA w x} {χs' : T χs}
-        → ψ ∷' (φ ∷' χs') ≅ ψ ∘ φ ∷' χs'
-      ∷id' : ∀{x y} {φs : Hom* cA x y} {φs' : T φs} → φs' ≅ id ∷' φs'
-
-    infixr 9 _∷'_
-  open ElimHom* hiding (_∷'_)
-  open ElimHom* {{...}} using (_∷'_) 
-
-  postulate
-    apHom* : ∀{T : MotHom*} → ElimHom* T →
-                      ∀{x y : Obj cA} (φs : Hom* cA x y) → T φs
-    β-id* : ∀{T : MotHom*} {e : ElimHom* T} {x : Obj cA} → apHom* e (id* {x}) ≡ id*' e
-    β-∷ : ∀{T : MotHom*} {e : ElimHom* T} {x y z} (ψ : Hom cA y z) {φs : Hom* cA x y} → apHom* e (ψ ∷ φs) ≡
-      (λ {{_}} → ψ ∷' apHom* fetch φs) {{e}}
-  {-# REWRITE β-id* β-∷ #-}
-  
-  _*_ : ∀{x y z} → Hom* cA y z → Hom* cA x y → Hom* cA x z
-  _*_ {x} {y} {z} ψs φs = apHom* e ψs φs
-    where e : ElimHom* (λ {y' z'} _ → Hom* cA x y' → Hom* cA x z')
-          id*' e = f-id
-          _∷'_ {{e}} χ ψs* φs = χ ∷ ψs* φs
-          ∷comp' e = ≡-to-≅ (λ= _ , ∷comp)
-          ∷id' e = ≡-to-≅ (λ= _ , ∷id)
-  ⌜_⌝ : ∀{x y} → Hom cA x y → Hom* cA x y
-  ⌜ φ ⌝ = φ ∷ id*
-  assoc* : ∀{w x y z : Obj cA} → (ψ : Hom* cA y z) → (ξ : Hom* cA x y) → (φ : Hom* cA w x)
-      → (ψ * ξ) * φ ≡ ψ * (ξ * φ)
-  assoc* ψ ξ φ = {!!}
-
-open IsCat* public
--}
-
 --module IsCat* {cA : Cat} where
 module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} {{isCat : IsCat HomA}} where
   cA = cat HomA
@@ -145,22 +85,6 @@ module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} 
 
   {-# REWRITE digest-id digest-comp digest-quote #-}
 open IsCat* public
-
-{-
-record IsFtr
-  --{A : Set ℓoA} {HomA : A → A → Set ℓhA} {{catA : IsCat HomA}}
-  --{B : Set ℓoB} {HomB : B → B → Set ℓhB} {{catB : IsCat HomB}}
-  --{f : A → B} (homf : ∀{x y} → HomA x y → HomB (f x) (f y))
-  (cA cB : Cat)
-  {f : Obj cA → Obj cB} (homf : ∀{x y} → Hom cA x y → Hom cB (f x) (f y))
-  : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) where
-  instance
-    constructor pvFtr
-  field
-    .hom-id : ∀{x} → homf (id-at x) ≡ id
-    .hom-comp : ∀{x y z} (ψ : Hom cA y z) (φ : Hom cA x y) → homf (ψ ∘ φ) ≡ homf ψ ∘ homf φ
-open IsFtr {{...}}
--}
 
 record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) where
   constructor ftr
