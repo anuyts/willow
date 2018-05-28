@@ -13,3 +13,4 @@ open import willow2.cat.OfSets public
 open import willow2.cat.Opposite public
 open import willow2.cat.Product public
 open import willow2.cat.Unit public
+open import willow2.cat.HomFunctor public

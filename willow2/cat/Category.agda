@@ -84,7 +84,7 @@ module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} 
     quote-digest : ∀{x y} → (φ : Hom* cA x y) → ⌜ digest φ ⌝ ≡ φ
 
   {-# REWRITE digest-id digest-comp digest-quote #-}
-open IsCat* public
+open IsCat* hiding (cA) public
 
 record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) where
   constructor ftr
