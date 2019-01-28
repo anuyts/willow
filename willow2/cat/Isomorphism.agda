@@ -1,4 +1,4 @@
-{-# OPTIONS --type-in-type #-}
+{-# OPTIONS --type-in-type --irrelevant-projections #-}
 
 module willow2.cat.Isomorphism where
 
@@ -74,5 +74,5 @@ i-inv²=id = refl
 c-inv-core : ∀{c} → (cOp (cCore c) c→ cCore c)
 c-inv-core = ftr i-inv
 
-c-inv-core²=c-id : ∀{c} → c-inv-core c∘ c-op c-inv-core ≡ c-id⟨ cCore c ⟩
+c-inv-core²=c-id : ∀{c} → c-inv-core {c} c∘ c-op c-inv-core ≡ c-id⟨ cCore c ⟩
 c-inv-core²=c-id = refl

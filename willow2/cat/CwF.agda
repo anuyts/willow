@@ -1,4 +1,4 @@
-{-# OPTIONS --type-in-type --rewriting #-}
+{-# OPTIONS --type-in-type --rewriting --irrelevant-projections #-}
 
 module willow2.cat.CwF where
 

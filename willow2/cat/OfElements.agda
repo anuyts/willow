@@ -1,4 +1,4 @@
-{-# OPTIONS --type-in-type #-}
+{-# OPTIONS --type-in-type --irrelevant-projections #-}
 
 module willow2.cat.OfElements where
 
