@@ -18,11 +18,14 @@ IsCat.assoc (isCat cFam) ψ ξ φ = refl
 IsCat.lunit (isCat cFam) φ = refl
 IsCat.runit (isCat cFam) φ = refl
 
+-- Operators necessary for cCtx to be a CwF
 record IsCwF (cCtx : Cat) : Set where
   field
     c-ty : cOp cCtx c→ cSet _
     c-tm : cOp (c∫⁻ cCtx c-ty) c→ cSet _
     Ω : Obj cCtx
+    ω : {Γ : Obj cCtx} → Hom cCtx Γ Ω
+    ext-Ω : {Γ : Obj cCtx} {σ : Hom cCtx Γ Ω} → σ ≡ ω
     _„_ : (Γ : Obj cCtx) → obj c-ty Γ → Obj cCtx
     π : {Γ : Obj cCtx} {T : obj c-ty Γ} → Hom cCtx (Γ „ T) Γ
     ξ : {Γ : Obj cCtx} {T : obj c-ty Γ} → obj c-tm ((Γ „ T) , hom c-ty π T)
@@ -35,6 +38,7 @@ record IsCwF (cCtx : Cat) : Set where
     .π“ξ : {Γ : Obj cCtx} {T : obj c-ty Γ} → id⟨ Γ „ T ⟩ ≡ π “ ξ
 open IsCwF public
 
+-- A CwF is a category of contexts that is a CwF :)
 record CwF : Set where
   constructor cwf
   field
@@ -42,6 +46,7 @@ record CwF : Set where
     {{isCwF}} : IsCwF cCtx
 open CwF public
 
+-- Some practical operations on CwFs.
 module CwF-ops (cwf : CwF) where
   ops = isCwF cwf
 
@@ -97,6 +102,22 @@ module CwF-ops (cwf : CwF) where
     hom (c-tm ops) (σ ∘ τ , refl) t
       ≅⟨ refl ⟩
     (t t[ σ ∘ τ ]) h∎
+
+  c-fam : cOp (cCtx cwf) c→ cFam
+  obj c-fam Γ = (Ty Γ) , (Tm Γ)
+  hom c-fam {Γ}{Δ} σ = (λ T → T T[ σ ]) , λ T t → t t[ σ ]
+  hom-id c-fam {Γ} = ext-Σ (λ= T , T[id]) (λ≅ T , λ≅ t , t[id])
+  hom-comp c-fam {Θ}{Δ}{Γ} σ τ = ext-Σ (λ= T , sym T[][]) (λ≅ T , λ≅ t , hsym t[][])
+
+
+
+
+
+
+
+
+
+
 
 {-
 record OpsCtx (Ctx : Set) : Set where
