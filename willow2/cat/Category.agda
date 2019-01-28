@@ -1,4 +1,4 @@
-{-# OPTIONS --type-in-type --rewriting #-}
+{-# OPTIONS --type-in-type --rewriting --irrelevant-projections #-}
 
 {- INTENDED IMPROVEMENTS OF willow2 OVER willow:
 
@@ -69,7 +69,7 @@ module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} 
       → (ψ * ξ) * φ ≡ ψ * (ξ * φ)
     lunit* : {x y : Obj cA} → (φ : Hom* cA x y) → id* * φ ≡ φ
     runit* : {x y : Obj cA} → (φ : Hom* cA x y) → φ * id* ≡ φ
-    quote-id : ∀{x} → ⌜ id⟨ x ⟩ ⌝ ≡ id*
+    quote-id : ∀{x : ObjA} → ⌜ id⟨ x ⟩ ⌝ ≡ id*
     quote-comp : ∀{x y z} → {ψ : Hom cA y z} → {φ : Hom cA x y} → ⌜ ψ ∘ φ ⌝ ≡ ⌜ ψ ⌝ * ⌜ φ ⌝
   id*⟨_⟩ : (x : Obj cA) → Hom* cA x x
   id*⟨ x ⟩ = id*
@@ -78,7 +78,7 @@ module IsCat* {ℓo ℓh} {ObjA : Set ℓo} {HomA : ObjA → ObjA → Set ℓh} 
 
   postulate
     digest : {x y : Obj cA} → Hom* cA x y → Hom cA x y
-    digest-id : ∀{x} → digest id* ≡ id⟨ x ⟩
+    digest-id : ∀{x : ObjA} → digest id* ≡ id⟨ x ⟩
     digest-comp : ∀{x y z} → {ψ : Hom* cA y z} → {φ : Hom* cA x y} → digest (ψ * φ) ≡ digest ψ ∘ digest φ
     digest-quote : ∀{x y} → {φ : Hom cA x y} → digest ⌜ φ ⌝ ≡ φ
     quote-digest : ∀{x y} → (φ : Hom* cA x y) → ⌜ digest φ ⌝ ≡ φ
@@ -92,7 +92,7 @@ record Ftr (cA cB : Cat) : Set (ℓo cA ⊔ ℓh cA ⊔ ℓo cB ⊔ ℓh cB) whe
     {obj} : (x : Obj cA) → Obj cB
     hom : ∀{x y} → (φ : Hom cA x y) → Hom cB (obj x) (obj y)
     --{{isFtr}} : IsFtr cA cB hom
-    .{{hom-id}} : ∀{x} → hom (id⟨ x ⟩) ≡ id
+    .{{hom-id}} : ∀{x : Obj cA} → hom (id⟨ x ⟩) ≡ id
     .{{hom-comp}} : ∀{x y z} (ψ : Hom cA y z) (φ : Hom cA x y) → hom (ψ ∘ φ) ≡ hom ψ ∘ hom φ
 
   postulate
@@ -159,7 +159,7 @@ c-const : ∀{cA cB} → Obj cB → (cA c→ cB)
 obj (c-const b) x = b
 hom (c-const b) φ = id
 hom-id (c-const b) = refl
-hom-comp (c-const b) ψ φ = sym (lunit id)
+hom-comp (c-const b) ψ φ = sym (lunit id⟨ b ⟩)
 
 c-const⟨_⟩⟨_⟩ : (cA cB : Cat) → Obj cB → (cA c→ cB)
 c-const⟨ _ ⟩⟨ _ ⟩ = c-const
@@ -188,12 +188,12 @@ ext-nt {cA} {cB} {cf} {cg} {nt .(obj ntb)} {ntb} refl = refl
 
 nt-id : ∀{cA cB} {cf : cA c→ cB} → (cf nt→ cf)
 obj (nt-id {cA} {cB} {cf}) a = id
-nat (nt-id {cA} {cB} {cf}) φ = begin
-          hom cf φ ∘ id
+nat (nt-id {cA} {cB} {cf}) {x}{y} φ = begin
+          hom cf φ ∘ id⟨ obj cf x ⟩
             ≡⟨ runit _ ⟩
           hom cf φ
             ≡⟨ sym (lunit _) ⟩
-          id ∘ hom cf φ ∎
+          id⟨ obj cf y ⟩ ∘ hom cf φ ∎
 
 nt-id⟨_⟩ : ∀{cA cB} (cf : cA c→ cB) → (cf nt→ cf)
 nt-id⟨ _ ⟩ = nt-id

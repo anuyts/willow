@@ -4,7 +4,7 @@ open import willow2.basic.PropositionalEquality
 open import willow2.basic.HeterogeneousEquality
 
 postulate
-  instance
+  --instance
     funext : ∀{ℓA ℓB} {A : Set ℓA} {B : A → Set ℓB} {f g : (a : A) → B a} (e : (a : A) → f a ≡ g a) → f ≡ g
     funexti : ∀{ℓA ℓB} {A : Set ℓA} {B : A → Set ℓB} {f g : {a : A} → B a} (e : (a : A) → f {a} ≡ g {a})
       → [({a : A} → B a) ∋ f ≡ g ]
