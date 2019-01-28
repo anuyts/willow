@@ -54,3 +54,6 @@ hext-× refl refl = refl
 
 ext-Σ : ∀{ℓA ℓB} {A : Set ℓA} {B : A → Set ℓB} {p q : Σ[ a ∈ A ] B a} → proj₁ p ≡ proj₁ q → proj₂ p ≅ proj₂ q → p ≡ q
 ext-Σ refl refl = refl
+
+snd-app : ∀{ℓA ℓB} {A : Set ℓA} {B : A → Set ℓB} {p q : Σ[ a ∈ A ] B a} → p ≡ q → proj₂ p ≅ proj₂ q
+snd-app refl = refl

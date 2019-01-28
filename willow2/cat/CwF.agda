@@ -18,6 +18,87 @@ IsCat.assoc (isCat cFam) ψ ξ φ = refl
 IsCat.lunit (isCat cFam) φ = refl
 IsCat.runit (isCat cFam) φ = refl
 
+record IsCwF (cCtx : Cat) : Set where
+  field
+    c-ty : cOp cCtx c→ cSet _
+    c-tm : cOp (c∫⁻ cCtx c-ty) c→ cSet _
+    Ω : Obj cCtx
+    _„_ : (Γ : Obj cCtx) → obj c-ty Γ → Obj cCtx
+    π : {Γ : Obj cCtx} {T : obj c-ty Γ} → Hom cCtx (Γ „ T) Γ
+    ξ : {Γ : Obj cCtx} {T : obj c-ty Γ} → obj c-tm ((Γ „ T) , hom c-ty π T)
+    _“_ : {Δ Γ : Obj cCtx} {T : obj c-ty Γ} (σ : Hom cCtx Δ Γ) (t : obj c-tm (Δ , hom c-ty σ T))
+            → Hom cCtx Δ (Γ „ T)
+    .π“ : {Δ Γ : Obj cCtx} {T : obj c-ty Γ} {σ : Hom cCtx Δ Γ} {t : obj c-tm (Δ , hom c-ty σ T)}
+            → π ∘ (σ “ t) ≡ σ
+    .ξ“ : {Δ Γ : Obj cCtx} {T : obj c-ty Γ} {σ : Hom cCtx Δ Γ} {t : obj c-tm (Δ , hom c-ty σ T)}
+            → hom c-tm (σ “ t , refl) ξ ≅ t
+    .π“ξ : {Γ : Obj cCtx} {T : obj c-ty Γ} → id⟨ Γ „ T ⟩ ≡ π “ ξ
+open IsCwF public
+
+record CwF : Set where
+  constructor cwf
+  field
+    cCtx : Cat
+    {{isCwF}} : IsCwF cCtx
+open CwF public
+
+module CwF-ops (cwf : CwF) where
+  ops = isCwF cwf
+
+  Ctx : Set
+  Ctx = Obj (cCtx cwf)
+
+  Sub : Ctx → Ctx → Set
+  Sub = Hom (cCtx cwf)
+
+  Ty : Ctx → Set
+  Ty Γ = obj (c-ty ops) Γ
+
+  Tm : (Γ : Ctx) (T : Ty Γ) → Set
+  Tm Γ T = obj (c-tm ops) (Γ , T)
+  
+  _T[_] : ∀ {Δ Γ : Ctx} (T : Ty Γ) → (Sub Δ Γ) → Ty Δ
+  T T[ σ ] = hom (c-ty ops) σ T
+
+  .T[id] : ∀ {Γ : Ctx} {T : Ty Γ} → T T[ id ] ≡ T
+  T[id] {Γ}{T} = cong-app (hom-id (c-ty ops)) T
+  .T[][] : ∀ {Θ Δ Γ : Ctx} {τ : Sub Θ Δ} {σ : Sub Δ Γ} {T : Ty Γ} → T T[ σ ] T[ τ ] ≡ T T[ σ ∘ τ ]
+  T[][] {Θ}{Δ}{Γ}{τ}{σ}{T} = cong-app (sym (hom-comp (c-ty ops) τ σ)) T
+
+  _t[_] : ∀{Δ Γ : Ctx} {T : Ty Γ} → Tm Γ T → (σ : Sub Δ Γ) → Tm Δ (T T[ σ ])
+  t t[ σ ] = hom (c-tm ops) (σ , refl) t
+
+  .t[id] : ∀{Γ : Ctx} {T : Ty Γ} {t : Tm Γ T} → (t t[ id ] ≅ t)
+  t[id] {Γ}{T}{t} = hbegin
+        hom (c-tm ops) (id , refl) t
+          ≅⟨ hcong₂
+              (λ (T' : Ty Γ) (id,- : [ φ ∈ Sub Γ Γ ! T T[ φ ] ≡ T' ]) → hom (c-tm ops) id,- t)
+              (≡-to-≅ T[id])
+              (hext-Subset refl (λ≅ φ ,
+                 hcong (λ T' → T T[ φ ] ≡ T') (≡-to-≅ T[id])
+              )) ⟩
+        hom (c-tm ops) (id , T[id]) t
+          ≅⟨ ≡-to-≅ (cong-app (hom-id (c-tm ops)) t) ⟩
+        t h∎
+
+  .t[][] : ∀ {Θ Δ Γ : Ctx} {τ : Sub Θ Δ} {σ : Sub Δ Γ} {T : Ty Γ} {t : Tm Γ T} → t t[ σ ] t[ τ ] ≅ t t[ σ ∘ τ ]
+  t[][] {Θ}{Δ}{Γ}{τ}{σ}{T}{t} = hbegin
+    (t t[ σ ] t[ τ ])
+      ≅⟨ refl ⟩
+    hom (c-tm ops) (τ , refl) (hom (c-tm ops) (σ , refl) t)
+      ≅⟨ ≡-to-≅ (sym (cong-app (hom-comp (c-tm ops) (τ , refl) (σ , refl)) t)) ⟩
+    hom (c-tm ops) (σ ∘ τ , sym T[][]) t
+      ≅⟨ hcong₂
+           (λ (T' : Ty Θ) (σ∘τ,- : [ φ ∈ Sub Θ Γ ! T T[ φ ] ≡ T' ]) → hom (c-tm ops) σ∘τ,- t)
+           (≡-to-≅ T[][])
+           (hext-Subset refl (λ≅ φ ,
+              hcong (λ T' → T T[ φ ] ≡ T') (≡-to-≅ T[][])
+           )) ⟩
+    hom (c-tm ops) (σ ∘ τ , refl) t
+      ≅⟨ refl ⟩
+    (t t[ σ ∘ τ ]) h∎
+
+{-
 record OpsCtx (Ctx : Set) : Set where
   field
     ‚ : Ctx
@@ -117,4 +198,5 @@ record CwFmorphism (çA çB : CwF) : Set where
     --ctx : Ctx çA → Ctx çB
     --sub : ∀{Δ Γ : Ctx çA} → Sub çA Δ Γ → Sub çB (ctx Δ) (ctx Γ)
     --ctx : cCtx c→ cCtx
+-}
 -}
