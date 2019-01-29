@@ -18,6 +18,59 @@ IsCat.assoc (isCat cFam) ψ ξ φ = refl
 IsCat.lunit (isCat cFam) φ = refl
 IsCat.runit (isCat cFam) φ = refl
 
+record IsCwF {Ctx : Set} (Sub : Ctx → Ctx → Set) {Ty : Ctx → Set} (Tm : (Γ : Ctx) → Ty Γ → Set) : Set where
+  field
+    {{isCat}} : IsCat Sub
+    Tsub : ∀ {Δ Γ : Ctx} (T : Ty Γ) → (Sub Δ Γ) → Ty Δ
+    .T[id] : ∀ {Γ : Ctx} {T : Ty Γ} → Tsub T id ≡ T
+    .T[][] : ∀ {Θ Δ Γ : Ctx} {τ : Sub Θ Δ} {σ : Sub Δ Γ} {T : Ty Γ} → Tsub (Tsub T σ) τ ≡ Tsub T (σ ∘ τ)
+    tsub : ∀{Δ Γ : Ctx} {T : Ty Γ} → Tm Γ T → (σ : Sub Δ Γ) → Tm Δ (Tsub T σ)
+    .t[id] : ∀{Γ : Ctx} {T : Ty Γ} {t : Tm Γ T} → (tsub t id ≅ t)
+    .t[][] : ∀ {Θ Δ Γ : Ctx} {τ : Sub Θ Δ} {σ : Sub Δ Γ} {T : Ty Γ} {t : Tm Γ T} → tsub (tsub t σ) τ ≅ tsub t (σ ∘ τ)
+    Ω : Ctx
+    ω : {Γ : Ctx} → Sub Γ Ω
+    ext-Ω : {Γ : Ctx} {σ : Sub Γ Ω} → σ ≡ ω
+    _„_ : (Γ : Ctx) → Ty Γ → Ctx
+    π : {Γ : Ctx} {T : Ty Γ} → Sub (Γ „ T) Γ
+    ξ : {Γ : Ctx} {T : Ty Γ} → Tm (Γ „ T) (Tsub T π)
+    _“_ : {Δ Γ : Ctx} {T : Ty Γ} (σ : Sub Δ Γ) (t : Tm Δ (Tsub T σ)) → Sub Δ (Γ „ T)
+    .π“ : {Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {t : Tm Δ (Tsub T σ)}
+            → π ∘ (σ “ t) ≡ σ
+    .ξ“ : {Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {t : Tm Δ (Tsub T σ)}
+            → tsub ξ (σ “ t) ≅ t
+    .π“ξ : {Γ : Ctx} {T : Ty Γ} → id⟨ Γ „ T ⟩ ≡ π “ ξ
+
+  _T[_] = Tsub
+  _t[_] = tsub
+open IsCwF {{...}} public
+
+record CwF : Set where
+  constructor cwf
+  field
+    Ctx : Set
+    Sub : Ctx → Ctx → Set
+    {Ty} : Ctx → Set
+    Tm : (Γ : Ctx) → Ty Γ → Set
+    {{isCwF}} : IsCwF Sub Tm
+
+  cCtx : Cat
+  cCtx = cat Sub
+
+  c-ty : cOp cCtx c→ cSet _
+  obj c-ty = Ty
+  hom c-ty {Γ}{Δ} σ T = T T[ σ ]
+  hom-id c-ty {Γ} = λ= T , T[id]
+  hom-comp c-ty {Γ}{Δ}{Θ} τ σ = λ= T , sym T[][]
+
+  c-fam : cOp cCtx c→ cFam
+  obj c-fam Γ = (Ty Γ) , (Tm Γ)
+  hom c-fam {Γ}{Δ} σ = (λ T → T T[ σ ]) , λ T t → t t[ σ ]
+  hom-id c-fam {Γ} = ext-Σ (λ= T , T[id]) (λ≅ T , λ≅ t , t[id])
+  hom-comp c-fam {Θ}{Δ}{Γ} σ τ = ext-Σ (λ= T , sym T[][]) (λ≅ T , λ≅ t , hsym t[][])
+open CwF public
+
+{-
+
 -- Operators necessary for cCtx to be a CwF
 record IsCwF (cCtx : Cat) : Set where
   field
@@ -108,7 +161,7 @@ module CwF-ops (cwf : CwF) where
   hom c-fam {Γ}{Δ} σ = (λ T → T T[ σ ]) , λ T t → t t[ σ ]
   hom-id c-fam {Γ} = ext-Σ (λ= T , T[id]) (λ≅ T , λ≅ t , t[id])
   hom-comp c-fam {Θ}{Δ}{Γ} σ τ = ext-Σ (λ= T , sym T[][]) (λ≅ T , λ≅ t , hsym t[][])
-
+-}
 
 
 
