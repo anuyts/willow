@@ -10,6 +10,7 @@ open import willow2.cat.Product public
 open import willow2.cat.CwF public
 
 record HasSigma (ç : CwF) : Set where
+  no-eta-equality
   field
     TΣ : {Γ : Ctx ç} → (A : Ty ç Γ) → (B : Ty ç (Γ „ A)) → Ty ç Γ
     TΣ[] : {Δ Γ : Ctx ç} {σ : Sub ç Δ Γ} → {A : Ty ç Γ} → {B : Ty ç (Γ „ A)}
@@ -22,7 +23,7 @@ record HasSigma (ç : CwF) : Set where
             (a : Tm ç Γ A) (b : Tm ç Γ (B T[ ξ:= a ])) → tfst (tpair a b) ≡ a
     tsndβ : {Γ : Ctx ç} {A : Ty ç Γ} {B : Ty ç (Γ „ A)}
             (a : Tm ç Γ A) (b : Tm ç Γ (B T[ ξ:= a ])) → tsnd (tpair a b) ≅ b
-    tpairη : {Γ : Ctx ç} {A : Ty ç Γ} {B : Ty ç (Γ „ A)} (p : Tm ç Γ (TΣ A B))
+    tpairη : {Γ : Ctx ç} {A : Ty ç Γ} {B : Ty ç (Γ „ A)} {p : Tm ç Γ (TΣ A B)}
             → tpair (tfst p) (tsnd p) ≡ p
     tfst[] : {Δ Γ : Ctx ç} {σ : Sub ç Δ Γ} {A : Ty ç Γ} {B : Ty ç (Γ „ A)} (p : Tm ç Γ (TΣ A B))
             → tfst p t[ σ ] ≡ tfst (p t[ σ ] !> cong (Tm ç Δ) TΣ[])
@@ -34,7 +35,17 @@ record HasSigma (ç : CwF) : Set where
             → tpair a b t[ σ ] ≅
                tpair (a t[ σ ]) (b t[ σ ] !> cong (Tm ç Δ) (
                  trans T[][] (trans
-                   {!(cong (λ σ' → B T[ σ' ]) {!!})!}
+                   (cong (λ σ' → B T[ σ' ]) ξ:=comp)
                    (sym T[][])
                  )
                ))
+  tpair[] {Δ}{Γ}{σ}{A}{B} a b = hbegin
+    tpair a b t[ σ ]
+      ≅⟨ {!hsym tpairη!} ⟩
+    {!!} -- and so on bu ttype-checking is too slow.
+      ≅⟨ {!!} ⟩
+    {!!}
+      ≅⟨ {!!} ⟩
+    {!!}
+      ≅⟨ {!!} ⟩
+    {!!} h∎
