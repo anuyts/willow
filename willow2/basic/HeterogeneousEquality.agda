@@ -49,6 +49,11 @@ hap-irr : ∀{ℓA ℓB} {A A' : Set ℓA} {B : A → Set ℓB} {B' : A' → Set
 !>≅!> {ℓ}{A}{.A}{.A}{a}{e}{e'} | refl | refl = refl
 
 open import Data.Product
+!>× : ∀{ℓ} {A B A' B' : Set ℓ} {a : A} {b : B} .{eA : A ≡ A'} .{eB : B ≡ B'} .{e : (A × B) ≡ (A' × B')}
+  → ((a !> eA) , (b !> eB)) ≡ ((a , b) !> e)
+!>× {ℓ}{A}{B}{A'}{B'}{a}{b}{eA}{eB}{e} with choose eA | choose eB | choose e
+... | refl | refl | refl = refl
+
 hext-× : ∀{ℓA ℓB} {A A' : Set ℓA} {B B' : Set ℓB} {p : A × B} {q : A' × B'} → proj₁ p ≅ proj₁ q → proj₂ p ≅ proj₂ q → p ≅ q
 hext-× refl refl = refl
 

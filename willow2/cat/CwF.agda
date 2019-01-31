@@ -19,6 +19,7 @@ IsCat.lunit (isCat cFam) φ = refl
 IsCat.runit (isCat cFam) φ = refl
 
 record IsCwF (cCtx : Cat) {Ty : (Obj cCtx) → Set} (Tm : (Γ : (Obj cCtx)) → Ty Γ → Set) : Set where
+  no-eta-equality
   field
     --{{isCat}} : IsCat (Hom cCtx)
     Tsub : ∀ {Δ Γ : (Obj cCtx)} (T : Ty Γ) → (Hom cCtx Δ Γ) → Ty Δ
@@ -38,13 +39,75 @@ record IsCwF (cCtx : Cat) {Ty : (Obj cCtx) → Set} (Tm : (Γ : (Obj cCtx)) → 
             → π ∘ (σ “ t) ≡ σ
     .ξ“ : {Δ Γ : (Obj cCtx)} {T : Ty Γ} {σ : Hom cCtx Δ Γ} {t : Tm Δ (Tsub T σ)}
             → tsub ξ (σ “ t) ≅ t
-    .π“ξ : {Γ : (Obj cCtx)} {T : Ty Γ} → id⟨ Γ „ T ⟩ ≡ π “ ξ
+    .π“ξ : {Δ Γ : (Obj cCtx)} {T : Ty Γ} {σ : Hom cCtx Δ (Γ „ T)} → σ ≡ (π ∘ σ) “ (tsub ξ σ !> cong (Tm Δ) T[][])
 
   _T[_] = Tsub
   _t[_] = tsub
 
-  Ctx : Set
-  Ctx = (Obj cCtx)
+  infix 5 _„_ _“_
+  infix 10 _T[_] _t[_]
+
+  .ext-“ :  {Δ Γ : (Obj cCtx)} {T : Ty Γ} {σ τ : Hom cCtx Δ (Γ „ T)} → (π ∘ σ ≡ π ∘ τ) → ξ t[ σ ] ≅ ξ t[ τ ] → σ ≡ τ
+  ext-“ {Δ}{Γ}{T}{σ}{τ} π-eq ξ-heq = begin
+    σ
+      ≡⟨ π“ξ ⟩
+    π ∘ σ “ ξ t[ σ ] !> cong (Tm Δ) T[][]
+      ≡⟨ ≅-to-≡ (hcong₂ _“_ (≡-to-≅ π-eq) e) ⟩
+    π ∘ τ “ ξ t[ τ ] !> cong (Tm Δ) T[][]
+      ≡⟨ sym π“ξ ⟩
+    τ ∎
+    where e = hbegin
+            ξ t[ σ ] !> cong (Tm Δ) T[][]
+              ≅⟨ !>≅ ⟩
+            ξ t[ σ ]
+              ≅⟨ ξ-heq ⟩
+            ξ t[ τ ]
+              ≅⟨ hsym !>≅ ⟩
+            ξ t[ τ ] !> cong (Tm Δ) T[][] h∎
+
+  _⊕ : ∀ {Δ Γ : Obj cCtx} {T : Ty Γ} → (σ : Hom cCtx Δ Γ) → Hom cCtx (Δ „ T T[ σ ]) (Γ „ T)
+  _⊕ {Δ}{Γ}{T} σ = (σ ∘ π) “ (ξ !> cong (Tm (Δ „ T T[ σ ])) T[][])
+  ξ:=_ : ∀{Γ : Obj cCtx} {A : Ty Γ} (a : Tm Γ A) → Hom cCtx Γ (Γ „ A)
+  ξ:=_ {Γ}{A} a = id “ a !> cong (Tm Γ) (sym T[id])
+
+  .ξ:=comp : {Δ Γ : Obj cCtx} {σ : Hom cCtx Δ Γ} {A : Ty Γ} {a : Tm Γ A} → (ξ:= a) ∘ σ ≡ (σ ⊕) ∘ (ξ:= (a t[ σ ]))
+  ξ:=comp {Δ}{Γ}{σ}{A}{a} = ext-“ π-eq ξ-heq
+    where π-eq = begin
+            π ∘ ((ξ:= a) ∘ σ)
+              ≡⟨ sym (assoc π (ξ:= a) σ) ⟩
+            (π ∘ ξ:= a) ∘ σ
+              ≡⟨ cong (λ ρ → ρ ∘ σ) π“ ⟩
+            id ∘ σ
+              ≡⟨ lunit σ ⟩
+            σ
+              ≡⟨ sym (runit σ) ⟩
+            σ ∘ id
+              ≡⟨ cong (λ ρ → σ ∘ ρ) (sym π“) ⟩
+            σ ∘ (π ∘ ξ:= (a t[ σ ]))
+              ≡⟨ sym (assoc σ π (ξ:= (a t[ σ ]))) ⟩
+            (σ ∘ π) ∘ ξ:= (a t[ σ ])
+              ≡⟨ cong (λ ρ → ρ ∘ (ξ:= (a t[ σ ]))) (sym π“) ⟩
+            (π ∘ (σ ⊕)) ∘ ξ:= (a t[ σ ])
+              ≡⟨ assoc π (σ ⊕) (ξ:= (a t[ σ ])) ⟩
+            π ∘ ((σ ⊕) ∘ ξ:= (a t[ σ ])) ∎
+          ξ-heq = hbegin
+            ξ t[ (ξ:= a) ∘ σ ]
+              ≅⟨ hsym t[][] ⟩
+            ξ t[ ξ:= a ] t[ σ ]
+              ≅⟨ hcong₂ (λ T (t : Tm _ T) → t t[ σ ]) (≡-to-≅ (trans T[][] (cong (Tsub A) π“))) ξ“ ⟩
+            (a !> cong (Tm Γ) (sym T[id])) t[ σ ]
+              ≅⟨ hcong₂ (λ T (t : Tm _ T) → t t[ σ ]) (≡-to-≅ T[id]) !>≅ ⟩
+            a t[ σ ]
+              ≅⟨ hsym !>≅ ⟩
+            a t[ σ ] !> _
+              ≅⟨ hsym ξ“ ⟩
+            ξ t[ ξ:= (a t[ σ ]) ]
+              ≅⟨ hsym (hcong₂ (λ T (t : Tm _ T) → t t[ ξ:= (a t[ σ ]) ]) (≡-to-≅ (sym T[][])) !>≅) ⟩
+            (ξ !> cong (Tm (Δ „ Tsub A σ)) T[][]) t[ ξ:= (a t[ σ ]) ]
+              ≅⟨ hsym (hcong₂ (λ T (t : Tm _ T) → t t[ ξ:= (a t[ σ ]) ]) (≡-to-≅ (trans T[][] (cong (Tsub A) π“))) ξ“) ⟩
+            ξ t[ σ ⊕ ] t[ ξ:= (a t[ σ ]) ]
+              ≅⟨ t[][] ⟩
+            ξ t[ (σ ⊕) ∘ (ξ:= (a t[ σ ])) ] h∎
 open IsCwF {{...}} public
 
 record CwF : Set where
@@ -54,6 +117,12 @@ record CwF : Set where
     {Ty} : (Obj cCtx) → Set
     Tm : (Γ : (Obj cCtx)) → Ty Γ → Set
     {{isCwF}} : IsCwF cCtx Tm
+
+  Ctx : Set
+  Ctx = (Obj cCtx)
+
+  Sub : Ctx → Ctx → Set
+  Sub = Hom cCtx
 
   c-ty : cOp cCtx c→ cSet _
   obj c-ty = Ty

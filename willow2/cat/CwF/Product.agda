@@ -28,6 +28,56 @@ IsCwF.ξ (isCwF (çA ç× çB)) = ξ , ξ
 IsCwF._“_ (isCwF (çA ç× çB)) (σ1 , σ2) (t1 , t2) = (σ1 “ t1) , (σ2 “ t2)
 IsCwF.π“ (isCwF (çA ç× çB)) = ext-× π“ π“
 IsCwF.ξ“ (isCwF (çA ç× çB)) = hext-× ξ“ ξ“
-IsCwF.π“ξ (isCwF (çA ç× çB)) = ext-× π“ξ π“ξ
+IsCwF.π“ξ (isCwF (çA ç× çB)) {Δ1 , Δ2}{Γ1 , Γ2}{T1 , T2}{σ1 , σ2} = ext-×
+  (begin
+    σ1
+      ≡⟨ π“ξ ⟩
+    π ∘ σ1 “ (ξ t[ σ1 ] !> cong (Tm çA Δ1) T[][])
+      ≡⟨ refl ⟩
+    π ∘ σ1 “ proj₁ (ξ t[ σ1 ] !> cong (Tm çA Δ1) T[][] , tsub {{isCwF çB}} ξ σ2 !> cong (Tm çB Δ2) T[][])
+      ≡⟨ cong (λ p → π ∘ σ1 “ proj₁ p) !>× ⟩
+    π ∘ σ1 “ proj₁ ((ξ t[ σ1 ] , tsub {{isCwF çB}} ξ σ2) !> cong₂ _×_ (cong (Tm çA Δ1) T[][]) (cong (Tm çB Δ2) T[][])) ∎
+  )
+  (begin
+    σ2
+      ≡⟨ π“ξ ⟩
+    π ∘ σ2 “ (ξ t[ σ2 ] !> cong (Tm çB Δ2) T[][])
+      ≡⟨ refl ⟩
+    π ∘ σ2 “ proj₂ (ξ t[ σ1 ] !> cong (Tm çA Δ1) T[][] , ξ t[ σ2 ] !> cong (Tm çB Δ2) T[][])
+      ≡⟨ cong (λ p → π ∘ σ2 “ proj₂ p) !>× ⟩
+    π ∘ σ2 “ proj₂ ((ξ t[ σ1 ] , ξ t[ σ2 ]) !> cong₂ _×_ (cong (Tm çA Δ1) T[][]) (cong (Tm çB Δ2) T[][])) ∎
+  )
 
+
+  {-≅-to-≡ (hext-×
+    (hbegin
+      σ1
+        ≅⟨ ≡-to-≅ π“ξ ⟩
+      π ∘ σ1 “ (ξ t[ σ1 ]) !> _
+        ≅⟨ hcong (λ t → π ∘ σ1 “ t) (hbegin
+            ξ t[ σ1 ] !> _
+              ≅⟨ {!!} ⟩
+            {!!}
+              ≅⟨ {!!} ⟩
+            {!!}
+              ≅⟨ {!!} ⟩
+            --tsub {Δ = Δ1} {Γ1 „ T1} {T1 T[ π ]} (ξ {Γ = Γ1} {T1}) σ1
+            proj₁ (ξ t[ σ1 ] , ξ t[ σ2 ])
+              ≅⟨ hcong proj₁ !>≅ ⟩
+            proj₁ ((ξ t[ σ1 ] , ξ t[ σ2 ]) !> _) h∎
+        ) ⟩
+      π ∘ σ1 “ proj₁ ((ξ t[ σ1 ] , ξ t[ σ2 ]) !> _) h∎
+    )
+    {!proj₁!}
+  )-}
+
+
+    {-trans
+      π“ξ
+      (cong (λ t → π ∘ σ1 “ t) (≅-to-≡ (htrans
+        {!!}
+        (hcong proj₁ !>≅)
+      )))
+    -}
+    --{!!}
 
