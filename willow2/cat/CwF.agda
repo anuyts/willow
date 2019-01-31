@@ -18,43 +18,42 @@ IsCat.assoc (isCat cFam) ψ ξ φ = refl
 IsCat.lunit (isCat cFam) φ = refl
 IsCat.runit (isCat cFam) φ = refl
 
-record IsCwF {Ctx : Set} (Sub : Ctx → Ctx → Set) {Ty : Ctx → Set} (Tm : (Γ : Ctx) → Ty Γ → Set) : Set where
+record IsCwF (cCtx : Cat) {Ty : (Obj cCtx) → Set} (Tm : (Γ : (Obj cCtx)) → Ty Γ → Set) : Set where
   field
-    {{isCat}} : IsCat Sub
-    Tsub : ∀ {Δ Γ : Ctx} (T : Ty Γ) → (Sub Δ Γ) → Ty Δ
-    .T[id] : ∀ {Γ : Ctx} {T : Ty Γ} → Tsub T id ≡ T
-    .T[][] : ∀ {Θ Δ Γ : Ctx} {τ : Sub Θ Δ} {σ : Sub Δ Γ} {T : Ty Γ} → Tsub (Tsub T σ) τ ≡ Tsub T (σ ∘ τ)
-    tsub : ∀{Δ Γ : Ctx} {T : Ty Γ} → Tm Γ T → (σ : Sub Δ Γ) → Tm Δ (Tsub T σ)
-    .t[id] : ∀{Γ : Ctx} {T : Ty Γ} {t : Tm Γ T} → (tsub t id ≅ t)
-    .t[][] : ∀ {Θ Δ Γ : Ctx} {τ : Sub Θ Δ} {σ : Sub Δ Γ} {T : Ty Γ} {t : Tm Γ T} → tsub (tsub t σ) τ ≅ tsub t (σ ∘ τ)
-    Ω : Ctx
-    ω : {Γ : Ctx} → Sub Γ Ω
-    ext-Ω : {Γ : Ctx} {σ : Sub Γ Ω} → σ ≡ ω
-    _„_ : (Γ : Ctx) → Ty Γ → Ctx
-    π : {Γ : Ctx} {T : Ty Γ} → Sub (Γ „ T) Γ
-    ξ : {Γ : Ctx} {T : Ty Γ} → Tm (Γ „ T) (Tsub T π)
-    _“_ : {Δ Γ : Ctx} {T : Ty Γ} (σ : Sub Δ Γ) (t : Tm Δ (Tsub T σ)) → Sub Δ (Γ „ T)
-    .π“ : {Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {t : Tm Δ (Tsub T σ)}
+    --{{isCat}} : IsCat (Hom cCtx)
+    Tsub : ∀ {Δ Γ : (Obj cCtx)} (T : Ty Γ) → (Hom cCtx Δ Γ) → Ty Δ
+    .T[id] : ∀ {Γ : (Obj cCtx)} {T : Ty Γ} → Tsub T id ≡ T
+    .T[][] : ∀ {Θ Δ Γ : (Obj cCtx)} {τ : Hom cCtx Θ Δ} {σ : Hom cCtx Δ Γ} {T : Ty Γ} → Tsub (Tsub T σ) τ ≡ Tsub T (σ ∘ τ)
+    tsub : ∀{Δ Γ : (Obj cCtx)} {T : Ty Γ} → Tm Γ T → (σ : Hom cCtx Δ Γ) → Tm Δ (Tsub T σ)
+    .t[id] : ∀{Γ : (Obj cCtx)} {T : Ty Γ} {t : Tm Γ T} → (tsub t id ≅ t)
+    .t[][] : ∀ {Θ Δ Γ : (Obj cCtx)} {τ : Hom cCtx Θ Δ} {σ : Hom cCtx Δ Γ} {T : Ty Γ} {t : Tm Γ T} → tsub (tsub t σ) τ ≅ tsub t (σ ∘ τ)
+    Ω : (Obj cCtx)
+    ω : {Γ : (Obj cCtx)} → Hom cCtx Γ Ω
+    ext-Ω : {Γ : (Obj cCtx)} {σ : Hom cCtx Γ Ω} → σ ≡ ω
+    _„_ : (Γ : (Obj cCtx)) → Ty Γ → (Obj cCtx)
+    π : {Γ : (Obj cCtx)} {T : Ty Γ} → Hom cCtx (Γ „ T) Γ
+    ξ : {Γ : (Obj cCtx)} {T : Ty Γ} → Tm (Γ „ T) (Tsub T π)
+    _“_ : {Δ Γ : (Obj cCtx)} {T : Ty Γ} (σ : Hom cCtx Δ Γ) (t : Tm Δ (Tsub T σ)) → Hom cCtx Δ (Γ „ T)
+    .π“ : {Δ Γ : (Obj cCtx)} {T : Ty Γ} {σ : Hom cCtx Δ Γ} {t : Tm Δ (Tsub T σ)}
             → π ∘ (σ “ t) ≡ σ
-    .ξ“ : {Δ Γ : Ctx} {T : Ty Γ} {σ : Sub Δ Γ} {t : Tm Δ (Tsub T σ)}
+    .ξ“ : {Δ Γ : (Obj cCtx)} {T : Ty Γ} {σ : Hom cCtx Δ Γ} {t : Tm Δ (Tsub T σ)}
             → tsub ξ (σ “ t) ≅ t
-    .π“ξ : {Γ : Ctx} {T : Ty Γ} → id⟨ Γ „ T ⟩ ≡ π “ ξ
+    .π“ξ : {Γ : (Obj cCtx)} {T : Ty Γ} → id⟨ Γ „ T ⟩ ≡ π “ ξ
 
   _T[_] = Tsub
   _t[_] = tsub
+
+  Ctx : Set
+  Ctx = (Obj cCtx)
 open IsCwF {{...}} public
 
 record CwF : Set where
   constructor cwf
   field
-    Ctx : Set
-    Sub : Ctx → Ctx → Set
-    {Ty} : Ctx → Set
-    Tm : (Γ : Ctx) → Ty Γ → Set
-    {{isCwF}} : IsCwF Sub Tm
-
-  cCtx : Cat
-  cCtx = cat Sub
+    cCtx : Cat
+    {Ty} : (Obj cCtx) → Set
+    Tm : (Γ : (Obj cCtx)) → Ty Γ → Set
+    {{isCwF}} : IsCwF cCtx Tm
 
   c-ty : cOp cCtx c→ cSet _
   obj c-ty = Ty

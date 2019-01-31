@@ -10,11 +10,9 @@ open import willow2.cat.Product public
 open import willow2.cat.CwF public
 
 _ç×_ : CwF → CwF → CwF
-Ctx (çA ç× çB) = Obj (cCtx çA c× cCtx çB)
-Sub (çA ç× çB) = Hom (cCtx çA c× cCtx çB)
+cCtx (çA ç× çB) = cCtx çA c× cCtx çB
 Ty (çA ç× çB) (Γ1 , Γ2) = Ty çA Γ1 × Ty çB Γ2
 Tm (çA ç× çB) (Γ1 , Γ2) (T1 , T2) = Tm çA Γ1 T1 × Tm çB Γ2 T2
-IsCwF.isCat (isCwF (çA ç× çB)) = isCat (cCtx çA c× cCtx çB)
 IsCwF.Tsub (isCwF (çA ç× çB)) (T1 , T2) (σ1 , σ2) = (T1 T[ σ1 ]) , (T2 T[ σ2 ])
 IsCwF.T[id] (isCwF (çA ç× çB)) = ext-× T[id] T[id]
 IsCwF.T[][] (isCwF (çA ç× çB)) = ext-× T[][] T[][]
