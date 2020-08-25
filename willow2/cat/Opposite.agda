@@ -35,7 +35,7 @@ c-op : ∀{cA cB} → (cA c→ cB) → (cOp cA c→ cOp cB)
 obj (c-op {cA} {cB} cf) = obj cf
 hom (c-op {cA} {cB} cf) = hom cf
 hom-id (c-op {cA} {cB} cf) = hom-id cf
-hom-comp (c-op {cA} {cB} cf) ψ φ = hom-comp cf φ ψ
+hom-comp (c-op {cA} {cB} cf) = hom-comp cf
 
 c-op²=id : ∀{cA cB} {cf : cA c→ cB} → c-op (c-op cf) ≡ cf
 c-op²=id = refl
