@@ -128,13 +128,13 @@ record CwF : Set where
   obj c-ty = Ty
   hom c-ty {Γ}{Δ} σ T = T T[ σ ]
   hom-id c-ty {Γ} = λ= T , T[id]
-  hom-comp c-ty {Γ}{Δ}{Θ} τ σ = λ= T , sym T[][]
+  hom-comp c-ty {Γ}{Δ}{Θ} {τ}{σ} = λ= T , sym T[][]
 
   c-fam : cOp cCtx c→ cFam
   obj c-fam Γ = (Ty Γ) , (Tm Γ)
   hom c-fam {Γ}{Δ} σ = (λ T → T T[ σ ]) , λ T t → t t[ σ ]
   hom-id c-fam {Γ} = ext-Σ (λ= T , T[id]) (λ≅ T , λ≅ t , t[id])
-  hom-comp c-fam {Θ}{Δ}{Γ} σ τ = ext-Σ (λ= T , sym T[][]) (λ≅ T , λ≅ t , hsym t[][])
+  hom-comp c-fam {Θ}{Δ}{Γ} {σ}{τ} = ext-Σ (λ= T , sym T[][]) (λ≅ T , λ≅ t , hsym t[][])
 open CwF public
 
 {-

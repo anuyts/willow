@@ -27,4 +27,4 @@ _c,_ : ∀{cA cB cC} (cf : cA c→ cB) (cg : cA c→ cC) → (cA c→ cB c× cC)
 obj (cf c, cg) = _
 hom (cf c, cg) φ = hom cf φ , hom cg φ
 hom-id (cf c, cg) = ext-× (hom-id cf) (hom-id cg)
-hom-comp (cf c, cg) ψ φ = ext-× (hom-comp cf _ _) (hom-comp cg _ _)
+hom-comp (cf c, cg) = ext-× (hom-comp cf) (hom-comp cg)

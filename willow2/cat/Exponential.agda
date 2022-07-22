@@ -43,15 +43,15 @@ hom-id (c-comp {cA} {cB} {cC}) {cg , cf} = ext-nt (λ= a , (begin
 
                                                           g3 f3 a
 -}
-hom-comp (c-comp {cA} {cB} {cC}) {cg1 , cf1}{cg2 , cf2}{cg3 , cf3} (ntg' , ntf') (ntg , ntf) = ext-nt (λ= a , (begin
+hom-comp (c-comp {cA} {cB} {cC}) {cg1 , cf1}{cg2 , cf2}{cg3 , cf3} {ntg' , ntf'}{ntg , ntf} = ext-nt (λ= a , (begin
   (obj ntg' (obj cf3 a) ∘ obj ntg (obj cf3 a)) ∘ hom cg1 (obj ntf' a ∘ obj ntf a)
-    ≡⟨ cong (λ (ψ : Hom cC _ _) → _ ∘ ψ) (hom-comp cg1 _ _) ⟩
+    ≡⟨ cong (λ (ψ : Hom cC _ _) → _ ∘ ψ) (hom-comp cg1) ⟩
   (obj ntg' (obj cf3 a) ∘ obj ntg (obj cf3 a)) ∘ (hom cg1 (obj ntf' a) ∘ hom cg1 (obj ntf a))
     ≡⟨ assoc _ _ _ ⟩
   obj ntg' (obj cf3 a) ∘ (obj ntg (obj cf3 a) ∘ (hom cg1 (obj ntf' a) ∘ hom cg1 (obj ntf a)))
     ≡⟨ cong (λ (ψ : Hom cC _ _) → _ ∘ ψ) (sym (assoc _ _ _)) ⟩
   obj ntg' (obj cf3 a) ∘ ((obj ntg (obj cf3 a) ∘ hom cg1 (obj ntf' a)) ∘ hom cg1 (obj ntf a))
-    ≡⟨ cong (λ (ψ : Hom cC _ _) → _ ∘ (ψ ∘ _)) (sym (nat ntg (obj ntf' a))) ⟩
+    ≡⟨ cong (λ (ψ : Hom cC _ _) → _ ∘ (ψ ∘ _)) (sym (nat ntg {φ = obj ntf' a})) ⟩
   obj ntg' (obj cf3 a) ∘ ((hom cg2 (obj ntf' a) ∘ obj ntg (obj cf2 a)) ∘ hom cg1 (obj ntf a))
     ≡⟨ cong (λ (ψ : Hom cC _ _) → _ ∘ ψ) (assoc _ _ _) ⟩
   obj ntg' (obj cf3 a) ∘ (hom cg2 (obj ntf' a) ∘ (obj ntg (obj cf2 a) ∘ hom cg1 (obj ntf a)))

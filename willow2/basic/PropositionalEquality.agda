@@ -7,7 +7,7 @@ open import willow2.basic.Squash public
 
 {-# BUILTIN REWRITE _≡_ #-}
 
-open ≡-Reasoning hiding (_≅⟨_⟩_) public
+open ≡-Reasoning public
 
 [_∋_≡_] : ∀{ℓ} → (A : Set ℓ) → A → A → Set ℓ
 [ A ∋ a ≡ b ] = a ≡ b
